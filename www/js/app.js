@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.directives','kidney.filters','ngCordova','ngFileUpload'])
 
-.run(function($ionicPlatform, $state, Storage, $location, $ionicHistory, $ionicPopup,$rootScope,JM,$location,wechat,User,Patient) {
+.run(function($ionicPlatform, $state, Storage, $location, $ionicHistory, $ionicPopup,$rootScope,JM,$location,wechat,User,Patient,$q) {
   $ionicPlatform.ready(function() {
     socket = io.connect('ws://121.196.221.44:4050/chat');
     
@@ -132,45 +132,87 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                     // },function(){
                     //     console.log("连接超时！");
                     // })
-                    User.getAgree({userId:data.results.userId}).then(function(res){
-                        if(res.results.agreement=="0"){
-                            Patient.getPatientDetail({userId:Storage.get('UID')}).then(function(data){
-                              if (data.results != null)
-                              {
-                                if(data.results.photoUrl==undefined||data.results.photoUrl==""){
-                                  Patient.editPatientDetail({userId:Storage.get("UID"),photoUrl:wechatData.headimgurl}).then(function(r){
-                                    if (r.result=="修改成功")
-                                    {
-                                      User.setMessageOpenId({type:2,userId:Storage.get("UID"),openId:Storage.get('messageopenid')}).then(function(res){
-                                          $state.go('tab.tasklist');
-                                      },function(){
-                                          console.log("连接超时！");
-                                      })
-                                    }
-                                  })
-                                }
-                                else
-                                {
-                                    User.setMessageOpenId({type:2,userId:Storage.get("UID"),openId:Storage.get('messageopenid')}).then(function(res){
-                                        $state.go('tab.tasklist');
-                                    },function(){
-                                        console.log("连接超时！");
-                                    })
-                                }
-                              }
-                              else
-                              {
-                                $state.go('userdetail',{last:'register'});
-                              }
-                            },function(err){
-                                console.log(err);
+                    $q.all([
+                      User.getAgree({userId:data.results.userId}).then(function(res){
+                        results.push(res)
+                      },function(err){
+                        errs.push(err)
+                      })
+                      User.setMessageOpenId({type:2,userId:Storage.get("UID"),openId:Storage.get('messageopenid')}).then(function(res){
+                        results.push(res)
+                      },function(err){
+                        errs.push(err)
+                      })
+                      Patient.getPatientDetail({userId:Storage.get('UID')}).then(function(res){
+                        results.push(res)
+                      },function(err){
+                        errs.push(err)
+                      })
+                    ]).then(function(){
+                      console.log(results)
+                      if(results[0].results.agreement=="0")
+                      {
+                        if (results[2].results != null)
+                        {
+                          if(results[2].results.photoUrl==undefined||results[2].results.photoUrl==""){
+                            Patient.editPatientDetail({userId:Storage.get("UID"),photoUrl:wechatData.headimgurl}).then(function(r){
+                              $state.go('tab.tasklist');
                             })
-                        }else{
-                            $state.go('agreement',{last:'signin'});
+                          }
+                          else
+                          {
+                            $state.go('tab.tasklist');
+                          }
                         }
-                    },function(err){
-                        console.log(err);
+                        else
+                        {
+                          $state.go('userdetail',{last:'register'});
+                        }
+                      }
+                      else
+                      {
+                        $state.go('agreement',{last:'signin'});
+                      }
                     })
+                    // User.getAgree({userId:data.results.userId}).then(function(res){
+                    //     if(res.results.agreement=="0"){
+                    //         Patient.getPatientDetail({userId:Storage.get('UID')}).then(function(data){
+                    //           if (data.results != null)
+                    //           {
+                    //             if(data.results.photoUrl==undefined||data.results.photoUrl==""){
+                    //               Patient.editPatientDetail({userId:Storage.get("UID"),photoUrl:wechatData.headimgurl}).then(function(r){
+                    //                 if (r.result=="修改成功")
+                    //                 {
+                    //                   User.setMessageOpenId({type:2,userId:Storage.get("UID"),openId:Storage.get('messageopenid')}).then(function(res){
+                    //                       $state.go('tab.tasklist');
+                    //                   },function(){
+                    //                       console.log("连接超时！");
+                    //                   })
+                    //                 }
+                    //               })
+                    //             }
+                    //             else
+                    //             {
+                    //                 User.setMessageOpenId({type:2,userId:Storage.get("UID"),openId:Storage.get('messageopenid')}).then(function(res){
+                    //                     $state.go('tab.tasklist');
+                    //                 },function(){
+                    //                     console.log("连接超时！");
+                    //                 })
+                    //             }
+                    //           }
+                    //           else
+                    //           {
+                    //             $state.go('userdetail',{last:'register'});
+                    //           }
+                    //         },function(err){
+                    //             console.log(err);
+                    //         })
+                    //     }else{
+                    //         $state.go('agreement',{last:'signin'});
+                    //     }
+                    // },function(err){
+                    //     console.log(err);
+                    // })
                     
 
                 }
