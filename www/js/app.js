@@ -7,7 +7,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
 
 .run(function($ionicPlatform, $state, Storage, $location, $ionicHistory, $ionicPopup,$rootScope,JM,$location,wechat,User,Patient,$q) {
   $ionicPlatform.ready(function() {
-    socket = io.connect('ws://121.196.221.44:4050/chat');
+    socket = io.connect('ws://121.43.107.106:4050/chat');
     
 
     var temp = $location.absUrl().split('=')
@@ -137,12 +137,12 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                         results.push(res)
                       },function(err){
                         errs.push(err)
-                      })
+                      }),
                       User.setMessageOpenId({type:2,userId:Storage.get("UID"),openId:Storage.get('messageopenid')}).then(function(res){
                         results.push(res)
                       },function(err){
                         errs.push(err)
-                      })
+                      }),
                       Patient.getPatientDetail({userId:Storage.get('UID')}).then(function(res){
                         results.push(res)
                       },function(err){
