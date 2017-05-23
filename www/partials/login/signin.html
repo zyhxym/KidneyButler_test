@@ -1,0 +1,36 @@
+<ion-view title="登录">
+  <ion-nav-bar class="bar-positive bar-calm" style="background: #6ac4f8" align-title="center" >
+     
+  </ion-nav-bar>
+  <ion-content padding="true" class="green-white-bg">
+
+    <div class="list list-inset" style="margin-bottom:0;margin-top: 30px">
+      <label class="item item-input green-edite-css" >
+        <span class="input " style="margin-right:16px"><i class="icon ion-iphone"></i></span>
+        <input type="tel"  ng-model="logOn.username" placeholder="手机号" >
+        <button-clear-input input="logOn.username"></button-clear-input>
+      </label>
+      <label class="item item-input green-edite-css mg-10 ">
+        <span class="input" style="margin-right:16px"><i class="icon ion-ios-locked-outline"></i></span>
+        <input type="password" ng-model="logOn.password" placeholder="密 码" >
+        <button-clear-input input="logOn.password"></button-clear-input>
+      </label>
+    </div>
+    <div class="row" style="padding:0;margin-top: 5px" >
+      <div class="col col-30 "><p style="color:#7a7a7a;text-align:left" ng-click="toRegister()">立即注册</p></div>
+      <div class="col col-40"><p style="color:red">{{logStatus}}</p></div>
+      <div class="col "><p style="color:#7a7a7a;text-align:right;" ng-click="toReset()">忘记密码</p></div>
+    </div>
+
+    <button style="margin-top:30px" class="button button-block button-balanced green-bg" ng-click="signIn(logOn)">立即登录</button>
+    <!-- <button style="margin-top:0" class="button button-block button-balanced green-bg" >微信登录</button> -->
+    <!-- <button style="margin-top:0" class="button button-block button-balanced" ng-click="test()">测试</button> -->
+
+    <!--       </div>
+        </div>
+      </div> -->
+
+  </ion-content>
+
+
+</ion-view>

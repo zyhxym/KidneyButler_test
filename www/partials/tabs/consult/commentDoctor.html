@@ -1,0 +1,48 @@
+<ion-view view-title="评论" hide-nav-bar="false" cache-view="false">
+  <ion-nav-bar class="bar-positive green-bg" style="" >
+      <ion-nav-buttons side="left" >
+         <button class="button button-clear"  ng-click="Goback()"><i class="icon ion-ios-arrow-back font-white"></i></button>
+      </ion-nav-buttons>
+      
+    </ion-nav-bar>
+  <ion-content>
+    <!-- <div class="bar bar-calm item-input-inset">
+     <button class="button button-icon icon ion-ios-arrow-left" ng-click="nvGoback()">返回</button> 
+     <h1 class="title">发表评论</h1>
+    </div> -->
+<style>.ionic_ratings .icon {
+  font-size:50px;
+}
+
+.ionic_ratings .read_only {
+  pointer-events:none;
+}</style>
+
+  <!-- <div class="list list-inset">
+    <div class="item item-divider"> 选择模块
+    </div>   
+    <ion-radio ng-repeat="item in modouleList"
+               ng-value="item.value"
+               ng-model="comment.selectedModoule" ng-change="getCommentAuthority(item)">
+      {{ item.text }}
+    </ion-radio>
+  </div> -->
+
+<div class="list list-inset">
+  <div class="item item-divider"> 评分</div> 
+<div class="item"><ionic-ratings ratingsobj='ratingsObject'></ionic-ratings> </div>
+</div>
+
+    <div class="list list-inset">
+      <div class="item item-divider"> 评论</div> 
+      <label class="item item-input"><i class="icon ion-android-create placeholder-icon"></i>
+        <textarea placeholder="说说您对该医生的评价，至少10个字哦" rows="3" ng-model="comment.commentContent" ng-disabled="editable"></textarea>
+      </label>
+    </div>
+
+    <div class="list list-inset">
+    <button class="button button-block button-balanced" ng-click="deliverComment()" ng-disabled="editable">发表</button>
+    </div>
+
+  </ion-content>
+</ion-view>

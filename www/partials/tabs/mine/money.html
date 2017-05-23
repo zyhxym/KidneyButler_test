@@ -1,0 +1,53 @@
+<!-- 任务视图中的列表-tab -->
+<ion-view cache-view="false" view-title='增值服务'>
+    <ion-nav-bar class="bar-positive green-bg" style="" >
+      <ion-nav-buttons side="left" >
+         <button class="button button-clear"  ng-click="Goback()"><i class=" icon ion-ios-arrow-back font-white"></i></button>
+      </ion-nav-buttons>
+
+    </ion-nav-bar>
+    
+    <ion-content class="padding">
+     
+      
+
+    <ion-refresher pulling-text="下拉刷新..." on-refresh="do_refresher()"></ion-refresher>
+      
+     <div class="content">
+
+      <div class="list">
+        <a class="item item-icon-left item-icon-right" href="#/insurance">
+          <i class="icon iconfont icon-unie613"  style="font-size: 24px;vertical-align: middle"></i>
+          肾病保险服务
+          <i class="icon ion-ios-arrow-down"  style="font-size: 24px;vertical-align: middle"></i>
+        </a>
+
+        <a class="item item-icon-left">
+          <i class="icon iconfont icon-iconfontconsult"  style="font-size: 24px;vertical-align: middle"></i>
+          剩余免费咨询次数
+          <span class="item-note mg-right10" style="color:#333; font:bolder;">{{freeTimesRemain}}</span>
+        </a>
+
+        <a class="item item-icon-left" >
+          <i class="icon iconfont icon-zixun1"  style="font-size: 24px;vertical-align: middle"></i>
+          尚未完成的咨询
+          <span class="item-note mg-right10" style="color:#333;font:;bolder">{{TimesRemainZX}}</span>
+        </a>
+        <a class="item item-icon-left" >
+          <i class="icon iconfont icon-zixun1"  style="font-size: 24px;vertical-align: middle"></i>
+          尚未完成的问诊
+          <span class="item-note mg-right10" style="color:#333;font:;bolder">{{TimesRemainWZ}}</span>
+        </a>
+
+<!--         <a class="item item-icon-left" >
+          <i class="icon ion-ios-cart"></i>
+          账户余额
+          <span class="item-note" style="color:#333; font:bolder;">{{Balance}}</span>
+        </a> -->
+
+       </div>
+     </div>
+
+
+    </ion-content>    
+</ion-view>

@@ -1,0 +1,184 @@
+<ion-view title="个人信息" >
+
+  <ion-nav-bar class="bar-positive green-bg" align-title="center">
+    <ion-nav-buttons side="left" >
+         <button class="button button-clear" ng-if="CanBack()" ng-click="Goback()"><i class="icon ion-ios-arrow-back font-white"></i></button>
+      </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+            <button class="button button-clear"  ng-if="!canEdit"  ng-click="edit() "><i class="icon ion-edit"></i></button>
+        </ion-nav-buttons>
+  </ion-nav-bar>
+
+
+  <!-- <div  style="position: absolute;top: 43px;z-index:100;display: block;height: 2.5px;background-color: #33cd5f;{{barwidth}}" ></div> -->
+        <ion-content padding="true" style="">
+            <form name="userForm" nonvalidate>
+            <label class="item item-input">
+                <i class="icon ion-asterisk" style="color:red;font-size:8px"></i><span class="input-label">姓名</span>
+
+                <input  ng-disabled="!canEdit" ng-model="User.name"  type="text" name="UserName" required class="hasTick">
+                <span class="tick" ng-if="canEdit">
+                    <i style="color:#6ac4f8;" ng-if="userForm.UserName.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
+                    <i style="color:#FB6753;" ng-if="userForm.UserName.$error.required" class="icon ion-alert-circled placeholder-icon"></i>
+                </span>
+            </label>
+
+            <label  class="item item-input item-select-custom">
+                <i class="icon ion-asterisk" style="color:red;font-size:8px"></i><span class="input-label">性别</span>
+                <select  ng-disabled="!canEdit" ng-model="User.gender" name="UserGender" required ng-options="Gender.Name for Gender in Genders track by Gender.Type"></select>
+                <span class="tick" ng-if="canEdit ">
+                    <i style="color:#6ac4f8;" ng-if="userForm.UserGender.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
+                    <i style="color:#FB6753;" ng-if="userForm.UserGender.$error.required" class="icon ion-alert-circled placeholder-icon"></i>
+                </span>
+            </label>
+
+            <label  class="item item-input item-select-custom">
+                <i class="icon ion-asterisk" style="color:red;font-size:6px"></i><span class="input-label">血型</span>
+                <select ng-disabled="!canEdit" ng-model="User.bloodType" name="UserBlood" required ng-options="BloodType.Name for BloodType in BloodTypes track by BloodType.Type">
+                </select>
+                <span class="tick" ng-if="canEdit ">
+                    <i style="color:#6ac4f8;" ng-if="userForm.UserBlood.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
+                    <i style="color:#FB6753;" ng-if="userForm.UserBlood.$error.required" class="icon ion-alert-circled placeholder-icon"></i>
+                </span>
+            </label>
+
+            <label  class="item item-input item-select-custom">
+                <i class="icon ion-asterisk" style="color:red;font-size:6px"></i><span class="input-label">是否高血压</span>
+                <select ng-disabled="!canEdit" ng-model="User.hypertension" name="UserHyper" required ng-options="Hyper.Name for Hyper in Hypers track by Hyper.Type" >
+                </select>
+                <span class="tick" ng-if="canEdit ">
+                    <i style="color:#6ac4f8;" ng-if="userForm.UserHyper.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
+                    <i style="color:#FB6753;" ng-if="userForm.UserHyper.$error.required" class="icon ion-alert-circled placeholder-icon"></i>
+                </span>
+            </label>
+
+            <label  class="item item-input item-select-custom">
+                <i class="icon ion-asterisk" style="color:red;font-size:6px"></i><span class="input-label">肾病类型</span>
+                <select ng-disabled="!canEdit" ng-model="User.class" name="UserKidney" required ng-options=" Disease.typeName for Disease in Diseases track by Disease.type" ng-change="getDiseaseDetail(User.class)">
+                </select>
+                <span class="tick" ng-if="canEdit">
+                    <i style="color:#6ac4f8;" ng-if="userForm.UserKidney.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
+                    <i style="color:#FB6753;" ng-if="userForm.UserKidney.$error.required" class="icon ion-alert-circled placeholder-icon"></i>
+                </span>
+            </label>
+
+            <label  class="item item-input item-select-custom" ng-if="showProgress">
+                <div class="input-label" style="margin-left:13px ">疾病进程</div>
+                    <select ng-model="User.class_info" ng-options=" DiseaseDetail.name for DiseaseDetail in DiseaseDetails track by DiseaseDetail.code">
+                    </select>
+                    <span class="tick" ng-if="canEdit">
+                    <i style="color:#6ac4f8;"  class="icon ion-checkmark-circled placeholder-icon"></i>
+                </span>
+            </label>
+
+            <label   class="item item-input" ng-if="showSurgicalTime&&!canEdit">
+                <div class="input-label" style="margin-left:13px ">{{timename}}</div>
+                <input ng-disabled="!canEdit" class="hasTick" ng-model="User.operationTime" dateformat type="text">
+            </label>
+
+            <ionic-datepicker  input-obj="datepickerObject2"  class="item item-input" ng-if="showSurgicalTime && canEdit">
+                <span class="input-label" style="margin-left:13px ">{{timename}}</span>
+                <input  ng-model="User.operationTime" class="hasTick" dateformat  type="text">
+                <span class="tick" ng-if="canEdit">
+                    <i style="color:#6ac4f8;"  class="icon ion-checkmark-circled placeholder-icon"></i>
+                </span>
+            </ionic-datepicker>
+
+
+            <label class="item item-input">
+                <i class="icon ion-asterisk" style="color:red;font-size:6px"></i><span class="input-label">过敏信息</span>
+                <input  ng-disabled="!canEdit" ng-model="User.allergic" class="hasTick" name="UserAllergic" required type="text" style="width:100%">
+                <span class="tick" ng-if="canEdit">
+                    <i style="color:#6ac4f8;" ng-if="userForm.UserAllergic.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
+                    <i style="color:#FB6753;" ng-if="userForm.UserAllergic.$error.required" class="icon ion-alert-circled placeholder-icon"></i>
+                </span>
+            </label>
+
+            <label ng-if ="!canEdit" class="item item-input">
+                <i class="icon ion-asterisk" style="color:red;font-size:8px"></i><span class="input-label">出生日期</span>
+                <input  ng-disabled="!canEdit" class="hasTick" ng-model="User.birthday" dateformat type="text">
+            </label>
+
+            <ionic-datepicker  ng-if="canEdit" input-obj="datepickerObject3" class="item item-input">
+                <i class="icon ion-asterisk" style="color:red;font-size:6px"></i><span class="input-label">出生日期</span>
+                <input  ng-model="User.birthday" dateformat name="UserBirthday" class="hasTick" required type="text">
+                <span class="tick" ng-if="canEdit">
+                    <i style="color:#6ac4f8;" ng-if="userForm.UserBirthday.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
+                    <i style="color:#FB6753;" ng-if="userForm.UserBirthday.$invalid" class="icon ion-alert-circled placeholder-icon"></i>
+                </span>
+
+            </ionic-datepicker>
+
+
+            <label class="item item-input">
+                <i class="icon ion-asterisk" style="color:red;font-size:6px"></i><span class="input-label">身份证号</span>
+                <input  ng-disabled="!canEdit" class="hasTick" name="UserIDNo" ng-model="User.IDNo" required ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/" type="text"    style="width:100%" >
+                <span class="tick" ng-if="canEdit">
+                    <i style="color:#6ac4f8;" ng-if="userForm.UserIDNo.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
+                    <i style="color:#FB6753;" ng-if="userForm.UserIDNo.$invalid" class="icon ion-alert-circled placeholder-icon"></i>
+                </span>
+            </label>
+
+            <label class="item item-input">
+                <span class="input-label" style="margin-left:13px ">身高（cm）</span>
+                <input  ng-disabled="!canEdit" class="hasTick" name="UserHeight" ng-pattern="/(^[1-9]+\d*[\.]?\d+$|^0\.\d+$|^[1-9]+\d*$|^0$)/" ng-model="User.height"  type="text"  style="width:100%" >
+                <span class="tick" ng-if="canEdit">
+                    <i style="color:#6ac4f8;" ng-if="userForm.UserHeight.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
+                    <i style="color:#FB6753;" ng-if="userForm.UserHeight.$invalid" class="icon ion-alert-circled placeholder-icon"></i>
+                </span>
+            </label>
+
+            <label class="item item-input">
+                <span class="input-label" style="margin-left:13px ">体重（kg）</span>
+                <input  ng-disabled="!canEdit" class="hasTick"  ng-model="User.weight" name="UserWeight" ng-pattern="/(^[1-9]+\d*[\.]?\d+$|^0\.\d+$|^[1-9]+\d*$|^0$)/" type="text"   style="width:100%" >
+                <span class="tick" ng-if="canEdit">
+                    <i style="color:#6ac4f8;" ng-if="userForm.UserWeight.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
+                    <i style="color:#FB6753;" ng-if="userForm.UserWeight.$invalid" class="icon ion-alert-circled placeholder-icon"></i>
+                </span>
+            </label>
+
+        <div>
+            <div  style="margin-left:6px;font-size:15px;font-weight: bold;margin-bottom:10px;margin-top: 10px"><i class="icon ion-clipboard" style="margin-right:3px;" ></i>最近就诊信息</div>
+            <label class="item item-input">
+                <span class="input-label" style="margin-left:13px ">就诊医院</span>
+                <input  ng-disabled="!canEdit" name="DiagnosisHospital" class="hasTick" ng-model="User.lastVisit.hospital"  type="text">
+                <span class="tick" ng-if="canEdit">
+                    <i style="color:#6ac4f8;"  class="icon ion-checkmark-circled placeholder-icon"></i>
+                </span>
+            </label>
+
+            <label ng-if="!canEdit" class="item item-input">
+                <span class="input-label" style="margin-left:13px ">诊断日期</span>
+                <input  ng-disabled="!canEdit" class="hasTick" ng-model="User.lastVisit.time" dateformat type="text">
+
+            </label>
+
+            <ionic-datepicker ng-if="canEdit" input-obj="datepickerObject1" class="item item-input">
+                <span class="input-label" style="margin-left:13px ">诊断日期</span>
+                <input  ng-model="User.lastVisit.time" class="hasTick" dateformat type="text">
+                <span class="tick" ng-if="canEdit">
+                    <i style="color:#6ac4f8;"  class="icon ion-checkmark-circled placeholder-icon"></i>
+                </span>
+            </ionic-datepicker>
+
+            <label class="item item-input">
+                <span class="input-label" style="margin-left:13px ">诊断结果</span>
+                <input  ng-disabled="!canEdit" class="hasTick" name="DiagnosisResult" ng-model="User.lastVisit.diagnosis"  type="text">
+                <span class="tick" ng-if="canEdit">
+                    <i style="color:#6ac4f8;"  class="icon ion-checkmark-circled placeholder-icon"></i>
+                </span>
+
+            </label>
+        </div>
+
+        </form>
+
+        <div ng-if="canEdit">
+            <button  ng-disabled="!(userForm.$valid)" style="margin:20px auto;width: 80%" class="button button-block green-bg font-white" ng-click ="infoSetup(User)">
+                        保存
+            </button>
+        </div>
+
+  </ion-content>
+
+</ion-view>

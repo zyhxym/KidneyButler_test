@@ -1,0 +1,30 @@
+<ion-view cache-view="false" title="保险意向名单">
+  <ion-nav-bar class="bar-dark nav-title-slide-ios7 green-bg" style="" >
+     <ion-nav-buttons class="bar-dark nav-title-slide-ios7" side="left" >
+         <button class="button button-clear"  ng-click="Back()"><i class="icon ion-ios-arrow-back font-white"></i></button>
+      </ion-nav-buttons>
+  </ion-nav-bar>
+  <div  style="position: absolute;top: 43px;z-index:100;display: block;height: 2px;background-color: #33cd5f;{{barwidth}}" ></div>
+  <ion-content padding="true"  style=" padding-left:0%;padding-right:0%;background : -webkit-linear-gradient(bottom, rgb(101, 98, 160) 00%, rgb(0, 0, 0) 99%);">
+    <div class="row" style="height:30px">
+      <div class="col-40">
+        <span style="float:left;font:bold;color:white">姓名</span>
+      </div>
+      <div class="col-40">
+        <span style="float:left;font:bold;color:white">联系方式</span>
+      </div>
+    </div>
+    <ion-list> 
+      <div ng-repeat="intension in intensions">
+        <div class="row" style="height:20px">
+          <div class="col-40">
+            <span style="float:left;color:white">{{intension.name}}</span>
+          </div>
+          <div class="col-40">
+            <span style="float:left;color:white">{{intension.phoneNo}}</span>
+          </div>
+        </div>
+      </div>
+    </ion-list>
+  </ion-content>
+</ion-view>

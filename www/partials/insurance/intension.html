@@ -1,0 +1,40 @@
+<ion-view cache-view="false" title="我有意向">
+  <ion-nav-bar class="bar-dark nav-title-slide-ios7 green-bg" style="" >
+     <ion-nav-buttons class="bar-dark nav-title-slide-ios7" side="left" >
+         <button class="button button-clear"  ng-click="Goback()"><i class="icon ion-ios-arrow-back font-white"></i></button>
+      </ion-nav-buttons>
+  </ion-nav-bar>
+  <div  style="position: absolute;top: 43px;z-index:100;display: block;height: 2px;background-color: #33cd5f;{{barwidth}}" ></div>
+  <ion-content padding="true"  style=" padding-left:0%;padding-right:0%;background : -webkit-linear-gradient(bottom, rgb(101, 98, 160) 00%, rgb(0, 0, 0) 99%);">
+    <div class="text-center hide-on-keyboard-open" style="color:#000000;width: 100%">
+      <div>
+        <span style="color: white;font: bold">请确认您的信息</span>
+      </div>
+      <div>
+        <span style="color: grey">我们会将您的信息发送到后台，并在24小时内与您联系</span>
+      </div>
+    </div>
+    <div class="text-center hide-on-keyboard-open" style="color:#000000;width: 100%">
+      <div class="row">
+          <div class="col-33">
+            <span class="input-label" style="color: white;width: 100%">姓名</span> 
+          </div>  
+          <div class="col col-67">
+            <input class="item-input-wrapper" type="string" ng-model="Intension.Name" placeholder="请输入您的姓名" style="width: 100%">
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-33">
+            <span class="input-label" style="color: white;width: 100%">手机号码</span> 
+          </div>  
+          <div class="col col-67">
+            <input class="item-input-wrapper" type="string" ng-model="Intension.PhoneNo" placeholder="请输入您的手机号码" style="width: 100%">
+          </div>
+      </div>
+    </div>
+    <div class="text-center hide-on-keyboard-open">
+      <button ion-button block ng-click="submitintension()">确认</button>
+      <button ion-button block ng-click="cancel()">取消</button>
+    </div>
+  </ion-content>
+</ion-view>

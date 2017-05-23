@@ -1,0 +1,362 @@
+/*XJZ*/
+.gray-back {
+    background-color: #F6F6F6;
+}
+.hide-animate {
+  /*line-height: 20px;*/
+  padding-top: 0;
+  padding-bottom: 0;
+  transition: 0.08s all linear;
+}
+.hide-animate.ng-hide {
+  line-height: 0px;
+}
+.hide-animate.ng-hide-add,
+.hide-animate.ng-hide-remove {
+  display: block !important;
+}
+/*message box -------------------------------------------------------------------------------*/
+    .msgbox {
+        /*display: list-item;*/
+        /*position: relative;*/
+        /*float: left;*/
+        width: 100%;
+        margin-top: 1em;
+        padding:0 0.6em;
+    }
+    .msg-time{
+        /*padding:2px 4px;*/
+        width:100%;
+        text-align: center;
+        margin-bottom:4px;
+    }
+    .msg-time span{
+        /*word-break: */
+        font-size:0.85em;
+        color:#FFF;
+        background-color: #DDD;
+        /*display: inline-block;*/
+        border-radius: 3px;
+        padding:2px 4px;
+    }
+    .msg-fail{
+        width:100%;
+        float:right;
+        text-align: right;
+        padding-right:3.7em;
+    }
+    .msg-fail span{
+        font-size:0.9em;
+        color:#B71C1C;
+    }
+    .status{
+        position:relative;
+        float:inherit;
+        margin:0 -0.7em;
+        height:3em;
+        width:2.5em;
+    }
+    .msgbox .avatar {
+        /*float: left;*/
+        /*display: block;*/
+        /*display:inline;*/
+        vertical-align: top;
+        display: inline-block;
+        width: 3em;
+        height: 3em;
+    }
+    /*.float-left {
+        float: left;
+    }
+    .float-right {
+        float: right;
+    }*/
+    .msgbox-receive{
+        float: left;
+    }
+
+    .msgbox-send{
+        float: right;
+    }
+    .msgbox-receive .avatar {
+        float: left;
+    }
+
+    .msgbox-send .avatar {
+        float: right;
+    }
+    /*msg-body：消息气泡*/
+    .msg-body {
+        position: relative;
+        display: table;
+        box-shadow:  0px 1px 1.5px #ccc;
+        vertical-align: middle;
+        /*width: 250px;*/
+        min-height: 3em;
+        margin: 0px 0.7em;
+        border-width: 0px;
+        -webkit-border-radius: 0.3em;
+        -moz-border-radius: 0.3em;
+        border-radius: 0.3em;
+        max-width: 66%;
+        word-break: normal;
+        word-wrap: break-word;
+    }
+
+    .msgbox-receive .msg-body {
+        float: left;
+        background: #FFF;
+    }
+    .no-bubble-color .msg-body{
+        background: #FFF!important;
+    }
+    .msgbox-send .msg-body {
+        float: right;
+        background: #26C6DA;
+    }
+    /*小三角*/
+    .msg-body:after{
+        content: '';
+        position: absolute;
+        border-style: solid;
+        /*border-width: 0.6em 0.6em 0.6em 0;*/
+        /*border-color: transparent #FFF;*/
+        display: block;
+        width: 0;
+        z-index: 1;
+        margin-top: -0.5em;
+        /*left: -0.55em;*/
+        top: 1.5em;
+    }
+    .msgbox-receive .msg-body:after {
+        border-width: 0.5em 0.5em 0.5em 0;
+        border-color: transparent #FFF;
+        left: -0.45em;
+    }
+    .msgbox-send .msg-body:after {
+        border-width: 0.5em 0 0.5em 0.5em;
+        border-color: transparent #26C6DA;
+        right: -0.45em;
+    }
+    .no-bubble-color .msg-body:after{
+        border-color: transparent #FFF!important;
+    }
+    .image-msgbox .msg-body:after{
+        border-color: transparent transparent!important;
+    }
+    /*小三角*/
+    /*消息主体*/
+    /*text type*/
+    .media-text {
+        font-size: 1.1em;
+        padding: 0.45em 0.7em 0.45em 0.7em;
+        vertical-align:middle;
+        display: table-cell;
+        /*line-height:1.4em;*/
+        /*vertical-align: middle;*/
+        /*display: inline-block;*/
+        /*margin: 0px;*/
+    }
+    /*image type*/
+    .media-image {
+        /*padding: 0.35em;*/
+        vertical-align: middle;
+        overflow:hidden;
+    }
+    .media-image img{
+        /*padding: 0.35em;*/
+        vertical-align: middle;
+        max-height:8em;
+    }
+    /*contact type*/
+    .media-contact{
+        padding:0.4em 0.6em;
+        width:16em;
+        
+    }
+    .media-contact img{
+        height:2.5em;
+        width:2.5em;
+    }
+    .media-contact div{
+        display:inline-block;
+        max-width:11.5em;
+        padding-left:0.3em;
+        vertical-align: top;
+        white-space:nowrap; 
+        overflow:hidden;
+        /*word-break: normal;*/
+        /*word-wrap: white-space;*/
+
+    }
+    .media-contact .name{
+        margin:0px;
+        font-size:1.1em;
+    }
+    .media-contact .info{
+        text-overflow:ellipsis;
+        overflow: hidden;
+        /*text-overflow:ellipsis;*/
+        margin-bottom:2px;
+        /*margin:0px;*/
+        color:#666;
+        font-size:0.8em;
+    }
+    .media-contact hr{
+        border-color:#C7C7C7;
+        border-style:solid;
+        border-width:1px 0px 0px 0px;
+        margin: 3px 0px 2px 0px;
+        /*display:inline-block;*/
+    }
+    .media-contact .footer{
+        margin:0px;
+        color:#AAA;
+        font-size:6px;
+    }
+    /*card type*/
+    .msgbox-card{
+
+        float: right;
+    }
+    .media-card{
+        /*box-shadow:  inset 0px -1.5px 0px #d7d7d7;*/
+        width:100%;
+        padding:0.8em;
+        background: #FFF;
+        /*margin:auto;*/
+    }
+    .media-card .card-title{
+        font-size: 1.1em;
+        padding:0.2em;
+
+    }
+    .media-card p{
+
+    }
+    .media-card span{
+        color:#2196F3;
+        font-size:1.15em;
+        padding-right:0.5em;    
+    }
+    .media-card .img-info{
+        font-size:1.1em;
+        color:#666; 
+    }
+    .media-card img{
+        height: 3.2em;
+        width:3.2em;
+        margin:0.2em;
+    }
+    .media-card hr{
+        border-color:#C7C7C7;
+        border-style:solid;
+        border-width:1px 0px 0px 0px;
+        /*margin: 3px 0px 2px 0px;*/
+    }
+    .media-endl {
+        /*float: center;*/
+        position: relative;
+        /*display: table;*/
+        /*box-shadow:  inset 0px -1.5px 0px #d7d7d7;*/
+        /*vertical-align: middle;*/
+        text-align: center;
+        width: 100%;
+        /*min-height: 3em;*/
+        /*margin: 0px 0.7em;*/
+        /*border-width: 0px;*/
+        color:#448AFF;
+        font-size:0.9em;
+        /*-webkit-border-radius: 0.3em;*/
+        /*-moz-border-radius: 0.3em;*/
+        /*border-radius: 0.3em;*/
+        /*max-width: 70%;*/
+        /*word-break: normal;*/
+        /*word-wrap: break-word;*/
+    }
+/*image viewer ----------------------------------------------------------------------------*/    
+    .image-modal {
+        width: 100% !important;
+        height: 100%;
+        top: 0 !important;
+        left: 0 !important;
+        background: rgba(0,0,0,1);
+    }
+     
+    .slider {
+        width: 100%;
+        height: 100%;
+    }
+     
+    .image {
+        width: 100%;
+        height: 600px;
+        /*margin:auto;*/
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center, center;
+    }
+
+    .imageLarge{
+        position: ;
+        top: 50%;
+        transform: translateY(-50%);
+        width:100%;
+        /*margin:auto;*/
+        /*vertical-align: middle;*/
+    }
+
+
+    .picBox {  
+        height: 100vh;
+        width: 100%;
+        text-align: center;
+    }
+    .picBox span{
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+    }
+    .picBox #bigPic{
+        width: 100%; 
+        /*width: auto;*/
+        /*height: auto;*/
+        vertical-align: middle;
+        /*position: absolute;  */
+        /*top: 0;  */
+        /*bottom: 0;  */
+        /*left: 0;  */
+        /*right: 0;  */
+        /*margin: auto;*/
+    }
+    .frame img {  
+        /*max-height: 100%;  */
+        width: 100%; 
+        /*width: auto;*/
+        /*height: auto;*/
+        vertical-align: middle;
+        /*position: absolute;  */
+        /*top: 0;  */
+        /*bottom: 0;  */
+        /*left: 0;  */
+        /*right: 0;  */
+        margin: auto;
+    }
+
+/*input box--------------------------------------------------------------*/
+    .input-box{
+        position:absolute;
+        /*display: flex;*/
+        bottom:0;
+        border-width:0;
+        min-height:44px;
+        transform: translate3d(0, 0, 0);
+        right: 0;
+        left: 0;
+        font-size: 100%;
+        /*z-index: 9;*/
+        /*box-sizing: border-box;*/
+        padding:5px;
+        overflow: visible;
+        /*user-select: none;*/
+    }

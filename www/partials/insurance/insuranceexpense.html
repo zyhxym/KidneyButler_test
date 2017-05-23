@@ -1,0 +1,61 @@
+<ion-view cache-view="false" title="保费计算小工具">
+  <ion-nav-bar class="bar-dark nav-title-slide-ios7 green-bg" style="" >
+     <ion-nav-buttons class="bar-dark nav-title-slide-ios7" side="left" >
+         <button class="button button-clear"  ng-click="Goback()"><i class="icon ion-ios-arrow-back font-white"></i></button>
+      </ion-nav-buttons>
+  </ion-nav-bar>
+  <div  style="position: absolute;top: 43px;z-index:100;display: block;height: 2px;background-color: #33cd5f;{{barwidth}}" ></div>
+  <ion-content padding="true"  style=" padding-left:0%;padding-right:0%;background : -webkit-linear-gradient(bottom, rgb(101, 98, 160) 00%, rgb(0, 0, 0) 99%);">
+    <div>
+      <div class="row">
+          <div class="col">
+            <span class="input-label">投保年龄</span> 
+          </div>  
+          <div class="col col-67" style="width:100%">
+            <input class="item-input-wrapper" type="number" ng-model="InsuranceInfo.InsuranceAge" placeholder="请输入您的投保年龄" style="width:100%">
+          </div>
+      </div>
+      <div class="row">
+          <div class="col">
+            <span class="input-label">性别</span> 
+          </div>  
+          <div class="col col-67" style="width:100%">
+            <select ng-model="InsuranceInfo.Gender" ng-options="Gender.Type as Gender.Name for Gender in Genders" style="width:100%">
+              <!-- <option value="">-请选择-</option> -->
+            </select>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col">
+            <span class="input-label">投保年限</span> 
+          </div>  
+          <div class="col col-67" style="width:100%">
+            <select ng-model="InsuranceInfo.InsuranceTime" ng-options="Insurance.Time as Insurance.Time for Insurance in InsuranceTimes" style="width:100%">
+            </select>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col">
+            <span class="input-label">计算类型</span> 
+          </div>  
+          <div class="col col-67" style="width:100%">
+            <select ng-model="InsuranceInfo.CalculationType" ng-options="Calculation.Type as Calculation.Name for Calculation in CalculationTypes" style="width:100%">
+              <!-- <option value="">-请选择-</option> -->
+            </select>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col">
+            <span class="input-label">输入金额</span> 
+          </div>  
+          <div class="col col-67" style="width:100%">
+            <input class="item-input-wrapper" type="number" ng-model="InsuranceInfo.InsuranceMoney" placeholder="请输入您的投保金额" style="width:100%">
+          </div>
+      </div>
+    </div>
+    <div>
+      <button ion-button block style=" width:80%;margin-left:10% " ng-click="getexpense()">确认</button>
+      <button ion-button block style=" width:80%;margin-left:10% " ng-click="resetexpense()">重置</button>
+    </div>
+  </ion-content>
+</ion-view>

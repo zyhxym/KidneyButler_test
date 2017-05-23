@@ -1,0 +1,22 @@
+<div class="msgbox no-bubble-color {{'msgbox-'+msg.direct}}">
+	<!-- display time -->
+	<div ng-if="msg.diff" class="msg-time"><span>{{msg.createTimeInMillis | msgdate}}</span></div>
+	<!-- avatar -->
+	<img class="avatar" ng-src="{{photourls[msg.fromID] || 'img/DefaultAvatar.jpg'}}" ng-click="emitEvent('profile',msg)"/>
+	<!-- chat bubble -->
+	<div class="msg-body" ng-click="">
+		<!-- text content -->
+		<div class="media-contact">
+			<img ng-src="{{msg.fromUser.avatarPath || 'img/max.png'}}"/>
+			<div >
+				<p class="name">{{msg.content.contentStringMap.name}}</p>
+				<p class="info">{{msg.content.contentStringMap.description}}</p>
+			</div>
+			<hr/>
+			<p class="footer">联系人名片</p>
+		</div>
+		
+	</div>
+	<div my-small-spin="msg.status" class="status"></div>
+	<div ng-if="msg.status=='send_fail'"  class="msg-fail"><span><i class="icon ion-android-warning"></i>发送失败</span></div>
+</div>

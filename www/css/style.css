@@ -1,0 +1,783 @@
+/* Empty. Add your own CSS if you like */
+.mt-40 {
+  margin-top: 40px !important;
+}
+/*我的页面弹出窗*/
+.me-pop{
+  width: 80%;
+  left: 10%!important;
+  padding: 33px;
+}
+.me-pop .popover-arrow{
+  display: none;
+}
+
+.me-pop .me-pop-title img{
+  width: 67px;
+  height: 67px;
+  display: inline-block;
+  float: left;
+}
+.me-pop .me-pop-message{
+  padding-left: 70px;
+  margin-left: 10px;
+
+}
+.me-pop .me-pop-message p{
+  margin-bottom: 0;
+  color: #808080;
+}
+.me-pop .me-massage-name{
+  padding-top: 25px;
+  font-weight:bold ;
+  color: #333333;
+}
+.me-pop .me-pop-code{
+  text-align: center;
+  margin-top: 30px;
+}
+.me-pop .me-pop-code img{
+  width: 142px;
+  height: 142px;
+}
+/*头部底部*/
+.tabs {
+  height: 55px;
+}
+.has-tabs{
+  bottom: 55px;
+}
+.bar.bar-positive {
+  background: #6ac4f8;
+}
+.consult-tab{
+display: inline-block;
+  line-height: 44px;
+  height: 44px;
+  border-bottom: 1px solid #FFFFFF;
+  color: #333;
+}
+.home {
+  font-size: 24px !important;
+  line-height: 32px;
+}
+
+.tab-item.tab-item-active {
+  color: #6ac4f8;
+}
+
+.tabs-positive > .tabs, .tabs.tabs-positive {
+  background: #f7f7f7;
+  color: #545454;
+  border-color: #6ac4f8 !important;
+  border-top-width: 2px !important;
+}
+
+.tab-title {
+  font-size: 16px !important;
+  margin-top: 5px;
+}
+
+/*搜索*/
+.item-input-inset {
+  background: #fafafa;
+  margin-top: 10px;
+}
+
+.item-input-wrapper {
+  background: #FFFFFF;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+/*筛选*/
+.checkbox input, .checkbox-icon{
+  width: 18px;
+  height: 18px;
+  margin-top: 5px;
+}
+.checkbox input:after, .checkbox-icon:after{
+  top:23%;
+  width: 10px;
+}
+.bar.item-input-inset .item-input-wrapper input::-webkit-input-placeholder {
+  color: #818181;
+}
+
+.bar.item-input-inset .item-input-wrapper input:-moz-placeholder {
+  color: #818181;
+}
+
+.bar.item-input-inset .item-input-wrapper input::-moz-placeholder {
+  color: #818181;
+}
+
+.bar.item-input-inset .item-input-wrapper input:-ms-input-placeholder {
+  color: #818181;
+}
+/*我的*/
+.me-top-box{
+  height: 170px;
+  width: 100%;
+}
+.me-top-bg{
+  height: 100%;
+  width: 100%;
+  background: url(../img/hospital1.png);
+  -webkit-filter: blur(5px); /* Chrome, Opera */
+  -moz-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+  filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=5, MakeShadow=false);
+}
+.me-avatar-box{
+  width: 120px;
+  height: 120px;
+  border-radius: 100%;
+  border: 1px solid #FFFFFF;
+  text-align: center;
+  display: inline-block;
+  position: absolute;
+  text-decoration:none;
+}
+.me-massage-box{
+  position: absolute;
+  left: 50%;
+  top:25px;
+  margin-left: -60px;
+  z-index: 9999;
+
+}
+.me-code{
+  position: absolute;
+  top:25px;
+  right: 40px;
+  z-index: 10000;
+  font-size: 24px;
+  color: #333333;
+}
+.me-avatar{
+  width: 102px;
+  height: 102px;
+  border: 1px solid #FFFFFF;
+  border-radius:100% ;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -51px;
+  margin-left: -51px;
+}
+.me-avatar{
+  min-height: 102px;
+  min-width: 102px;
+  border-radius: 100%;
+}
+.me-avatar div{
+  width: 60px;
+  height: 60px;
+}
+.me-avatar img{
+  width: 100px;
+  height: 100px;
+
+  border-radius: 100%;
+}
+.me-edit-btn{
+  width: 70px;
+  background: #FFFFFF;
+  margin: 0 auto;
+  border-radius: 3px;
+  font-size: 12px;
+  margin-top: 74px;
+  color: #333333;
+}
+.me-massage{
+  position: absolute;
+  top:102px;
+  width: 150px;
+  margin-left: -37px;
+  text-align: center;
+}
+.me-massage p{
+  margin-bottom: 0px;
+}
+.me-mun .row{
+  border-bottom: 1px solid #e9e9e9;
+  height: 70px;
+  line-height: 27px;
+  margin-top: 0;
+  padding: 15px;
+}
+.me-mun .row a{
+  color: #6e6e6e;
+  text-decoration: none;
+  font-size: 16px;
+}
+.me-mun .row .iconfont{
+  color: #242424;
+  font-size: 32px;
+  margin-right: 15px;
+  vertical-align: middle;
+}
+.me-list a{
+  height: 55px;
+  line-height: 27px;
+}
+.me-list a:after{
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  position: absolute;
+  top: 50%;
+  right: 11px;
+  display: block;
+  margin-top: -8px;
+  color: #ccc;
+  content: "\f125";
+  text-transform: none;
+  font-weight: normal;
+  font-style: normal;
+  font-variant: normal;
+  font-size: 16px;
+  font-family: 'Ionicons';
+  line-height: 1;
+  speak: none;
+}
+.me-list .item-icon-left .iconfont{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 11px;
+  height: 100%;
+  font-size: 26px;
+  vertical-align: middle;
+}
+.me-list .item-icon-left .iconfont:last-child{
+  top: 3px;
+}
+.me-list .item-icon-left .iconfont:before{
+  display: block;
+  width: 32px;
+  text-align: center;
+}
+.me-dic{
+  color: #ee3939!important;
+  display: inline-block;
+  margin-right:0!important;
+  margin-top: -16px;
+  font-size: 40px!important;
+  margin-left: -13px;
+}
+/*患者信息*/
+.patient-active {
+  width: 50px;
+  height: 50px;
+
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  border-radius: 50%;
+}
+.pat-mun-icon{
+  font-size: 32px;
+}
+.patient-active div {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.patient-active div img {
+  max-width: 50px;
+  max-height: 50px;
+  border-radius: 50%;
+}
+
+.pat-ts {
+  position: absolute;
+  top: 80px;
+  left: 16px;
+
+}
+.pati-message{
+  padding-left:90px
+}
+.tast-bar .button span{
+  border-right: none!important;
+}
+.tast-active{
+  line-height: 40px;
+  border-bottom: 2px solid #05a8fa!important;
+  color: #05a8fa;
+}
+.task-icon-r{
+
+}
+.task-list .item-icon-left .icon, .item-icon-right .icon{
+  height: auto!important;
+  top:16px!important;
+}
+.task-list p {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #666666;
+  margin-bottom: 0;
+}
+.task-item{
+  border-color: #ddd;
+  background-color: #fff;
+  color: #444;
+  position: relative;
+  z-index: 2;
+  display: block;
+  margin: -1px;
+  padding:10px 25px ;
+  border-width: 1px;
+  border-style: solid;
+  font-size: 16px;
+}
+.task-item-right{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  align-items: center;
+  position: absolute;
+  top: 16px;
+  right: 25px;
+  font-size: 32px;
+}
+.task-item-right select{
+  border-right: 1px solid #828282;
+  border-bottom: none;
+  border-top: none;
+  border-left: none;
+}
+.task-item img{
+  width: 30px;
+  height: 30px;
+  vertical-align: middle;
+}
+.task-item span{
+  vertical-align: middle;
+}
+/**/
+
+
+
+
+/*未读消息小红点*/
+
+.login_btn {
+  background: #6ac4f8!important;
+}
+
+.bg-wite {
+  background: #ffffff !important;
+
+}
+
+.bg-wite .bar.bar-positive .title {
+  color: #4d4d4d !important;
+  font-weight: bold;
+}
+
+.bar-positive {
+  background: #333;
+}
+
+.button__badge {
+  background-color: #fa3e3e;
+  border-radius: 2px;
+  color: white;
+
+  padding: 1px 3px;
+  font-size: 10px;
+
+  position: absolute; /* Position the badge within the relatively positioned button */
+  top: 0;
+  right: 0;
+}
+
+.red-badge :before {
+  position: absolute;
+  content: '';
+  background-color: #FF0000;
+  border-radius: 50%;
+  opacity: 0.8;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+}
+
+.msg-badge {
+  background-color: #fa3e3e;
+  border-radius: 2px;
+  color: white;
+
+  padding: 1px 3px;
+  font-size: 10px;
+
+  position: absolute; /* Position the badge within the relatively positioned button */
+  top: 0;
+  right: 0;
+}
+
+/*取消ionicPopover固定高度 XJZ*/
+.popover {
+  height: auto !important;
+}
+
+.popover ion-header-bar {
+  position: relative;
+}
+
+.popover ion-content {
+  top: 0;
+  position: relative;
+}
+
+.mine-msg-right {
+  color: #6e6e6e;
+  position: absolute;
+  right: 10px;
+  top: 14px;
+  font-size: 24px;
+}
+
+.mine-verfy-btn {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  min-height: 33px;
+  line-height: 33px;
+  width: 80%;
+}
+
+.myinfo-msg-right {
+  color: lightgray;
+  position: absolute;
+  right: 30px;
+  top: 9px;
+}
+
+.myinfo-img-right {
+  color: lightgray;
+  position: absolute;
+  right: 30px;
+  top: 6px;
+}
+
+/*咨询页面*/
+.tab-search {
+  background-color: white;
+  width: 76%;
+  height: 27px;
+  text-align: left;
+  position: absolute;
+  right: 12%;
+  border-radius: 27px;
+  bottom: 8px;
+  padding-left: 23px;
+}
+
+/*list item ---------------------------*/
+.my-icon-item {
+
+}
+
+.margin-list {
+  margin-top: 1.5em;
+}
+
+.my-icon-item i:first-child {
+  color: #4CAF50;
+}
+
+/*   .my-icon-item i:nth-child(2){
+     color:#AAA;
+ }*/
+.item-span {
+  display: inline-block;
+  color: #AAA;
+  padding-left: 20px;
+  max-width: 15em;
+}
+
+.my-photo-item {
+  padding-top: 8px !important;
+  padding-bottom: 8px;
+}
+
+.item-photo-span {
+  display: inline-block;
+  color: #AAA;
+  padding-left: 20px;
+  /*max-width: 15em;*/
+}
+
+.my-photo-item img {
+  height: 3em;
+  width: 3em;
+  padding: 2px;
+  /*margin:auto 0*/
+  position: relative;
+  top: 18px;
+  /*display:inline-block; */
+  /*color:#AAA;*/
+  /*padding-left:20px;*/
+  /*max-width: 15em;*/
+}
+
+/*group member avatar list div -----------------------------------*/
+.avatar-item {
+  display: inline-block;
+  width: 20%;
+  padding: 3px 7px;
+  text-align: center;
+}
+
+.avatar-item img {
+  height: 100%;
+  width: 100%;
+}
+
+.avatar-item div {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/*QR code ----------------------------------------------------------*/
+.qr-code {
+  width: 90%;
+  margin: auto;
+  margin-top: 40px;
+  background-color: #FFF;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  padding: 20px;
+  text-align: center;
+}
+
+.qr-code div:first-child {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.qr-code .title {
+  font-size: 1.1em;
+  padding-left: 0.5em;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.qr-code img {
+  width: 3em;
+  height: 3em;
+  vertical-align: middle;
+}
+
+.qr-code img {
+  width: 3em;
+  height: 3em;
+}
+/*个人资料*/
+.myinfo-avatar .img-cen{
+  text-align: center;
+  width: 100%;
+}
+.myinfo-avatar{
+  text-align: center;
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 2.5rem;
+}
+.myinfo-avatar img{
+  width: 5.625rem;
+  height: 5.625rem;
+}
+.myinfo-cont{
+  padding:0 1.875rem;
+}
+.myinfo-cont .item{
+  border-left: 0;
+  border-right: 0;
+  border-color:  #d2d2d2;
+}
+.myinfo-cont .item .msg{
+  margin-left: 0;
+  padding-right: 15px;
+  border-right: 1px solid #d2d2d2;
+}
+.health-img-box{
+  width: 100%;
+}
+.health-img{
+  width: 30%;
+  float: left;
+  text-align: center;
+  vertical-align: middle;
+  margin-top: 10px;
+  margin-right:5%;
+}
+.health-img:nth-child(3n){
+  margin-right: 0;
+}
+.health-img img{
+  width: 100%;
+
+}
+
+/* Empty. Add your own CSS if you like */
+.head-red-point {
+  position: absolute;
+  top: 12%;
+  right: calc(50% - 20px);
+  height: 6px;
+  width: 6px;
+  border-radius: 5px;
+  background-color: red
+}
+
+
+.image-red-point {
+  position: absolute;
+  top: 8%;
+  right: calc(85% - 35px);
+  height: 8px;
+  width: 8px;
+  border-radius: 5px;
+  background-color: red
+}
+
+.ionic_ratings .icon {
+  font-size:50px;
+}
+
+.ionic_ratings .read_only {
+  pointer-events:none;
+}
+
+select:disabled{
+    border: none;
+    background-color: #FFFFFF;
+    /*color:#ACA899;*/
+}
+input:disabled{
+    /*border: none;*/
+    background-color: #FFFFFF;
+    /*color:#ACA899;*/
+}
+
+span.tick {
+  position: absolute;
+  right: 0px;
+}
+
+input.hasTick {
+  text-align: right;
+  margin-right: 10%;
+}
+
+.row-below-avatar{
+  text-align: center;
+  position:absolute;
+  left: 0px;
+  top: 75%;
+}
+
+.item-select-custom {
+  position: relative; }
+  .item-select-custom select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 10%;
+    padding: 0 48px 0 16px;
+    max-width: 65%;
+    border: none;
+    background: #fff;
+    color: #333;
+    text-indent: .01px;
+    text-overflow: '';
+    white-space: nowrap;
+    font-size: 14px;
+    cursor: pointer;
+    direction: rtl; }
+  .item-select-custom select::-ms-expand {
+    display: none; }
+  .item-select-custom option {
+    direction: ltr; }
+  .item-select-custom:after {
+    position: absolute;
+    top: 50%;
+    right: 10%;
+    margin-top: -3px;
+    width: 0;
+    height: 0;
+    border-top: 5px solid;
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    color: #999;
+    content: "";
+    pointer-events: none; }
+  .item-select-custom.item-light select {
+    background: #fff;
+    color: #444; }
+  .item-select-custom.item-stable select {
+    background: #f8f8f8;
+    color: #444; }
+  .item-select-custom.item-stable:after, .item-select-custom.item-stable .input-label {
+    color: #666666; }
+  .item-select-custom.item-positive select {
+    background: #387ef5;
+    color: #fff; }
+  .item-select-custom.item-positive:after, .item-select-custom.item-positive .input-label {
+    color: #fff; }
+  .item-select-custom.item-calm select {
+    background: #11c1f3;
+    color: #fff; }
+  .item-select-custom.item-calm:after, .item-select-custom.item-calm .input-label {
+    color: #fff; }
+  .item-select-custom.item-assertive select {
+    background: #ef473a;
+    color: #fff; }
+  .item-select-custom.item-assertive:after, .item-select-custom.item-assertive .input-label {
+    color: #fff; }
+  .item-select-custom.item-balanced select {
+    background: #33cd5f;
+    color: #fff; }
+  .item-select-custom.item-balanced:after, .item-select-custom.item-balanced .input-label {
+    color: #fff; }
+  .item-select-custom.item-energized select {
+    background: #ffc900;
+    color: #fff; }
+  .item-select-custom.item-energized:after, .item-select-custom.item-energized .input-label {
+    color: #fff; }
+  .item-select-custom.item-royal select {
+    background: #886aea;
+    color: #fff; }
+  .item-select-custom.item-royal:after, .item-select-custom.item-royal .input-label {
+    color: #fff; }
+  .item-select-custom.item-dark select {
+    background: #444;
+    color: #fff; }
+  .item-select-custom.item-dark:after, .item-select-custom.item-dark .input-label {
+    color: #fff; }

@@ -1,0 +1,33 @@
+<ion-view cache-view="false" title="要获得的帮助">
+  <ion-nav-bar class="bar-positive green-bg" style="" >
+    
+    
+  </ion-nav-bar>
+  <ion-content padding="true">
+    
+    <div  class="list">
+      <label class="item item-input">
+        <span class="input-label" style="font: bold"><i class="icon ion-asterisk" style="color:red;font-size:6px"></i>你要问医生的问题是什么</span>
+      </label>
+      <label class="item item-input">
+        <input  class="item-text-wrap" ng-model="Questionare.help"  type="text" placeholder="方便医生给出您针对性解答" style="height: 50px">
+      </label>
+      <label class="item item-input">
+        <span class="input-label" style="font: bold"><i class="icon ion-asterisk" style="color:red;font-size:6px"></i>为您的咨询写个简单的标题</span>
+      </label>
+      <label class="item item-input">
+        <input  ng-model="Questionare.title"  type="text" placeholder="方便让医生注意到">
+      </label>
+    </div>
+      <button style="margin-top:0" ng-disabled="submitable" class="button button-block green-bg font-white" ng-click ="Submitquestion()">
+            提交
+      </button>
+      <button style="margin-top:0" class="button button-block green-bg font-white" class="button button-clear" ng-click="backtoDisease()">上一步
+      </button>
+    
+
+
+           
+  </ion-content>
+          
+</ion-view>

@@ -1,0 +1,31 @@
+<ion-view title="充值">
+
+  <ion-nav-bar class="bar-positive green-bg" align-title="center" >
+      <ion-nav-buttons side="left" >
+         <button class="button button-clear"  ng-click="Goback()"><i class="icon ion-ios-arrow-back font-white"></i></button>
+      </ion-nav-buttons>
+    </ion-nav-bar>
+
+
+  
+  <ion-content padding="true" style="">
+
+        <div class="list" ng-show="payFor==1">
+			<label class="item item-input item-stacked-label">
+				<span class="input-label">请输入充值金额</span>
+				<input type="number" ng-model="money">
+			</label>
+			<span>{{msg}}充值金额必须是50的倍数</span>
+		</div>
+		<div class="list" ng-show="payFor==2">
+			<label class="item item-input item-stacked-label">
+				<span class="input-label">您将购买一次问诊服务，服务费250元</span>
+			</label>
+		</div>
+		<button class="button button-block button-positive" ng-click="pay(money)">
+			确认支付
+		</button>
+
+  </ion-content>
+          
+</ion-view>

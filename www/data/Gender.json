@@ -1,0 +1,17 @@
+[
+	{
+		"Type": "NotSelected",
+		"Name":"未选择",
+		"No": 0
+	},
+	{
+		"Type": "Male",
+		"Name":"男",
+		"No": 1
+	},
+	{
+		"Type": "Female",
+		"Name":"女",
+		"No": 2
+	}
+]

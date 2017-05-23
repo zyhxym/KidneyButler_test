@@ -1,0 +1,113 @@
+<!-- 任务视图中的列表-tab -->
+<ion-view cache-view="false" view-title='个人中心' show-tabs>
+    
+  <!-- <div  style="position: absolute;top: 43px;z-index:100;display: block;height: 2.5px;background-color: #33cd5f;{{barwidth}}" ></div> -->
+    <ion-content>
+
+        <div class="me-top-box">
+        <div class="me-top-bg"></div>
+        <div class="me-massage-box">
+          <div class="me-avatar-box" >
+            <div class="img-cen me-avatar">
+              <img ng-src="{{myAvatar}}" name="Photo" ng-click="onClickCamera($event)">
+            </div>
+            </a>
+          </div>
+        </div>
+        </div>
+       <!-- <ion-item style="border:none; text-align:center" >
+         <img ng-src="{{myAvatar}}" name="Photo" ng-click="onClickCamera($event)" style="border-radius:50%; height:30%; width:30%" />
+      </ion-item> -->
+
+    <!-- 上传照片的弹出框 -->
+      <script id="my-popover.html" type="text/ng-template">
+        <ion-popover-view>
+          <ion-header-bar class="bar-calm">
+              <h1 class="title">上传头像</h1>
+          </ion-header-bar>
+        <ion-content>
+          <ion-list> 
+            <div class = "padding">
+              <button class="button button-block button-primary " ng-click="getPhoto()"><i class="icon ion-camera"></i>
+                  拍照
+              </button>
+            
+              <button class="button button-block button-primary " ng-click="onClickCameraPhotos()"><i class="icon ion-image"></i>
+                  相册
+              </button>
+             
+            </div>
+          </ion-list>
+        </ion-content>
+      </ion-popover-view>
+    </script>
+    <!-- 上传照片的弹出框 -->
+
+
+     <div class="content has-header ionic-pseudo">
+
+      <div class="list">
+        <a class="item item-icon-left item-icon-right" ng-click="GoUserDetail()">
+          <i class="icon iconfont icon-gerenxinxi mg-left10"></i>
+            <span class="mg-left10">个人信息</span>
+          <i class="icon ion-ios-arrow-right"></i>
+        </a>
+
+        <a class="item item-icon-left item-icon-right" ng-click="GoDiagnosiInfo()">
+          <i class="icon iconfont icon-dedaozhenduanbaogao mg-left10"></i>
+            <span class="mg-left10">诊断记录</span>
+          <i class="icon ion-ios-arrow-right"></i>
+        </a>
+
+        <a class="item item-icon-left item-icon-right" ng-click="GoConsultRecord()">
+          <i class="icon iconfont icon-iconfontconsult mg-left10"></i>
+          <span class="mg-left10">咨询记录</span>
+          <i class="icon ion-ios-arrow-right"></i>
+        </a>
+
+        <a class="item item-icon-left item-icon-right" ng-click="GoHealthInfo()">
+          <i class="icon  iconfont icon-jiankang mg-left10"></i>
+          <span class="mg-left10"> 健康信息</span>
+          <i class="icon ion-ios-arrow-right"></i>
+        </a>
+
+        <a class="item item-icon-left item-icon-right" ng-click="GoManagement()">
+          <i class="icon iconfont icon-shenjieshi mg-left10"></i>
+          <span class="mg-left10"> 肾病管理方案</span>
+          <i class="icon ion-ios-arrow-right"></i>
+        </a>
+
+        <a class="item item-icon-left item-icon-right" ng-click="GoMoney()">
+          <i class="icon iconfont icon-zengzhifuwu mg-left10"></i>
+          <span class="mg-left10">增值服务</span>
+          <i class="icon ion-ios-arrow-right"></i>
+        </a>
+        
+        <a class="item item-icon-left item-icon-right" ng-click="ChangePassword()">
+            <i class="icon iconfont icon-xiugaimima mg-left10"></i>
+          <span class="mg-left10">修改密码</span>
+            <i class="icon ion-ios-arrow-right"></i>
+          </a>
+
+          <a class="item item-icon-left item-icon-right" ng-click="SignOut()">
+            <i class="icon iconfont icon-tuichuzhanghu mg-left10"></i>
+            <span class="mg-left10">退出账号</span>
+            <i class="icon ion-ios-arrow-right"></i>
+          </a>
+
+          <a class="item item-icon-left item-icon-right" ng-click="About()">
+            <i class="icon iconfont icon-jiangpai mg-left10"></i>
+              <span class="mg-left10">关于</span>
+            <i class="icon ion-ios-arrow-right"></i>
+          </a>
+
+
+          <iframe id="bbsframe_login" ng-src ='{{navigation_login}}' height="100%" width="100%" ng-show=false>
+            <p>Your browser does not support iframes.</p>
+          </iframe>
+       </div>
+     </div>
+
+
+    </ion-content>    
+</ion-view>

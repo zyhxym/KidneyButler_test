@@ -1,0 +1,327 @@
+/*公共样式*/
+.green-bg {
+  background: #6ac4f8 !important;
+}
+.popup-buttons{
+  min-height: 55px!important;
+}
+.button.button-positive{
+  background: #6ac4f8 !important;
+}
+.popup-buttons .button{
+  margin-right: 80px!important;
+  min-height: 35px!important;
+}
+.popup-buttons .button:last-child{
+  margin-right: 0!important;
+}
+.popup-body{
+  padding: 0!important;
+}
+.popup-container textarea{
+  padding:10px;
+}
+.popup-body span{
+  display: inline-block;
+  padding: 10px;
+}
+.green-white-bg {
+  background: white !important;
+}
+.green-edite-css {
+  border: 1px solid #6ac4f8 !important;
+  border-radius: 10px !important;
+}
+.f-fr{
+  float: right;
+}
+.bg-fa{
+  background: #fafafa;
+}
+.mg-10 {
+  margin-top: 10px !important;
+}
+.mt-40{
+  margin-top: 40px!important;
+}
+.mg-top-5 {
+  margin-top: 5px !important;
+}
+.mg-20 {
+  margin-top: 20px !important;
+}
+.mg-top {
+  margin-top: 5px !important;
+}
+.mg-left10 {
+  margin-left: 10px !important;
+}
+.mg-left20 {
+  margin-left: 20px !important;
+}
+.mg-right10 {
+  margin-right: 10px !important;
+}
+.bb{
+  border-bottom: 1px solid #f2f2f2;
+}
+.font-white {
+  color: white !important;
+  text-align: center;
+}
+.font-c{
+  color: #6ac4f8!important;
+}
+.icon-c{
+  color: #ea790a!important;
+  font-size: 12px;
+}
+.c-red {
+  color: red !important;
+  font-size: 10px;
+}
+.ion-iphone1 {
+  font-size: 20px;
+  margin-left: 5px;
+}
+.font-33c {
+  color: #333333 !important;
+  font-size: 18px;
+}
+/*圆角弹窗*/
+.popup{
+  border-radius: 5px!important;
+  overflow: hidden;
+}
+.button.button-positive{
+  background: #6ac4f8;
+  font-weight: inherit;
+}
+.button.button-positive.activated{
+  background: #6ac4f8;
+  border-color:#6ac4f8;
+}
+/*公共导航*/
+.m-tabs.tab-item-active, ion-tabs.tabs-color-active-positive .tab-item.active, ion-tabs.tabs-color-active-positive .tab-item.activated{
+  color: #6ac4f8!important;
+}
+.m-tabs i{
+  line-height: 32px;
+}
+.m-tabs i:before{
+  font-size: 24px;
+
+}
+/*消息*/
+.all-message-cont{
+
+}
+.all-message-list .item{
+  padding-left: 90px;
+}
+.all-message-list .item.new-message:before{
+  content: '·';
+  font-size: 70px;
+  color: #ff7f00;
+  position: absolute;
+  left: 16px;
+}
+.all-message-list .item img{
+  left: 35px!important;
+}
+/*医生列表*/
+.all-doctors-select select{
+  width:40%;
+  border: 0;
+  border-right: 1px solid #e4e4e4;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  padding: 0 10%;
+}
+.all-doctors-select select:last-child{
+  border-right: 0;
+}
+.all-doctors-select select option{
+  text-align: center;
+}
+.right:after {
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  position: absolute;
+  top: 50%;
+  right: 11px;
+  display: block;
+  margin-top: -8px;
+  color: #ccc;
+  content: "\f125";
+  text-transform: none;
+  font-weight: normal;
+  font-style: normal;
+  font-variant: normal;
+  font-size: 16px;
+  font-family: 'Ionicons';
+  line-height: 1;
+  speak: none;
+}
+.title {
+  color: white !important;
+}
+.login_outbtn {
+  width: 80% !important;
+  margin-left: 10%;
+  margin-right: 10%;
+  color: white;
+}
+.select-style{
+  text-align: center!important;
+  border: none!important;
+}
+.schedual-border {
+  border-left:1px solid #6ac4f8;
+  border-top: 1px solid #6ac4f8;
+  background-repeat: no-repeat;
+  background-size: 15px 15px;
+  background-position: center;
+}
+.schedual-border-right {
+  border-left:1px solid #6ac4f8;
+  border-top: 1px solid #6ac4f8;
+  border-right: 1px solid #6ac4f8;
+  background-repeat: no-repeat;
+  background-size: 15px 15px;
+  background-position: center;
+}
+.schedual-border-bottom{
+  border-left:1px solid #6ac4f8;
+  border-top: 1px solid #6ac4f8;
+  border-bottom: 1px solid #6ac4f8;
+  background-repeat: no-repeat;
+  background-size: 15px 15px;
+  background-position: center;
+}
+.schedual-border-all{
+  border-left:1px solid #6ac4f8;
+  border-top: 1px solid #6ac4f8;
+  border-bottom: 1px solid #6ac4f8;
+  border-right: 1px solid #6ac4f8;
+  background-repeat: no-repeat;
+  background-size: 15px 15px;
+  background-position: center;
+}
+.stats-task .active{
+  background: #6ac4f8;
+}
+.task-jd{
+  width: 50%;
+  height: 15px;
+  background: #cccccc;
+}
+.task-jd span{
+  display: block;
+  background: #5de6a2;
+  height: 100%;
+}
+.chat-bar{
+  position: absolute;
+  bottom: 0;
+  min-height: 44px;
+  width: 100%;
+  height: auto!important;
+  background: #fff;
+  padding: 5px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.chat-bar .button{
+  min-height: 38px;
+  line-height: normal;
+  height: 34px;
+  min-width: 32px;
+
+}
+.chat-bar .chat-input{
+  display: inline-block;
+  vertical-align: bottom;
+}
+.chat-bar .chat-input
+.chat-bar .button.button-icon{
+  font-size: 18px;
+}
+.chat-bar .button.button-icon:before{
+  font-size: 32px;
+}
+.chat-bar .chat-top{
+  position: absolute;
+  top:0;
+  width: 100%;
+  min-height: 44px;
+  height: auto!important;
+  background: #fff;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.chat-box{
+  position: absolute;
+  top: 0;
+}
+.voice-box{
+  width: 100%;
+  height: 180px;
+  margin-top: 45px;
+  text-align: center;
+}
+.voice-box p{
+  padding-top: 20px;
+  color: #818181;
+  padding-left: 30px;
+}
+.voice-box img{
+  width: 25vw;
+
+}
+.chat-bar .chat-close{
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  font-size:32px;
+  float: right;
+}
+.chat-more{
+  margin-top: 50px;
+  padding-bottom: 20px;
+}
+.chat-more span{
+  display: inline-block;
+  width: 20vw;
+  margin-left: 10px;
+}
+.chat-more span img{
+  width: 100%;
+  height: 100%;
+}
+
+.diagnosisInfo p{
+  margin-bottom: 5px;
+}
+.my-sheet{
+  color: #ffa76d;
+  font-size: 16px;
+}
+.item-avatar > img:first-child{
+  top:10px
+}
+.patient-bar .button{
+  background: #fff;
+  color: #333;
+}
+
+.groups .item-avatar {
+  min-height: 105px;
+  margin-bottom: 5px;
+}
+
+

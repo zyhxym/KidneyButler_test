@@ -1,0 +1,22 @@
+.statusList {
+  width: 150px;
+  float: left;
+  height: 20px;
+  position:relative;
+}
+.scheduleGray {
+  background-color: #e5e5e5;
+  height: 9px;
+  position:absolute; 
+  width:100%;
+  z-index:-1;
+  top:3px;
+}                                
+.scheduleGreen {
+  background-color: #6dc942;
+  height: 9px;
+  float: left;
+  position:absolute; 
+  z-index:0;
+  top:3px;
+}　　 

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>肾事管家</title>
+
+    <link rel="manifest" href="manifest.json">
+
+    <!-- un-comment this code to enable service worker
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(() => console.log('service worker installed'))
+          .catch(err => console.log('Error', err));
+      }
+    </script>-->
+    <!-- 美化图标 -->
+    <link rel="stylesheet" type="text/css" href="lib/icon_font/iconfont.css">
+    <link href="css/kidneybutler.css" rel="stylesheet">
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <!-- 聊天页 -->
+    <link href="css/msg.css" rel="stylesheet">
+    <!-- 进度条 -->
+    <link href="css/progressbar.css" rel="stylesheet">
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+     
+    <!-- cordova script (this will be a 404 during development) -->
+    <!-- <script src="cordova.js"></script> -->
+    <script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
+    <!-- <script src="lib/ionic/js/angular/angular.min.js"></script> -->
+    <script src="lib/ng-file-upload.js"></script>
+
+
+    <!-- 第三方js -->
+    <!-- <script src="lib/ionic-timepicker/dist/ionic-timepicker.bundle.min.js"></script> -->
+    <script src="lib/angular-resource/angular-resource.min.js"></script>
+    <script src="lib/ionic-datepicker-master/dist/ionic-datepicker.bundle.min.js"></script>
+    <script src="lib/jquery/jquery.min.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <script src="lib/socket.io.js"></script>
+    <!-- loading spin: 用于DOM element加载时显示一个转动的小圈 see: http://spin.js.org/ XJZ-->
+    <script src="lib/spin.min.js"></script>
+    <!-- 计算登录jpush的密码 XJZ-->
+    <script src="lib/md5.min.js"></script>
+
+    <!--js数据库-->
+    <script src="lib/taffydb-master/taffy-min.js"></script>
+
+
+
+    
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/directives.js"></script>
+    <script src="js/filters.js"></script>
+    
+  </head>
+
+  <body ng-app="kidney">
+
+    <ion-nav-view animation="slide-left-right"></ion-nav-view>
+  </body>
+</html>

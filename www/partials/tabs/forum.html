@@ -1,0 +1,22 @@
+<ion-view cache-view="false" title="患者论坛" >
+
+<!--   <ion-nav-bar class="bar-dark nav-title-slide-ios7" style="" >
+      <ion-nav-buttons class="bar-dark nav-title-slide-ios7" side="left" >
+         <button class="button button-clear"  ng-click="Goback()"><i class="icon ion-chevron-left"></i>返回</button>
+      </ion-nav-buttons>
+    </ion-nav-bar> -->
+
+
+  <!-- <div  style="position: absolute;top: 43px;z-index:100;display: block;height: 2.5px;background-color: #33cd5f;{{barwidth}}" ></div> -->
+  <ion-content style="" overflow-scroll="true" scroll="true">
+
+    <iframe id="bbsframe" ng-src ='{{navigation}}' height="100%" width="100%">
+      <p>Your browser does not support iframes.</p>
+      </iframe>
+
+      <iframe id="bbsframe_login" ng-src ='{{navigation_login}}' height="100%" width="100%" ng-show=false>
+      <p>Your browser does not support iframes.</p>
+      </iframe>
+  </ion-content>
+          
+</ion-view>

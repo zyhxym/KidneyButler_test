@@ -1,0 +1,60 @@
+<ion-view cache-view="false" title="诊断信息" >
+
+    <ion-nav-bar  class="bar-dark nav-title-slide-ios7 green-bg">
+      <ion-nav-buttons side="left" >
+         <button class="button button-clear"  ng-click="Goback()"><i class="icon ion-ios-arrow-back font-white"></i></button>
+      </ion-nav-buttons>
+    </ion-nav-bar>
+
+
+  <ion-content padding="true" style="">
+
+    <ion-list>
+      <ion-item ng-repeat="diagnosis in Diags" class="item-text-wrap" ng-click="">
+        <div class="row">
+            <h2 class="col" style="color: #181544;font-weight: bold">{{diagnosis.doctor.name}}</h2>
+            <p class="col" style="color: #181544;font-size:12px;text-align:right">{{diagnosis.time|dateFormat:"YYYY-MM-DD"}}</p>
+        </div>
+  
+        <div class="row">
+            <div class="col">肾病类型</div>
+            <select style="float: right;" class="col" ng-disabled="true" ng-model="diagnosis.name" ng-options=" Disease.typeName for Disease in Diseases track by Disease.type">
+            <!-- <p style="text-align:right;width:50%">{{diagnosis.name}}</p> -->
+        </div>
+
+        <div class="row" ng-if="diagnosis.showProgress">
+            <div class="col">疾病进程</div>
+            <select class="col" ng-disabled="true" ng-model="diagnosis.progress" ng-options=" DiseaseDetail.name for DiseaseDetail in diagnosis.DiseaseDetails track by DiseaseDetail.code">
+            </select>
+        </div>
+
+        <div class="row" ng-if="diagnosis.showSurgicalTime">
+
+            <div class="col">{{diagnosis.timename}}</div>
+            <p class="col" style="text-align:right;width:50%">{{diagnosis.operationTime|dateFormat:"YYYY-MM-DD"||"未诊断"}}</p>
+        </div>
+
+        <div class="row">
+            <div  class="col" >是否高血压</div>
+            <!-- <p style="text-align:right;width:50%">{{diagnosis.hypertension||"未诊断"}}</p> -->
+            <select  class="col" ng-disabled="true" ng-model="diagnosis.hypertension" ng-options="Hyper.Name for Hyper in Hypers track by Hyper.Type">
+            </select>
+        </div>
+
+        <div class="row">
+            <div class="col" >诊断内容</div>
+            <p class="col" style="text-align:right;width:50%">{{diagnosis.content||"未诊断"}}</p>
+        </div>
+
+        
+      </ion-item>
+    </ion-list>
+    <div class="card" ng-if="noDiags">
+        <div class="item item-text-wrap">
+            暂时没有诊断信息
+        </div>
+      </div>
+    <ion-refresher pulling-text="下拉刷新..." on-refresh="do_refresher()"></ion-refresher>  
+  </ion-content>
+          
+</ion-view>

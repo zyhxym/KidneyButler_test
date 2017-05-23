@@ -1,0 +1,55 @@
+<ion-view cache-view="false" title="健康信息" >
+
+  <ion-nav-bar class="bar-positive green-bg green-bg" style="" >
+      <ion-nav-buttons  side="left" >
+         <button class="button button-clear"  ng-click="Goback()"><i class=" icon ion-ios-arrow-back font-white"></i></button>
+      </ion-nav-buttons>
+      <ion-nav-buttons  side="right" >
+         <button class="button button-clear" ng-click="newHealth()"><i class="icon ion-plus-round"></i></button>
+      </ion-nav-buttons>
+    </ion-nav-bar>
+  <!--<ion-nav-bar class="bar-dark nav-title-slide-ios7 green-bg" style="" >
+    <ion-nav-buttons side="left">
+      <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="$ionicGoBack()"></button>
+    </ion-nav-buttons>
+  </ion-nav-bar>-->
+
+
+  <ion-content  class="padding">
+    <ion-list>
+      <div class="card" ng-repeat="item in items" ng-click="gotoHealthDetail($event,item)">
+        <div class="row">
+            <p class="col" style="text-align: left;font-weight: bold;">{{item.label}}</p>
+            <p class="col" style="text-align:center;">{{item.time|dateFormat:"YYYY-MM-DD"}}</p>
+            <span class="col" style="text-align:right;"><i class="icon ion-trash-a" style="font-size: 20px;"></i></span>
+        </div>
+        
+        <div class="row">
+            <p style="margin-left:2%">{{item.description}}</p>
+        </div>
+
+        <ion-item class="row row-wrap" style="border:none; text-align:center; height:100%;">
+            <div class="col col-33" ng-repeat = "img in item.url">
+                <img ng-src="{{img}}" style="height:100%; width:100%;max-height: 87px;max-height: 119px">
+            </div>
+        </ion-item>
+
+      </div>
+    </ion-list>
+    <div class="card" ng-if="noHealth">
+        <div class="item item-text-wrap">
+            您还没有健康信息，可通过右上角加号添加！
+        </div>
+      </div>
+    
+
+  
+    <ion-refresher pulling-text="下拉刷新..." on-refresh="do_refresher()"></ion-refresher>
+    
+
+
+
+
+  </ion-content>
+
+</ion-view>

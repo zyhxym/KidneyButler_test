@@ -1,0 +1,18 @@
+<div class="msgbox no-bubble-color {{'msgbox-'+msg.direct}}"">
+    <div ng-if="msg.diff" class="msg-time"><span>{{msg.createTimeInMillis | msgdate}}</span></div>
+    <!-- avatar -->
+    <img class="avatar" ng-src="{{photourls[msg.fromID] || 'img/DefaultAvatar.jpg'}}" ng-click="emitEvent('profile',msg)"/>
+    <div class="media-card msg-body" on-hold="emitEvent('holdmsg',msg.createTimeInMillis,$event)" ng-click="emitEvent('viewcard',msg,$event)">
+        <div class="card-title">患者使用在线{{counsel.type=='1'?'咨询':'问诊'}}服务</div>
+        <hr/>
+        <div class="info">
+            <p><span>主题</span>{{counsel.symptom}}</p>
+            <p><span>发病时间</span> {{counsel.sickTime}}</p>
+            <p><span>就诊医院</span> {{counsel.hospital}}</p>
+            <p><span>就诊时间</span>{{counsel.visitDate.substr(0,10)}}</p>
+            <p><span>诊断结果</span>{{counsel.diagnosis}}</p>
+            <p><span>期望的帮助</span>{{counsel.help}}</p>
+        </div>
+    </div>
+    <div ng-if="msg.status=='send_fail'" class="msg-fail"><span><i class="icon ion-android-warning"></i>发送失败</span></div>
+</div>

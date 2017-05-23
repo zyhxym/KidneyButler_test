@@ -1,0 +1,23 @@
+<ion-view cache-view="false" title="工作人员入口">
+  <ion-nav-bar class="bar-dark nav-title-slide-ios7 green-bg" style="" >
+     <ion-nav-buttons class="bar-dark nav-title-slide-ios7" side="left" >
+         <button class="button button-clear"  ng-click="Goback()"><i class="icon ion-ios-arrow-back font-white"></i></button>
+      </ion-nav-buttons>
+  </ion-nav-bar>
+  <div  style="position: absolute;top: 43px;z-index:100;display: block;height: 2px;background-color: #33cd5f;{{barwidth}}" ></div>
+  <ion-content padding="true"  style=" padding-left:0%;padding-right:0%;background : -webkit-linear-gradient(bottom, rgb(101, 98, 160) 00%, rgb(0, 0, 0) 99%);">
+    <div class="list list-inset" style="margin-bottom:0">
+      <label class="item item-input" >
+        <span class="input" style="margin-right:16px"><i class="icon ion-person"></i></span>
+        <input type="tel"  ng-model="logiin.username" placeholder="用户名" >
+      </label>
+      <label class="item item-input">
+        <span class="input" style="margin-right:16px"><i class="icon ion-locked"></i></span>
+        <input type="password" ng-model="login.password" placeholder="密 码" >
+      </label>
+  </div>
+  <div class="text-center hide-on-keyboard-open" style="color:#000000;width: 100%">
+      <button ion-button full ng-click="stafflogin()">登陆</button>
+    </div>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,102 @@
+<ion-view cache-view="false" title="肾病信息">
+  <ion-nav-bar class="bar-positive green-bg" align-title="center">
+    <!-- <ion-nav-buttons side="left">
+      <button class="button button-icon" ng-click="backtoBasic()">上一步</button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+      <button class="button  button-icon" ng-click ="nexttoquestion()">
+        继续
+      </button>
+    </ion-nav-buttons> -->
+  </ion-nav-bar>
+  <div  style="position: absolute;top: 43px;z-index:100;display: block;height: 2.5px;background-color: #33cd5f;{{barwidth}}" ></div>
+  <ion-content  class="padding">
+
+    <div  class="list">
+      <ionic-datepicker padding="true" input-obj="datepickerObject4" class="item item-input" style="border: 0;border-bottom: 1px solid #ddd;margin: 0">
+          <i class="iconfont icon-shijian" style="font-size: 24px;vertical-align: top;margin-right: 5px"></i>
+          <span class="input-label">
+          慢性肾病首次发病时间
+        </span>
+        <input  ng-model="Questionare.LastDiseaseTime" dateformat  type="text">
+      </ionic-datepicker>
+    <div>
+    
+    <div  class="col col-50" style="font-size:15px;font-weight: bold;margin-bottom:10px;margin-top: 10px"><i class="iconfont icon-keshishouyaohuizhen" style="font-size: 24px;vertical-align: middle;margin-right: 5px"></i>最近就诊信息</div>        
+          
+      <label class="item item-input" style="margin:  0 10px;border-left: 0;border-right: 0;border-top: 0">
+        <span class="input-label" style="margin-left:8px ">就诊医院</span>
+        <input  ng-model="Questionare.LastHospital"  type="text">
+      </label>
+
+      <ionic-datepicker input-obj="datepickerObject1" class="item item-input" style="margin:  0 10px;border-left: 0;border-right: 0;border-top: 0">
+        <span class="input-label" style="margin-left:8px ">诊断日期</span>
+        <input  ng-model="Questionare.LastVisitDate" dateformat type="text">
+      </ionic-datepicker>
+
+        <label class="item item-input" style="margin-bottom: 0;margin:  0 10px;border-left: 0;border-right: 0;border-top: 0" >
+        <span class="input-label" style="margin-left:8px;">诊断结果</span>
+        <input  ng-model="Questionare.LastDiagnosis"  type="text">
+      </label>
+    </div>
+    
+    <div class="row" style="font-size:15px;font-weight: bold;margin-top: 10px">
+        <div class="col"><i class="iconfont icon-xiangji" style="font-size: 24px;vertical-align: middle;margin-right: 5px"></i>
+          添加健康信息</div>
+        <div class="col" style="text-align: right;">
+            <i class="icon ion-plus-round" style="font-size: 24px;vertical-align: middle;margin-right: 5px" ng-click="addnewimage($event)"></i>
+        </div> 
+    </div>
+       
+      
+      <!-- </ionic-datepicker> -->
+    <ion-list>
+      <div class="card" ng-repeat="item in items | orderBy:'-time'" ng-click="gotoEditHealth($event,item)">
+        <div class="row">
+            <p class="col" style="text-align: left;font-weight: bold;">{{item.label}}</p>
+            <p class="col" style="text-align:center;">{{item.time|dateFormat:"YYYY-MM-DD"}}</p>
+            <span class="col" style="text-align:right;"><i class="icon ion-trash-a" style="font-size: 20px;"></i></span>
+        </div>
+        
+        <div class="row">
+            <p style="margin-left:2%">{{item.description}}</p>
+        </div>
+
+        <ion-item class="row row-wrap" style="border:none; text-align:center; height:100%;">
+            <div class="col col-33" ng-repeat = "img in item.url">
+                <img ng-src="{{img}}" style="height:100%; width:100%;max-height: 87px;max-height: 119px">
+            </div>
+        </ion-item>
+
+      </div>
+    </ion-list>
+
+      
+
+       
+   
+    
+
+
+
+    <button style="margin-top:0" class="button button-block green-bg font-white" ng-click ="nexttoquestion()">
+            下一步
+      </button>
+      <button style="margin-top:0" class="button button-block green-bg font-white" class="button button-clear" ng-click="backtoBasic()">上一步
+      </button>
+
+
+
+
+    <!-- </div> -->
+     <!-- <button style="margin-top:0" class="button button-block button-balanced green-bg mg-10" class="button button-clear" ng-click="backtoBasic()">上一步
+    </button>-->
+
+
+
+
+
+
+  </ion-content>
+
+</ion-view>
