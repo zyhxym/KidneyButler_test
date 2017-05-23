@@ -2137,7 +2137,7 @@ return self;
             //  url:'patient_class'
            // }
     self.settingConfig = function(params){
-        params.role = "test";
+        params.role = "patient";
         var deferred = $q.defer();
         Data.wechat.settingConfig(
             params,
@@ -2153,7 +2153,7 @@ return self;
             //  code:'3'
             // }
     self.getUserInfo = function(params){
-        params.role = "test";
+        params.role = "patient";
         var deferred = $q.defer();
         Data.wechat.getUserInfo(
             params,
@@ -2170,7 +2170,7 @@ return self;
             //  name:
             // }
     self.download = function(params){
-        params.role = "test";
+        params.role = "patient";
         var deferred = $q.defer();
         Data.wechat.download(
             params,
@@ -2187,7 +2187,7 @@ return self;
             //  orderno:通过insertOrder得到的订单号
             // }
     self.addOrder = function(params){
-        params.role = "test";
+        params.role = "patient";
         var deferred = $q.defer();
         Data.wechat.addOrder(
             params,

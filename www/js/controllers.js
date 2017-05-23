@@ -369,7 +369,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                               User.setOpenId({phoneNo:Verify.Phone,openId:Storage.get('openid')}).then(function(data){
                                   if(data.results == "success!")
                                   {
-                                    User.setMessageOpenId({type:2,userId:tempuserId,openId:Storage.get('messageopenid')}).then(function(res){
+                                    User.setMessageOpenId({type:5,userId:tempuserId,openId:Storage.get('messageopenid')}).then(function(res){
                                         console.log("setopenid");
                                     },function(){
                                         console.log("连接超时！");
@@ -1055,7 +1055,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                                                       User.setOpenId({phoneNo:Storage.get('USERNAME'),openId:Storage.get('openid')}).then(function(data){
                                                           if(data.results == "success!")
                                                           {
-                                                            User.setMessageOpenId({type:2,userId:patientId,openId:Storage.get('messageopenid')}).then(function(res){
+                                                            User.setMessageOpenId({type:5,userId:patientId,openId:Storage.get('messageopenid')}).then(function(res){
                                                                 console.log("setopenid");
                                                             },function(){
                                                                 console.log("连接超时！");
@@ -1140,7 +1140,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                         User.setOpenId({phoneNo:Storage.get('USERNAME'),openId:Storage.get('openid')}).then(function(data){
                             if(data.results == "success!")
                             {
-                                    User.setMessageOpenId({type:2,userId:Storage.get('UID'),openId:Storage.get('messageopenid')}).then(function(res){
+                                    User.setMessageOpenId({type:5,userId:Storage.get('UID'),openId:Storage.get('messageopenid')}).then(function(res){
                                         console.log("setopenid");
                                     },function(){
                                         console.log("连接超时！");
@@ -3961,7 +3961,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                 newsType:11,
                 content:notice
             }
-            socket.emit('message',{msg:msgJson,to:$scope.params.chatId,role:'test'});
+            socket.emit('message',{msg:msgJson,to:$scope.params.chatId,role:'patient'});
         }
     }
     function noMore(){
@@ -4274,7 +4274,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
             // $scope.pushMsg(msgJson);
             // toBottom(true);
         // }
-        socket.emit('message',{msg:msgJson,to:$scope.params.chatId,role:'test'});
+        socket.emit('message',{msg:msgJson,to:$scope.params.chatId,role:'patient'});
         toBottom(true);
     }
     function onSendSuccess(res) {
@@ -5829,7 +5829,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                             }
                         }
                         socket.emit('newUser',{user_name:Storage.get('UID'),user_id:Storage.get('UID')});
-                        socket.emit('message',{msg:msgJson,to:id,role:'test'});
+                        socket.emit('message',{msg:msgJson,to:id,role:'patient'});
                         socket.on('messageRes',function(data){
                           socket.off('messageRes');
                           socket.emit('disconnect');
@@ -6333,7 +6333,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                           }
                       }
                       socket.emit('newUser',{user_name:Storage.get('UID'),user_id:Storage.get('UID')});
-                      socket.emit('message',{msg:msgJson,to:DoctorId,role:'test'});
+                      socket.emit('message',{msg:msgJson,to:DoctorId,role:'patient'});
                       socket.on('messageRes',function(data){
                         socket.off('messageRes');
                         socket.emit('disconnect');
@@ -7637,7 +7637,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                 content:msgContent
             }
             socket.emit('newUser',{user_name:$scope.BasicInfo.name,user_id:patientId});
-            socket.emit('message',{msg:msgJson,to:DoctorId,role:'test'});
+            socket.emit('message',{msg:msgJson,to:DoctorId,role:'patient'});
             socket.on('messageRes',function(messageRes){
                 socket.off('messageRes');
                 socket.emit('disconnect');
@@ -7681,7 +7681,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                             .then(function(con){
                                 console.log(con);
                                 socket.emit('newUser',{user_name:'陈江华'.name,user_id:DoctorId});
-                                socket.emit('message',{msg:msgTeam,to:team.teamId,role:'test'});
+                                socket.emit('message',{msg:msgTeam,to:team.teamId,role:'patient'});
                                 socket.on('messageRes',function(messageRes){
                                     socket.off('messageRes');
                                     socket.emit('disconnect');
