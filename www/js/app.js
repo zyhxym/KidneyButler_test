@@ -132,6 +132,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                     // },function(){
                     //     console.log("连接超时！");
                     // })
+                    var results = null
                     $q.all([
                       User.getAgree({userId:data.results.userId}).then(function(res){
                         results.push(res)
