@@ -3295,7 +3295,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     console.log(res.results.photoUrl)
     // console.log(angular.fromJson(res.results))
     if(res.results.photoUrl==undefined||res.results.photoUrl==""){
-      $scope.myAvatar="img/DefaultAvatar.jpg"
+      $scope.myAvatar=Storage.get('wechathead')
     }else{
       $scope.myAvatar=res.results.photoUrl;
     }

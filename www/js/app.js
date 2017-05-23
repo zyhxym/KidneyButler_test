@@ -109,17 +109,17 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                     Storage.set('TOKEN',data.results.token);//token作用目前还不明确
                     Storage.set('isSignIn',"Yes");
                     Storage.set('UID',data.results.userId);
-                    Patient.getPatientDetail({userId:Storage.get("UID")}).then(function(res){
-                      console.log(Storage.get("UID"))
-                      // console.log(res.results)
-                      console.log(res.results.photoUrl)
-                      // console.log(angular.fromJson(res.results))
-                      if(res.results.photoUrl==undefined||res.results.photoUrl==""){
-                        Patient.editPatientDetail({userId:Storage.get("UID"),photoUrl:wechatData.headimgurl}).then(function(r){
-                          console.log(r);
-                        })
-                      }
-                    })
+                    // Patient.getPatientDetail({userId:Storage.get("UID")}).then(function(res){
+                    //   console.log(Storage.get("UID"))
+                    //   // console.log(res.results)
+                    //   console.log(res.results.photoUrl)
+                    //   // console.log(angular.fromJson(res.results))
+                    //   if(res.results.photoUrl==undefined||res.results.photoUrl==""){
+                    //     Patient.editPatientDetail({userId:Storage.get("UID"),photoUrl:wechatData.headimgurl}).then(function(r){
+                    //       console.log(r);
+                    //     })
+                    //   }
+                    // })
                     User.getMessageOpenId({type:2,userId:Storage.get("UID")}).then(function(res){
                         if (res.results == undefined || res.results == null)
                         {
