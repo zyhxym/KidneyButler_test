@@ -130,11 +130,27 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                       })
                     ]).then(function(){
                       console.log(results)
-                      if(results[0].results.agreement=="0")
+                      var a,b,c;
+                      for(var i in results)
                       {
-                        if (results[2].results != null)
+                        if (results[i].results.agreement != undefined)
                         {
-                          if(results[2].results.photoUrl==undefined||results[2].results.photoUrl==""){
+                          a=i;
+                        }
+                        else if (results[i].recentDiagnosis != undefined)
+                        {
+                          b=i;
+                        }
+                        else
+                        {
+                          c=i;
+                        }
+                      }
+                      if(results[a].results.agreement=="0")
+                      {
+                        if (results[b].results != null)
+                        {
+                          if(results[b].results.photoUrl==undefined||results[b].results.photoUrl==""){
                             Patient.editPatientDetail({userId:Storage.get("UID"),photoUrl:wechatData.headimgurl}).then(function(r){
                               $state.go('tab.tasklist');
                             })
