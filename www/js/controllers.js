@@ -65,6 +65,14 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
             return;
         }
       else{
+            User.getUserId({phoneNo:logOn.username}).then(function(data){
+                if (data.UserId && data.roles) 
+                {
+                  User.setMessageOpenId({type:2,userId:data.UserId,openId:Storage.get('messageopenid')}).then(function(res){
+                  },function(err){
+                  })
+                }
+            })
             Storage.set('USERNAME',logOn.username);
             var logPromise = User.logIn({username:logOn.username,password:logOn.password,role:"patient"});
             logPromise.then(function(data){
@@ -1364,7 +1372,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     })
   }
 
-  $scope.hasUnreadMessages = false;
+  $scope.HasUnreadMessages  = false;
     $scope.GoToMessage = function(){
         Storage.set('messageBackState',$ionicHistory.currentView().stateId);
         $state.go('messages');
@@ -3496,55 +3504,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
   $scope.Goback = function(){
     $state.go('tab.mine')
   }
-  //根据患者ID查询其咨询记录,对response的长度加一定限制
 
-    // var patientID = Storage.get('UID');
-    // console.log(patientID);
-    // var patientID = 'p01';
-
-    // function msgNoteGen(msg){
-    //     var fromName='',note='';
-    //     if(msg.targetType=='group') fromName=msg.fromName+ ':';
-        
-    //     if(msg.contentType=='text'){
-    //         note=msg.content.text;
-    //     }else if(msg.contentType=='image'){
-    //         note='[图片]';
-    //     }else if(msg.contentType=='voice'){
-    //         note='[语音]';
-    //     }else if(msg.contentType=='custom'){
-    //         if(msg.content.contentStringMap.type='card') note='[患者病历]';
-    //         else if(msg.content.contentStringMap.type='contact') note='[联系人名片]';
-    //     }
-    //     return fromName +note;
-    // }
-
-    // function setSingleUnread(doctors){
-    //     return $q(function(resolve,reject){
-    //         if(window.JMessage){
-    //             window.JMessage.getAllSingleConversation(
-    //             function(data){
-    //                 if(data!=''){
-    //                     var conversations = JSON.parse(data);
-    //                     for(var i in doctors){
-    //                         var index=arrTool.indexOf(conversations,'targetId',doctors[i].userId);
-    //                         if(index!=-1){
-    //                             // doctors[i].unRead=conversations[index].unReadMsgCnt;
-    //                             doctors[i].latestMsg = msgNoteGen(conversations[index].latestMessage);
-    //                             doctors[i].lastMsgDate = conversations[index].lastMsgDate;
-    //                         }
-    //                     }
-    //                 }
-    //                 resolve(doctors);
-    //             },function(err){
-    //                 // $scope.doctors = doctors;
-    //                 resolve(doctors);
-    //             });
-    //         }else{
-    //             resolve(doctors);
-    //         }
-    //     });
-    // }
     $scope.noConsult = false;
 
     //过滤重复的医生 顺序从后往前，保证最新的一次咨询不会被过滤掉
@@ -3579,8 +3539,14 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                                     if(FilteredDoctors[x].userId==data.results[y].sendBy||FilteredDoctors[x].userId==data.results[y].userId){
                                         FilteredDoctors[x].lastMsgDate = data.results[y].time;
                                         FilteredDoctors[x].latestMsg = data.results[y].description;
-                                        data.results[y].url = JSON.parse(data.results[y].url);
-                                        FilteredDoctors[x].readOrNot = data.results[y].readOrNot || ( MyId == data.results[y].url.fromID ? 1:0);
+                                        try{
+                                            data.results[y].url = JSON.parse(data.results[y].url);
+                                            FilteredDoctors[x].readOrNot = data.results[y].readOrNot || ( MyId == data.results[y].url.fromID ? 1:0);
+                                        }
+                                        catch(e){
+                                            FilteredDoctors[x].readOrNot = data.results[y].readOrNot;
+                                        }
+                                        
                                     }
                                 }
                             }
@@ -5158,15 +5124,27 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                 console.log(data);
                 if(data.results.length){
 
-                    
+                    var mesFromDoc = new Array();
+                    var singleMes = new Object();
                     for(var x in data.results){
-                        getDocNamePhoto(data.results[x].sendBy,data.results[x]);
+                        var url = JSON.parse(data.results[x].url);
+                        singleMes.docName = url.fromName;
+                        singleMes.docPhoto = url.fromUser.avatarPath;
+                        singleMes.time = data.results[x].time;
+                        singleMes.description = data.results[x].description;
+                        mesFromDoc.push(singleMes);
+                        // console.log(JSON.parse(data.results[x].url).fromName);
+                        // getDocNamePhoto(data.results[x].sendBy,data.results[x]);
 
                     }
                     // console.log($scope.chats);
-                }
+                    // for(var x in data.results){
+                       
+                    //     getDocNamePhoto(data.results[x].sendBy,data.results[x]);
 
-                $scope.chats=data.results;
+                    // }
+                }
+                $scope.chats = mesFromDoc;
                     
                 
             },function(err){
