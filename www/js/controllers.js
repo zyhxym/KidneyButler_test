@@ -5126,25 +5126,14 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
                     var mesFromDoc = new Array();
                     var singleMes = new Object();
+                   
                     for(var x in data.results){
-                        var url = JSON.parse(data.results[x].url);
-                        singleMes.docName = url.fromName;
-                        singleMes.docPhoto = url.fromUser.avatarPath;
-                        singleMes.time = data.results[x].time;
-                        singleMes.description = data.results[x].description;
-                        mesFromDoc.push(singleMes);
-                        // console.log(JSON.parse(data.results[x].url).fromName);
-                        // getDocNamePhoto(data.results[x].sendBy,data.results[x]);
+                       
+                        getDocNamePhoto(data.results[x].sendBy,data.results[x]);
 
                     }
-                    // console.log($scope.chats);
-                    // for(var x in data.results){
-                       
-                    //     getDocNamePhoto(data.results[x].sendBy,data.results[x]);
-
-                    // }
                 }
-                $scope.chats = mesFromDoc;
+                $scope.chats=data.results;
                     
                 
             },function(err){

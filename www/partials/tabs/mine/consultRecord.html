@@ -10,7 +10,7 @@
   <!-- <div  style="position: absolute;top: 43px;z-index:100;display: block;height: 2.5px;background-color: #33cd5f;{{barwidth}}" ></div> -->
   <ion-content class="padding">
 
-    <div class="list bg-fa">
+    <div>
         <a  class="item item-avatar context-pading m-b5 br-none fc-4c" ng-repeat="item in items |orderBy:['readOrNot','-lastMsgDate']" class="item item-avatar" ng-click="getConsultRecordDetail($event,item.userId)">
             <img  ng-src="{{item.photoUrl || 'img/DefaultAvatar.jpg'}} " image-red-point="!item.readOrNot">
             <div class="row">
