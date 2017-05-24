@@ -1846,13 +1846,15 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                } 
                else
                {
+                  var array = Description.split('，')
+                  var i = array.length
                   var temp = {
                                 "patientId": UserId,
                                 "type": VitalSignTbl[task.code].type,
                                 "code": VitalSignTbl[task.code].code,
                                 "date": dateNowStr,
                                 "datatime": new Date(),
-                                "datavalue": Description,
+                                "datavalue": array[i-1],
                                 "unit":task.Unit
                               }
                         
