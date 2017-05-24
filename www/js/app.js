@@ -155,19 +155,33 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                       }
                     })
                 }
+                else
+                {
+                  $state.go('signin');
+                }
 
             },function(err){
                 if(err.results==null && err.status==0){
                     $scope.logStatus = "网络错误！";
+                    $state.go('signin');
                     return;
                 }
                 if(err.status==404){
                     $scope.logStatus = "连接服务器失败！";
+                    $state.go('signin')
                     return;
                 }
-
+                $state.go('signin')
             });
+        },function(err){
+            console.log(err)
+            $state.go('signin')
+            // alert(2);
         });
+    }
+    else
+    {
+      $state.go('signin')
     }
 
     // var isSignIN=Storage.get("isSignIN");
@@ -572,7 +586,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
       controller: 'insurancestaffCtrl'
     });
 
-  $urlRouterProvider.otherwise('/signin');
+  // $urlRouterProvider.otherwise('/signin');
 
 
 
