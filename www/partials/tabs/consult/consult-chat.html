@@ -1,11 +1,9 @@
 <ion-view view-title="咨询详情" hide-tabs>
     <ion-nav-bar class="bar-positive">
-      <ion-nav-buttons side="left">
-        <button class="button button-icon icon ion-ios-arrow-back font-white" ng-click="goChats()"></button>
-      </ion-nav-buttons>
+        <ion-nav-buttons side="left">
+            <button class="button button-icon icon ion-ios-arrow-back font-white" ng-click="goChats()"></button>
+        </ion-nav-buttons>
     </ion-nav-bar>
-
-
     <ion-content delegate-handle="myContentScroll" class="gray-back">
         <ion-refresher on-refresh="DisplayMore()"></ion-refresher>
         <div class="text-center padding hide-animate ng-hide" ng-hide="params.moreMsgs">没有更多消息了</div>
@@ -13,36 +11,33 @@
         <div style="float:left;width:100%;" ng-style="{'padding-top':'{{params.helpDivHeight}}px'}"></div>
         <div style="float:left;width:100%;padding-top:70px"></div>
     </ion-content>
-
-
-  <form name="sendMessageForm" novalidate>
-    <div class="chat-bar">
-      <div class="chat-top">
-          <!-- <button style="position: absolute;bottom: 2px;z-index: 999" class="button button-icon iconfont  icon-yuyin" ng-init="showVoice=false;" ng-click="showVoice==false?showVoice=true:showVoice=false;showMore=false;" ng-model="showVoice"></button> -->
-          <div class="chat-input" style="position: absolute;bottom: 4px;width: 100%;padding-left:3vw;padding-right:13vw;">
-              <textarea style="resize:none;width:100%;min-height:1.4em;height:1.6em;font-size:1.2em;line-height:20px;border-bottom:1px #AAA solid" ng-model="input.text" ng-focus="showMore=false;showVoice=false;scrollBottom()" minlength="1" maxlength="500" dynamic-height></textarea>
-          </div>
-          <!-- <button style="width:2.6em;position:absolute;right:50px;padding:0"  class="button button-icon  iconfont icon-biaoqing" type="submit" ></button> -->
-          <button style="width:2.6em;position:absolute;right:4px;bottom: 4px;padding:0" class="button button-icon  iconfont icon-add" type="submit" ng-show="!input.text || input.text === ''" ng-init="showMore=false;" ng-click="showMore==false?showMore=true:showMore=false;showVoice=false;" ng-model="showMore"></button>
-          <button style="width:2.6em;position:absolute;bottom:8px;right:9px;padding:0;font-size: 12px;min-height: 30px;height: 30px" class="button button-positive" type="submit" ng-hide="!input.text || input.text === ''" ng-click="submitMsg()">发送</button>
-      </div>
-  <!--     <div class="voice-box" ng-show="showVoice">
+    <form name="sendMessageForm" novalidate>
+        <div class="chat-bar">
+            <div class="chat-top">
+                <!-- <button style="position: absolute;bottom: 2px;z-index: 999" class="button button-icon iconfont  icon-yuyin" ng-init="showVoice=false;" ng-click="showVoice==false?showVoice=true:showVoice=false;showMore=false;" ng-model="showVoice"></button> -->
+                <div class="chat-input" style="position: absolute;bottom: 4px;width: 100%;padding-left:3vw;padding-right:13vw;">
+                    <textarea style="resize:none;width:100%;min-height:1.4em;height:1.6em;font-size:1.2em;line-height:20px;border-bottom:1px #AAA solid" ng-model="input.text" ng-focus="showMore=false;showVoice=false;scrollBottom()" minlength="1" maxlength="500" dynamic-height></textarea>
+                </div>
+                <!-- <button style="width:2.6em;position:absolute;right:50px;padding:0"  class="button button-icon  iconfont icon-biaoqing" type="submit" ></button> -->
+                <button style="width:2.6em;position:absolute;right:4px;bottom: 4px;padding:0" class="button button-icon  iconfont icon-add" type="submit" ng-show="!input.text || input.text === ''" ng-init="showMore=false;" ng-click="showMore==false?showMore=true:showMore=false;showVoice=false;" ng-model="showMore"></button>
+                <button style="width:2.6em;position:absolute;bottom:8px;right:9px;padding:0;font-size: 12px;min-height: 30px;height: 30px" class="button button-positive" type="submit" ng-hide="!input.text || input.text === ''" ng-click="submitMsg()">发送</button>
+            </div>
+            <!--     <div class="voice-box" ng-show="showVoice">
         <span class="chat-close" ng-click="showVoice=false;showMore=false;" ng-model="showVoice">×</span>
         <p>{{params.recording?'正在录音...':'按住开始说话'}}</p>
         <img src="img/icon_voice2@2x.png" alt="" on-hold="getVoice()" on-release="stopAndSend()">
       </div> -->
-      <div class="chat-more" ng-show="showMore" >
-        <span>
+            <div class="chat-more" ng-show="showMore">
+                <span>
           <img src="img/icon_photo@2x.png" ng-click="showMore=false;getImage('gallery')" alt="">
         </span>
-        <span>
+                <span>
           <img src="img/icon_shot@2x.png" ng-click="showMore=false;getImage('cam')" alt="">
         </span>
-<!--         <span>
+                <!--         <span>
           <img src="img/icon_card@2x.png" alt="">
         </span> -->
-      </div>
-    </div>
-  </form>
-
+            </div>
+        </div>
+    </form>
 </ion-view>

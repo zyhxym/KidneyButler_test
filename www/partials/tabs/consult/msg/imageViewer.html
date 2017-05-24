@@ -1,14 +1,10 @@
-<div class="modal image-modal" >
+<div class="modal image-modal">
     <div ng-click="closeModal()" class="modal-back" style="text-align:center;position: absolute;top:2em;left:2em;z-index:100;width:40px;height:40px;">
-	    <i style="font-size:2.8em;color:#FFF;text-shadow: 1.5px 1px 3px #555;" class="icon ion-ios-arrow-left"></i>
-	  </div>
-      <ion-scroll overflow-scroll="false" direction="xy" scrollbar-x="false" scrollbar-y="false"
-      zooming="true" min-zoom="{{zoomMin}}" paging="false" style="width: 100%; height: 100%"
-      delegate-handle="imgScrollHandle" on-release="updateScrollStatus()">
- 
-      <div class="picBox"  ng-dblclick="switchZoomLevel()">
-			  <span></span><img id="bigPic" ng-src="{{imageUrl}}"/>
-			</div>
-			<!-- <img id="bigPic" class="ttt" ng-style="getStyle()" src="{{image.src}}"/> -->
+        <i style="font-size:2.8em;color:#FFF;text-shadow: 1.5px 1px 3px #555;" class="icon ion-ios-arrow-left"></i>
+    </div>
+    <ion-scroll overflow-scroll="false" direction="xy" scrollbar-x="false" scrollbar-y="false" zooming="true" min-zoom="{{zoomMin}}" paging="false" style="width: 100%; height: 100%" delegate-handle="imgScrollHandle" on-release="updateScrollStatus()">
+        <div class="picBox" ng-dblclick="switchZoomLevel()">
+            <span></span><img id="bigPic" ng-src="{{imageUrl}}" />
+        </div>
     </ion-scroll>
 </div>
