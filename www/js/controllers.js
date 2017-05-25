@@ -4071,12 +4071,12 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
             $http.get(msg.content.thumb).then(function(data){
                 $scope.msgs.push(msg);
                 toBottom(true,300);
-                $scope.msgCount++;
+                $scope.params.msgCount++;
             })
         }else{
             $scope.msgs.push(msg);
             toBottom(true,100);
-            $scope.msgCount++;
+            $scope.params.msgCount++;
         }
         
         // $scope.$apply(function(){
