@@ -3717,41 +3717,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
             {
                 // Storage.set('STATUSNOW',data.result.status);
                 $scope.params.counseltype = data.result.type=='3'?'2':data.result.type;
-
                 $scope.params.counsel = data.result;
-                // console.log(data)
-                // if(data.result.status==0)//没有未结束的问诊，再看看有没有未结束的咨询
-                // {   Storage.set('STATUSNOW',data.result.status);
-                //   $scope.params.counseltype=2;
-                //  }
-                // else if(data.result.status==1)//还有未结束的，先让你进去看看
-                // {  Storage.set('STATUSNOW',data.result.status);
-                //   $scope.params.counseltype=2;
-                //   }
-                //   else{ 
-                    // Counsels.getStatus({doctorId:$state.params.chatId,patientId:Storage.get('UID'),type:1})
-                    // .then(function(data)
-                    // {
-                    //     console.log(data)                       
-                    //     if(data.result.status==0)//没有未结束的，直接进去吧，但要提示进去能看，发的话要收你钱的
-                    //     {
-                    //         $scope.params.counseltype=1;
-                    //     Storage.set('STATUSNOW',data.result.status);
-                    //     }
-                    //     else if(data.result.status==1)//还有未结束的，先让你进去看看
-                    //     {   $scope.params.counseltype=1;
-                    //    Storage.set('STATUSNOW',data.result.status);
-                    //     }
-                    
-                    // },function(err)
-                    // {
-                    //     console.log(err)
-                    // })
-                // }
-                    //再看看有没有未结束的咨询
                 $scope.counselstatus=data.result.status;
-
-                
 
                 Account.getCounts({doctorId:$scope.params.chatId,patientId:Storage.get('UID')})
                 .then(function(res){
@@ -3813,29 +3780,29 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     $scope.$apply(function(){
                         $scope.pushMsg(data.msg);
                     });
+                
+                    News.insertNews({userId:Storage.get('UID'),sendBy:$scope.params.groupId,type:'11',readOrNot:1});
+                    setTimeout(function() {
+                        // if ($scope.params.counseltype == 1 && Storage.get('STATUSNOW') == 1) {
+                            Counsels.getStatus({ doctorId: $state.params.chatId, patientId: Storage.get('UID')})
+                                .then(function(data) {
+                                    console.log(data);
+                                    $scope.counselstatus=data.result.status;
+                                    // Storage.set('STATUSNOW', data.result.status);
+                                }, function(err) {
+                                    console.log(err)
+                                })
+                        // } else if ($scope.params.counseltype == 2 && Storage.get('STATUSNOW') == 1) {
+                            // Counsels.getStatus({ doctorId: $state.params.chatId, patientId: Storage.get('UID'), type: 2 })
+                            //     .then(function(data) {
+                            //         console.log(data)
+                            //         Storage.set('STATUSNOW', data.result.status);
+                            //     }, function(err) {
+                            //         console.log(err)
+                            //     })
+                        // }
+                    }, 5000);
                 }
-                News.insertNews({userId:Storage.get('UID'),sendBy:$scope.params.groupId,type:'11',readOrNot:1});
-                setTimeout(function() {
-                    // if ($scope.params.counseltype == 1 && Storage.get('STATUSNOW') == 1) {
-                        Counsels.getStatus({ doctorId: $state.params.chatId, patientId: Storage.get('UID')})
-                            .then(function(data) {
-                                console.log(data);
-                                $scope.counselstatus=data.result.status;
-                                // Storage.set('STATUSNOW', data.result.status);
-                            }, function(err) {
-                                console.log(err)
-                            })
-                    // } else if ($scope.params.counseltype == 2 && Storage.get('STATUSNOW') == 1) {
-                        // Counsels.getStatus({ doctorId: $state.params.chatId, patientId: Storage.get('UID'), type: 2 })
-                        //     .then(function(data) {
-                        //         console.log(data)
-                        //         Storage.set('STATUSNOW', data.result.status);
-                        //     }, function(err) {
-                        //         console.log(err)
-                        //     })
-                    // }
-                }, 5000);
-
             });
             socket.on('messageRes',function(data){
                 console.info('messageRes');
@@ -4166,78 +4133,6 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         var alertPopup = $ionicPopup.alert({
              title: '本次咨询已结束',
            });
-
-           // alertPopup.then(function(res) {
-           //   console.log('Thank you for not eating my delicious ice cream cone');
-           // });
-        // var overwarn = $ionicPopup.confirm({
-        //     title:"您没有提问次数了",
-        //     template:"是否要再次购买，一次购买增加3次提问",
-        //     okText:"确认",
-        //     cancelText:"取消"
-        // });
-        // overwarn.then(function(confirm){
-        //     if(confirm){
-        //         var t = new Date();
-        //         t = $filter("date")(t, "yyyy-MM-dd HH:mm:ss");
-        //         var neworder = {
-        //             userId:$scope.params.UID,
-        //             money:1,
-        //             goodsInfo:{
-        //               class:'01',
-        //               name:$scope.params.counsel.doctorId.name,
-        //               notes:$scope.params.chatId
-        //             },
-        //             paystatus:0,
-        //             paytime: t
-        //         }
-        //         payment.payment(neworder)
-        //         .then(function(res){
-        //             console.log(res);
-        //             if (res.errMsg == "chooseWXPay:ok")
-        //             {
-        //               $ionicLoading.show({
-        //                   template:'咨询提问购买成功',
-        //                   duration:1000
-        //               });
-        //               var msgJson={
-        //                   contentType:type,
-        //                   fromID:$scope.params.UID,
-        //                   fromName:thisPatient.name,
-        //                   fromUser:{
-        //                       avatarPath:''
-        //                   },
-        //                   targetID:$scope.params.chatId,
-        //                   targetName:$scope.params.counsel.doctorId.name,
-        //                   targetType:'single',
-        //                   status:'send_going',
-        //                   createTimeInMillis: Date.now(),
-        //                   newsType:'11',
-        //                   content:{
-        //                       type:'counsel-payment'
-        //                   }
-        //               }
-        //               socket.emit('message',{msg:msgJson,to:$scope.params.chatId,role:'patient'});
-        //               $scope.counselstatus='1';
-        //             }
-        //             else
-        //             {
-        //               $ionicLoading.show({
-        //                 template:'支付失败，请重新尝试！',
-        //                 duration:2000
-        //             });
-        //             }
-        //         },function(err){
-        //             $ionicLoading.show({
-        //                 template:'购买失败',
-        //                 duration:2000
-        //             });
-        //             console.error(err);
-        //         })
-        //        //患者知道已经结束了点击了确定
-        //     }
-
-        // })
     }
     function sendmsg(content,type){
         // if($scope.counselstatus!=1) return nomoney();
@@ -4260,6 +4155,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     }
     $scope.submitMsg = function() {
         if($scope.counselstatus!=1) return nomoney();
+        var actionUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxab9c316b3076535d&redirect_uri=http://proxy.haihonghospitalmanagement.com/go&response_type=code&scope=snsapi_userinfo&state=doctor_11_'+ $scope.params.counseltype+'_'+$scope.params.UID+'_'+$scope.params.counsel.counselId+ '&#wechat_redirect';
         var template = {
             "userId": $scope.params.chatId, //医生的UID
             "role": "doctor",
