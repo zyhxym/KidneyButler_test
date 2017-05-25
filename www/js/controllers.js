@@ -5654,7 +5654,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     },function(err){
                       console.log(err)
                     })
-                    Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:1,doctorName:docname,money:0}).then(function(data){
+                    Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:'咨询',doctorName:docname,money:0}).then(function(data){
                       console.log(data)
                     },function(err){
                       console.log(err)
@@ -5697,7 +5697,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     if (data.errMsg == "chooseWXPay:ok")
                     {
                       chargemoney = data.money
-                      Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:1,doctorName:docname,money:chargemoney}).then(function(data){
+                      Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:'咨询',doctorName:docname,money:chargemoney}).then(function(data){
                         console.log(data)
                       },function(err){
                         console.log(err)
@@ -5774,7 +5774,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                       if(data.result=="修改成功"){
                         //确认新建咨询之后 给医生账户转积分 其他新建都在最后提交的时候转账 但是升级是在这里完成转账
                         //chargedoc
-                        Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:3,doctorName:docname,money:chargemoney}).then(function(data){
+                        Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:'升级',doctorName:docname,money:chargemoney}).then(function(data){
                           console.log(data)
                         },function(err){
                           console.log(err)
@@ -5895,7 +5895,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                       if (data.errMsg == "chooseWXPay:ok")
                       {
                         chargemoney = data.money
-                        Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:3,doctorName:docname,money:chargemoney}).then(function(data){
+                        Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:'升级',doctorName:docname,money:chargemoney}).then(function(data){
                           console.log(data)
                         },function(err){
                           console.log(err)
@@ -5951,7 +5951,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                       if (data.errMsg == "chooseWXPay:ok")
                       {
                         chargemoney = data.money
-                        Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:2,doctorName:docname,money:chargemoney}).then(function(data){
+                        Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:'问诊',doctorName:docname,money:chargemoney}).then(function(data){
                           console.log(data)
                         },function(err){
                           console.log(err)
@@ -6151,7 +6151,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
               }).then(function(res){
                 if(res){
                   $scope.consultable=1
-                  Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:1,doctorName:docname,money:0}).then(function(data){
+                  Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:'咨询',doctorName:docname,money:0}).then(function(data){
                     console.log(data)
                   },function(err){
                     console.log(err)
@@ -6201,7 +6201,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                   if (data.errMsg == "chooseWXPay:ok")
                   {
                     chargemoney = data.money
-                    Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:1,doctorName:docname,money:chargemoney}).then(function(data){
+                    Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:'咨询',doctorName:docname,money:chargemoney}).then(function(data){
                       console.log(data)
                     },function(err){
                       console.log(err)
@@ -6278,7 +6278,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     if(data.result=="修改成功"){
                       //确认新建咨询之后 给医生账户转积分 其他新建都在最后提交的时候转账 但是升级是在这里完成转账
                       //chargedoc
-                      Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:3,doctorName:docname,money:chargemoney}).then(function(data){
+                      Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:'升级',doctorName:docname,money:chargemoney}).then(function(data){
                         console.log(data)
                       },function(err){
                         console.log(err)
@@ -6392,7 +6392,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     if (data.errMsg == "chooseWXPay:ok")
                     {
                       chargemoney = data.money
-                      Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:3,doctorName:docname,money:chargemoney}).then(function(data){
+                      Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:'升级',doctorName:docname,money:chargemoney}).then(function(data){
                         console.log(data)
                       },function(err){
                         console.log(err)
@@ -6447,7 +6447,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     if (data.errMsg == "chooseWXPay:ok")
                     {
                       chargemoney = data.money
-                      Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:2,doctorName:docname,money:chargemoney}).then(function(data){
+                      Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:'问诊',doctorName:docname,money:chargemoney}).then(function(data){
                         console.log(data)
                       },function(err){
                         console.log(err)
