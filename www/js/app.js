@@ -14,8 +14,17 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
     // alert(temp)
     if (angular.isDefined(temp[1]) == true)
     {
-        var code = temp[1].split('#')[0]
-        Storage.set('code',code)
+        if (angular.isDefined(temp[2]) == true)
+        {
+            var code = temp[1].split('&')[0]
+            var state = temp[2].split('#')[0]
+            Storage.set('code',code)
+        }
+        else
+        {
+            var code = temp[1].split('#')[0]
+            Storage.set('code',code)
+        }
     }
     var wechatData = ""
     if (angular.isDefined(code) == true)
@@ -110,66 +119,58 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                     Storage.set('isSignIn',"Yes");
                     Storage.set('UID',data.results.userId);
                     
-                    var results = []
-                    var errs = []
-                    $q.all([
-                      User.getAgree({userId:data.results.userId}).then(function(res){
-                        results.push(res)
-                      },function(err){
-                        errs.push(err)
-                      }),
-                      User.setMessageOpenId({type:2,userId:Storage.get("UID"),openId:Storage.get('messageopenid')}).then(function(res){
-                        results.push(res)
-                      },function(err){
-                        errs.push(err)
-                      }),
-                      Patient.getPatientDetail({userId:Storage.get('UID')}).then(function(res){
-                        results.push(res)
-                      },function(err){
-                        errs.push(err)
-                      })
-                    ]).then(function(){
-                      console.log(results)
-                      var a,b,c;
-                      for(var i in results)
-                      {
-                        if (results[i].results.agreement != undefined)
-                        {
-                          a=i;
-                        }
-                        else if (results[i].recentDiagnosis != undefined)
-                        {
-                          b=i;
-                        }
-                        else
-                        {
-                          c=i;
-                        }
-                      }
-                      if(results[a].results.agreement=="0")
-                      {
-                        if (results[b].results != null)
-                        {
-                          if(results[b].results.photoUrl==undefined||results[b].results.photoUrl==""){
-                            Patient.editPatientDetail({userId:Storage.get("UID"),photoUrl:wechatData.headimgurl}).then(function(r){
-                              $state.go('tab.tasklist');
+                    var results = [];
+                    var errs = [];
+
+                    var params = state.split('_');
+                    if(params.length && params[0]=='patient'){
+                        if(params[1]=='11') $state.go('tab.consult-chat',{chatId:params[3]});
+                    }else{
+                        $q.all([
+                            User.getAgree({ userId: data.results.userId }).then(function(res) {
+                                results.push(res)
+                            }, function(err) {
+                                errs.push(err)
+                            }),
+                            User.setMessageOpenId({ type: 2, userId: Storage.get("UID"), openId: Storage.get('messageopenid') }).then(function(res) {
+                                results.push(res)
+                            }, function(err) {
+                                errs.push(err)
+                            }),
+                            Patient.getPatientDetail({ userId: Storage.get('UID') }).then(function(res) {
+                                results.push(res)
+                            }, function(err) {
+                                errs.push(err)
                             })
-                          }
-                          else
-                          {
-                            $state.go('tab.tasklist');
-                          }
-                        }
-                        else
-                        {
-                          $state.go('userdetail',{last:'register'});
-                        }
-                      }
-                      else
-                      {
-                        $state.go('agreement',{last:'signin'});
-                      }
-                    })
+                        ]).then(function() {
+                            console.log(results)
+                            var a, b, c;
+                            for (var i in results) {
+                                if (results[i].results.agreement != undefined) {
+                                    a = i;
+                                } else if (results[i].recentDiagnosis != undefined) {
+                                    b = i;
+                                } else {
+                                    c = i;
+                                }
+                            }
+                            if (results[a].results.agreement == "0") {
+                                if (results[b].results != null) {
+                                    if (results[b].results.photoUrl == undefined || results[b].results.photoUrl == "") {
+                                        Patient.editPatientDetail({ userId: Storage.get("UID"), photoUrl: wechatData.headimgurl }).then(function(r) {
+                                            $state.go('tab.tasklist');
+                                        })
+                                    } else {
+                                        $state.go('tab.tasklist');
+                                    }
+                                } else {
+                                    $state.go('userdetail', { last: 'register' });
+                                }
+                            } else {
+                                $state.go('agreement', { last: 'signin' });
+                            }
+                        });
+                    }
                 }
                 else
                 {
