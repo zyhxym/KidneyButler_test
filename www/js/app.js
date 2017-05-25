@@ -18,6 +18,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
         {
             var code = temp[1].split('&')[0]
             var state = temp[2].split('#')[0]
+            var params = state.split('_');
             Storage.set('code',code)
         }
         else
@@ -122,8 +123,8 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                     var results = [];
                     var errs = [];
 
-                    var params = state.split('_');
-                    if(params.length && params[0]=='patient'){
+                    
+                    if(params.length > 1 && params[0]=='patient'){
                         if(params[1]=='11') $state.go('tab.consult-chat',{chatId:params[3]});
                     }else{
                         $q.all([
