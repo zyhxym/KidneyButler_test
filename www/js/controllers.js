@@ -1074,7 +1074,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                                                                   // $scope.User.weight = data.results;
                                                                   console.log($scope.User);
                                                                   
-                                                                  $state.go('tab.tasklist');
+                                                                  $state.go('signin');
                                                               },function(err){
                                                                   $ionicLoading.show({
                                                                       template: '注册失败',
@@ -1084,7 +1084,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                                                               });
                                                             }
                                                             else{
-                                                              $state.go('tab.tasklist');
+                                                              $state.go('signin');
                                                             }
                                                           }
                                                       },function(){
@@ -1097,7 +1097,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                                                             $scope.User.weight = data.results;
                                                             console.log($scope.User);
                                                             
-                                                            $state.go('tab.tasklist');
+                                                            $state.go('signin');
                                                         },function(err){
                                                             $ionicLoading.show({
                                                                 template: '注册失败',
