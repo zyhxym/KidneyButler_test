@@ -4161,6 +4161,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
             "role": "doctor",
             "postdata": {
                 "template_id": "cVLIgOb_JvtFGQUA2KvwAmbT5B3ZB79cRsAM4ZKKK0k",
+                "url":actionUrl,
                 "data": {
                     "first": {
                         "value": "您有一个新的"+($scope.params.counseltype==1?'咨询':'问诊')+"消息，请及时处理",
