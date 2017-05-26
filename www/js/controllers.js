@@ -6570,13 +6570,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     $state.go("insurance")
   }
 
-  $scope.Goback = function(){
-    $state.go("insurance")
-  }
 
-  $scope.Back = function(){
-    $ionicHistory.goBack()
-  }
 }])
 
 //肾病保险相关工具--TDY
@@ -6741,6 +6735,28 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         $scope.Kidneyfunction.KidneyfunctionValue = 141*Math.pow(($scope.Kidneyfunction.Creatinine/0.9),-1.209)*Math.pow(0.993,$scope.Kidneyfunction.Age)
       }
     }
+    else if ($scope.Kidneyfunction.CreatinineUnit == "μmol/dl" && $scope.Kidneyfunction.Gender == "Female")
+    {
+      if ($scope.Kidneyfunction.Creatinine <= 62)
+      {
+        $scope.Kidneyfunction.KidneyfunctionValue = 141*Math.pow(($scope.Kidneyfunction.Creatinine/0.9),-0.411)*Math.pow(0.993,$scope.Kidneyfunction.Age)
+      }
+      else
+      {
+        $scope.Kidneyfunction.KidneyfunctionValue = 141*Math.pow(($scope.Kidneyfunction.Creatinine/0.9),-1.209)*Math.pow(0.993,$scope.Kidneyfunction.Age)
+      }
+    }
+    else if ($scope.Kidneyfunction.CreatinineUnit == "μmol/dl" && $scope.Kidneyfunction.Gender == "Male")
+    {
+      if ($scope.Kidneyfunction.Creatinine <= 80)
+      {
+        $scope.Kidneyfunction.KidneyfunctionValue = 141*Math.pow(($scope.Kidneyfunction.Creatinine/0.9),-0.411)*Math.pow(0.993,$scope.Kidneyfunction.Age)
+      }
+      else
+      {
+        $scope.Kidneyfunction.KidneyfunctionValue = 141*Math.pow(($scope.Kidneyfunction.Creatinine/0.9),-1.209)*Math.pow(0.993,$scope.Kidneyfunction.Age)
+      }
+    }
     var kidneyclass = ""
     if ($scope.Kidneyfunction.KidneyfunctionValue >= 90)
     {
@@ -6762,7 +6778,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     {
       kidneyclass = "CDK 5期";
     }
-    alert("估算您的肾小球滤过率为：" + $scope.Kidneyfunction.KidneyfunctionValue + ",您处于" +kidneyclass)
+    alert("估算您的肾小球滤过率为：" + $scope.Kidneyfunction.KidneyfunctionValue.toFixed(2) + ",您处于" +kidneyclass)
   }
 
   $scope.resetkidneyfunction = function(){
@@ -6775,9 +6791,6 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     }
   }
 
-  $scope.Goback = function(){
-    $state.go("insurance");
-  }
 }])
 
 //肾病保险工作人员--TDY
