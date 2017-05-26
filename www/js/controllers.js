@@ -6776,7 +6776,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
   }
 
   $scope.Goback = function(){
-    $state.go("insurance")
+    $state.go("insurance");
   }
 }])
 

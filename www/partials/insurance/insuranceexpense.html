@@ -1,28 +1,25 @@
 <ion-view cache-view="false" title="保费计算小工具">
   <ion-nav-bar class="bar-positive green-bg" align-title="center">
     <ion-nav-buttons side="left">
-      <button class="button button-icon icon ion-ios-arrow-back font-white" ng-click="GoBack()"></button>
+      <button class="button button-icon icon ion-ios-arrow-back font-white" ng-click="$ionicGoBack()"></button>
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content padding="true">
-      <label class="item item-input">
+      <label class="item item-input item-select-custom">
           <i class="icon ion-asterisk" style="color:red;font-size:8px"></i><span class="input-label">投保年龄</span>
-
           <select  ng-model="InsuranceInfo.InsuranceAge" ng-options="InsuranceAge.Age as InsuranceAge.Age for InsuranceAge in InsuranceAges"></select>
       </label>
       <label  class="item item-input item-select-custom">
           <i class="icon ion-asterisk" style="color:red;font-size:8px"></i><span class="input-label">性别</span>
           <select  ng-model="InsuranceInfo.Gender" ng-options="Gender.Type as Gender.Name for Gender in Genders"></select>
       </label>
-      <label class="item item-input">
+      <label class="item item-input item-select-custom">
           <i class="icon ion-asterisk" style="color:red;font-size:8px"></i><span class="input-label">投保年限</span>
-
           <select  ng-model="InsuranceInfo.InsuranceTime" ng-options="Insurance.Time as Insurance.Time for Insurance in InsuranceTimes" ng-change="changeAge()"></select>
       </label>
       <label  class="item item-input item-select-custom">
           <i class="icon ion-asterisk" style="color:red;font-size:8px"></i><span class="input-label">计算类型</span>
           <select  ng-model="InsuranceInfo.CalculationType" ng-options="Calculation.Type as Calculation.Name for Calculation in CalculationTypes"></select>
-
       </label>
       <label class="item item-input">
           <i class="icon ion-asterisk" style="color:red;font-size:8px"></i><span class="input-label">输入金额</span>

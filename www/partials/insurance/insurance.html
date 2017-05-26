@@ -1,24 +1,23 @@
 <ion-view cache-view="false" title="肾病保险服务">
   <ion-nav-bar class="bar-positive green-bg" align-title="center">
     <ion-nav-buttons side="left">
-      <button class="button button-icon icon ion-ios-arrow-back font-white" ng-click="Back()"></button>
+      <button class="button button-icon icon ion-ios-arrow-back font-white" ng-click="$ionicGoBack()"></button>
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content padding="true">
     <div class="list card">
       <ion-item class="item-stable" ng-click="toggle()" ng-class="{active: isShown()}" >
-        <i class="item green-bg font-white" style="border: 0;font-size: 14px;border-bottom: 1px solid #fff;margin-bottom: 0" ng-class="isShown() ? 'ion-android-arrow-dropdown' : 'ion-android-arrow-dropright'"></i>
-         菜单选项
+        <i class="item green-bg font-white" style="border: 0;font-size: 25px;border-bottom: 1px solid #fff;margin-bottom: 0" ng-class="isShown() ? 'ion-android-arrow-dropdown' : 'ion-android-arrow-dropright'">菜单选项</i>
       </ion-item> 
       <ion-item class="item-accordion" ng-show="isShown()">
         <div ng-click="submitintension()">
-          <span style="font-size:12px;color:#9E9E9E" class="ion-android-arrow-dropright">我有意向</span> 
+          <span style="font-size:20px;color:#9E9E9E" class="ion-android-arrow-dropright">我有意向</span> 
         </div>
         <div ng-click="expense()">
-          <span style="font-size:12px;color:#9E9E9E" class="ion-android-arrow-dropright">保费计算小工具</span> 
+          <span style="font-size:20px;color:#9E9E9E" class="ion-android-arrow-dropright">保费计算小工具</span> 
         </div>    
         <div ng-click="kidneyfunction()">
-          <span style="font-size:12px;color:#9E9E9E" class="ion-android-arrow-dropright">肾功能计算小工具</span> 
+          <span style="font-size:20px;color:#9E9E9E" class="ion-android-arrow-dropright">肾功能计算小工具</span> 
         </div>
         <!-- <div ng-click="staff()">
           <span class="ion-android-arrow-dropright">工作人员入口</span> 
