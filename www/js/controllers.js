@@ -6599,7 +6599,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     "KidneyfunctionValue": 0
   }
 
-  $http.get('data/insruanceage1.json').success(function(data){
+  $http.get("lib/insruanceage1.json").success(function(data){
     $scope.InsuranceAges = data
   });
 
@@ -6652,7 +6652,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     }
   ]
 
-  $http.get("data/InsuranceParameter.json").success(function(data){
+  $http.get("lib/InsuranceParameter.json").success(function(data){
     dict = data
   })
   $scope.getexpense = function(){
@@ -6699,13 +6699,13 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
   $scope.changeAge = function(){
     if ($scope.InsuranceInfo.InsuranceTime == "5年")
     {
-      $http.get('data/insruanceage1.json').success(function(data){
+      $http.get("lib/insruanceage1.json").success(function(data){
         $scope.InsuranceAges = data
       });
     }
     else
     {
-      $http.get('data/insruanceage2.json').success(function(data){
+      $http.get("lib/insruanceage2.json").success(function(data){
         $scope.InsuranceAges = data
       });
     }
