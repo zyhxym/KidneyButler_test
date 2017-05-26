@@ -6676,12 +6676,12 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
       if ($scope.InsuranceInfo.CalculationType == "CalculateExpense")
       {
         $scope.InsuranceInfo.InsuranceExpense = $scope.InsuranceInfo.InsuranceMoney*$scope.InsuranceInfo.InsuranceParameter/1000
-        alert("您的保额为：" + $scope.InsuranceInfo.InsuranceExpense.toFixed(2) + "元")
+        alert("您的保费为：" + $scope.InsuranceInfo.InsuranceExpense.toFixed(2) + "元")
       }
       else if ($scope.InsuranceInfo.CalculationType == "CalculateMoney")
       {
         $scope.InsuranceInfo.InsuranceExpense = 1000*$scope.InsuranceInfo.InsuranceMoney/$scope.InsuranceInfo.InsuranceParameter
-        alert("您的保费为：" + $scope.InsuranceInfo.InsuranceExpense.toFixed(2) + "元")
+        alert("您的保额为：" + $scope.InsuranceInfo.InsuranceExpense.toFixed(2) + "元")
       }
     }
   }
