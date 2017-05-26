@@ -6673,15 +6673,15 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
           break
         }
       }
-      if ($scope.InsuranceInfo.CalculationType == "CalculateMoney")
+      if ($scope.InsuranceInfo.CalculationType == "CalculateExpense")
       {
         $scope.InsuranceInfo.InsuranceExpense = $scope.InsuranceInfo.InsuranceMoney*$scope.InsuranceInfo.InsuranceParameter/1000
-        alert("您的保额为：" + $scope.InsuranceInfo.InsuranceExpense)
+        alert("您的保额为：" + $scope.InsuranceInfo.InsuranceExpense + "元")
       }
-      else if ($scope.InsuranceInfo.CalculationType == "CalculateExpense")
+      else if ($scope.InsuranceInfo.CalculationType == "CalculateMoneyCalculateExpense")
       {
         $scope.InsuranceInfo.InsuranceExpense = 1000*$scope.InsuranceInfo.InsuranceMoney/$scope.InsuranceInfo.InsuranceParameter
-        alert("您的保费为：" + $scope.InsuranceInfo.InsuranceExpense)
+        alert("您的保费为：" + $scope.InsuranceInfo.InsuranceExpense + "元")
       }
     }
   }
