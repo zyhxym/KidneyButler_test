@@ -6693,13 +6693,13 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
   $scope.changeAge = function(){
     if ($scope.InsuranceInfo.InsuranceTime == "5年")
     {
-      $http.get("../data/insruanceage1.json").success(function(data){
+      $http.get("../data/insuranceage1.json").success(function(data){
         $scope.InsuranceAges = data
       });
     }
     else
     {
-      $http.get("../data/insruanceage2.json").success(function(data){
+      $http.get("../data/insuranceage2.json").success(function(data){
         $scope.InsuranceAges = data
       });
     }
