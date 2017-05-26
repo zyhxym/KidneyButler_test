@@ -6582,7 +6582,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 //肾病保险相关工具--TDY
 .controller('insurancefunctionCtrl', ['$scope', '$state', '$http', function ($scope, $state, $http) {
   $scope.InsuranceInfo = {
-    "InsuranceAge": null,
+    "InsuranceAge": 25,
     "Gender": "NotSelected",
     "InsuranceTime": "5年",
     "CalculationType": "CalculateMoney",
@@ -6598,6 +6598,10 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     "Creatinine": null,
     "KidneyfunctionValue": 0
   }
+
+  $http.get('data/insruanceage1.json').success(function(data){
+    $scope.InsuranceAges = data
+  });
 
   $scope.Genders = [
     {
@@ -6639,44 +6643,52 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     }
   ]
 
+  $scope.CreatinineUnits = [
+    {
+      "Type":"mg/dl"
+    },
+    {
+      "Type":"μmol/L"
+    }
+  ]
+
   $http.get("data/InsuranceParameter.json").success(function(data){
     dict = data
   })
   $scope.getexpense = function(){
-    if ($scope.InsuranceInfo.InsuranceAge == null)
-    {
-      alert("请输入年龄")
-    }
     if ($scope.InsuranceInfo.Gender == "NotSelected")
     {
       alert("请选择性别")
     }
-    if ($scope.InsuranceInfo.InsuranceMoney == null)
+    else if ($scope.InsuranceInfo.InsuranceMoney == null)
     {
       alert("请输入金额")
     }
-    for (var i=0;i<dict.length;i++){
-      if (dict[i].Age == $scope.InsuranceInfo.InsuranceAge && dict[i].Gender == $scope.InsuranceInfo.Gender && dict[i].Time == $scope.InsuranceInfo.InsuranceTime)
-      {
-        $scope.InsuranceInfo.InsuranceParameter = dict[i].Parameter
-        break
+    else
+    {
+      for (var i=0;i<dict.length;i++){
+        if (dict[i].Age == $scope.InsuranceInfo.InsuranceAge && dict[i].Gender == $scope.InsuranceInfo.Gender && dict[i].Time == $scope.InsuranceInfo.InsuranceTime)
+        {
+          $scope.InsuranceInfo.InsuranceParameter = dict[i].Parameter
+          break
+        }
       }
-    }
-    if ($scope.InsuranceInfo.CalculationType == "CalculateMoney")
-    {
-      $scope.InsuranceInfo.InsuranceExpense = $scope.InsuranceInfo.InsuranceMoney*$scope.InsuranceInfo.InsuranceParameter/1000
-      alert("您的保费为：" + $scope.InsuranceInfo.InsuranceExpense)
-    }
-    else if ($scope.InsuranceInfo.CalculationType == "CalculateExpense")
-    {
-      $scope.InsuranceInfo.InsuranceExpense = 1000*$scope.InsuranceInfo.InsuranceMoney/$scope.InsuranceInfo.InsuranceParameter
-      alert("您的保额为：" + $scope.InsuranceInfo.InsuranceExpense)
+      if ($scope.InsuranceInfo.CalculationType == "CalculateMoney")
+      {
+        $scope.InsuranceInfo.InsuranceExpense = $scope.InsuranceInfo.InsuranceMoney*$scope.InsuranceInfo.InsuranceParameter/1000
+        alert("您的保费为：" + $scope.InsuranceInfo.InsuranceExpense)
+      }
+      else if ($scope.InsuranceInfo.CalculationType == "CalculateExpense")
+      {
+        $scope.InsuranceInfo.InsuranceExpense = 1000*$scope.InsuranceInfo.InsuranceMoney/$scope.InsuranceInfo.InsuranceParameter
+        alert("您的保费为：" + $scope.InsuranceInfo.InsuranceExpense)
+      }
     }
   }
 
   $scope.resetexpense = function(){
     $scope.InsuranceInfo = {
-      "InsuranceAge": null,
+      "InsuranceAge": 25,
       "Gender": "NotSelected",
       "InsuranceTime": "5年",
       "CalculationType": "CalculateMoney",
@@ -6684,7 +6696,20 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
       "InsuranceExpense": 0
     }
   }
-
+  $scope.changeAge = function(){
+    if ($scope.InsuranceInfo.InsuranceTime == "5年")
+    {
+      $http.get('data/insruanceage1.json').success(function(data){
+        $scope.InsuranceAges = data
+      });
+    }
+    else
+    {
+      $http.get('data/insruanceage2.json').success(function(data){
+        $scope.InsuranceAges = data
+      });
+    }
+  }
   $scope.getkidneyfunction = function(){
     if ($scope.Kidneyfunction.Age == null)
     {
