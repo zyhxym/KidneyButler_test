@@ -7478,10 +7478,10 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         console.log(data);
         if (data.result == "新建成功")
         {
-            
+            $scope.submitable=true;
             var actionUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfa2216ac422fb747&redirect_uri=http://proxy.haihonghospitalmanagement.com/go&response_type=code&scope=snsapi_userinfo&state=doctor_11_'+ data.results.status+'_'+patientId+'_'+data.results.counselId+ '&#wechat_redirect';
             var template = {
-                "userId": $scope.params.chatId, //医生的UID
+                "userId": $stateParams.DoctorId, //医生的UID
                 "role": "doctor",
                 "postdata": {
                     "template_id": "cVLIgOb_JvtFGQUA2KvwAmbT5B3ZB79cRsAM4ZKKK0k",
@@ -7517,7 +7517,6 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
             }
             wechat.messageTemplate(template);
 
-            $scope.submitable=true;
 
             Storage.rm('tempquestionare')
             Storage.rm('tempimgrul')
