@@ -3997,7 +3997,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         console.log(args)
         event.stopPropagation();
         $scope.imageHandle.zoomTo(1, true);
-        $scope.imageUrl = CONFIG.mediaUrl + (args[2].src_thumb || args[2].localId_thumb);
+        $scope.imageUrl = CONFIG.mediaUrl + (args[2].src|| args[2].src_thumb);
         $scope.modal.show();
     })
     $scope.closeModal = function() {
