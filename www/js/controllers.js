@@ -6594,12 +6594,12 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
   $scope.Kidneyfunction = {
     "Gender": "NotSelected",
     "Age": null,
-    "CreatinineUnit": "mg/dl",
+    "CreatinineUnit": "μmol/L",
     "Creatinine": null,
     "KidneyfunctionValue": 0
   }
 
-  $http.get("lib/insruanceage1.json").success(function(data){
+  $http.get("data/insruanceage1.json").success(function(data){
     $scope.InsuranceAges = data
   });
 
@@ -6652,7 +6652,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     }
   ]
 
-  $http.get("lib/InsuranceParameter.json").success(function(data){
+  $http.get("data/InsuranceParameter.json").success(function(data){
     dict = data
   })
   $scope.getexpense = function(){
@@ -6676,7 +6676,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
       if ($scope.InsuranceInfo.CalculationType == "CalculateMoney")
       {
         $scope.InsuranceInfo.InsuranceExpense = $scope.InsuranceInfo.InsuranceMoney*$scope.InsuranceInfo.InsuranceParameter/1000
-        alert("您的保费为：" + $scope.InsuranceInfo.InsuranceExpense)
+        alert("您的保额为：" + $scope.InsuranceInfo.InsuranceExpense)
       }
       else if ($scope.InsuranceInfo.CalculationType == "CalculateExpense")
       {
@@ -6699,13 +6699,13 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
   $scope.changeAge = function(){
     if ($scope.InsuranceInfo.InsuranceTime == "5年")
     {
-      $http.get("lib/insruanceage1.json").success(function(data){
+      $http.get("data/insruanceage1.json").success(function(data){
         $scope.InsuranceAges = data
       });
     }
     else
     {
-      $http.get("lib/insruanceage2.json").success(function(data){
+      $http.get("data/insruanceage2.json").success(function(data){
         $scope.InsuranceAges = data
       });
     }
@@ -6741,14 +6741,35 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         $scope.Kidneyfunction.KidneyfunctionValue = 141*Math.pow(($scope.Kidneyfunction.Creatinine/0.9),-1.209)*Math.pow(0.993,$scope.Kidneyfunction.Age)
       }
     }
-    alert("您的肾功能参数为：" + $scope.Kidneyfunction.KidneyfunctionValue)
+    var kidneyclass = ""
+    if ($scope.Kidneyfunction.KidneyfunctionValue >= 90)
+    {
+      kidneyclass = "CDK 1期";
+    }
+    else if ($scope.Kidneyfunction.KidneyfunctionValue < 90 && $scope.Kidneyfunction.KidneyfunctionValue >= 60)
+    {
+      kidneyclass = "CDK 2期";
+    }
+    else if ($scope.Kidneyfunction.KidneyfunctionValue < 60 && $scope.Kidneyfunction.KidneyfunctionValue >= 30)
+    {
+      kidneyclass = "CDK 3期";
+    }
+    else if ($scope.Kidneyfunction.KidneyfunctionValue < 30 && $scope.Kidneyfunction.KidneyfunctionValue >= 15)
+    {
+      kidneyclass = "CDK 4期";
+    }
+    else if ($scope.Kidneyfunction.KidneyfunctionValue < 15)
+    {
+      kidneyclass = "CDK 5期";
+    }
+    alert("估算您的肾小球滤过率为：" + $scope.Kidneyfunction.KidneyfunctionValue + ",您处于" +kidneyclass)
   }
 
   $scope.resetkidneyfunction = function(){
     $scope.Kidneyfunction = {
       "Gender": "NotSelected",
       "Age": null,
-      "CreatinineUnit": "mg/dl",
+      "CreatinineUnit": "μmol/L",
       "Creatinine": null,
       "KidneyfunctionValue": 0
     }
