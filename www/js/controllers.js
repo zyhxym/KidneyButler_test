@@ -6741,7 +6741,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         $scope.Kidneyfunction.KidneyfunctionValue = 141*Math.pow(($scope.Kidneyfunction.Creatinine/0.9),-1.209)*Math.pow(0.993,$scope.Kidneyfunction.Age)
       }
     }
-    alert($scope.Kidneyfunction.KidneyfunctionValue)
+    alert("您的肾功能参数为：" + $scope.Kidneyfunction.KidneyfunctionValue)
   }
 
   $scope.resetkidneyfunction = function(){
