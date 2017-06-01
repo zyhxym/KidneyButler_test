@@ -58,6 +58,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                         temperr.push(err)
                     })
                     ]).then(function(){
+                      console.log(temperr)
                         if (tempresult[0].results == undefined || tempresult[0].results == null)
                         {
                           User.setMessageOpenId({type:2,userId:data.UserId,openId:wechatData.openid}).then(function(res){
