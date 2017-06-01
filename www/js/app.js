@@ -62,14 +62,14 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                         {
                           User.setMessageOpenId({type:2,userId:data.UserId,openId:wechatData.openid}).then(function(res){
                               console.log("setopenid");
-                              $window.location.reload();
+                              $state.go('signin')
                           },function(){
                               console.log("连接超时！");
                           })
                         }
                         else
                         {
-                            $window.location.reload();
+                            $state.go('signin')
                         }
                     })
                 }
