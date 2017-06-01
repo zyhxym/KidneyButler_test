@@ -63,7 +63,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                         {
                           User.setMessageOpenId({type:2,userId:data.UserId,openId:wechatData.openid}).then(function(res){
                               console.log("setopenid");
-                              $state.go('signin')
+                              $window.location.reload()
                           },function(){
                               console.log("连接超时！");
                           })
