@@ -44,23 +44,34 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                 var tempuserId = data.UserId
                 if (angular.isDefined(data.phoneNo) == true)
                 {
-                    User.setOpenId({phoneNo:data.phoneNo,openId:Storage.get('openid')}).then(function(res){
-                        console.log("替换openid");
-                    },function(){
-                        console.log("连接超时！");
-                    })
-                    User.getMessageOpenId({type:2,userId:data.UserId}).then(function(res){
-                        if (res.results == undefined || res.results == null)
-                        {
-                          User.setMessageOpenId({type:2,userId:data.UserId,openId:wechatData.openid}).then(function(res){
-                              console.log("setopenid");
-                          },function(){
-                              console.log("连接超时！");
-                          })
-                        }
-                    },function(){
-                        console.log("连接超时！");
-                    })
+                    var tempresult = []
+                            var temperr = []
+                            $q.all([
+                            User.setOpenId({phoneNo:data.phoneNo,openId:Storage.get('openid')}).then(function(res){
+                                console.log("替换openid");
+                            },function(err){
+                                temperr.push(err)
+                            }),
+                            User.getMessageOpenId({type:2,userId:data.UserId}).then(function(res){
+                                tempresult.push(res)
+                            },function(err){
+                                temperr.push(err)
+                            })
+                            ]).then(function(){
+                                if (tempresult[0].results == undefined || tempresult[0].results == null)
+                                {
+                                  User.setMessageOpenId({type:2,userId:data.UserId,openId:wechatData.openid}).then(function(res){
+                                      console.log("setopenid");
+                                      $window.location.reload();
+                                  },function(){
+                                      console.log("连接超时！");
+                                  })
+                                }
+                                else
+                                {
+                                    $window.location.reload();
+                                }
+                            })
                 }
                 else
                 {
