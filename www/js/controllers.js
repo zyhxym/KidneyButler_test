@@ -515,32 +515,41 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
 //个人信息--PXY
 .controller('userdetailCtrl',['$http','$stateParams','$scope','$state','$ionicHistory','$timeout' ,'Storage', '$ionicPopup','$ionicLoading','$ionicPopover','Dict','Patient', 'VitalSign','$filter','Task','User','jmapi',function($http,$stateParams,$scope,$state,$ionicHistory,$timeout,Storage, $ionicPopup,$ionicLoading, $ionicPopover,Dict,Patient, VitalSign,$filter,Task,User,jmapi){
-  //$scope.barwidth="width:0%";
-  //注册时可跳过个人信息
-  // $scope.CanSkip = function(){
-  //   if(Storage.get('setPasswordState')=='register'){
-  //     return true;
-  //   }
-  //   else{
-  //     return false;}
-  // }
 
-  // $scope.Skip = function(){
-  //   $state.go('tab.tasklist');
-  //   Storage.set('setPasswordState','sign');
-  // }
-
-    var back = $stateParams.last;
-    console.log(back);
-
-
-    $scope.CanBack = function(){
-        if(back=='mine'){
-          return true;
+    $scope.$on('$ionicView.enter', function() {
+        var back = $stateParams.last;
+        // console.log(back);
+        if(back=='mine'||back=='tasklist'){
+            $scope.CanBack = true;
         }
         else{
-          return false;}
-      }
+            $scope.CanBack = false;}
+
+        $scope.showProgress = false;
+        $scope.showSurgicalTime = false;
+        $scope.Diseases = "";
+        $scope.DiseaseDetails = "";
+        $scope.timename = "";
+        if(back == 'register'||back=='wechatsignin'){
+            $scope.canEdit = true;
+            Dict.getDiseaseType({category:'patient_class'}).then(function(data){
+                $scope.Diseases = data.results[0].content
+                $scope.Diseases.push($scope.Diseases[0])
+                $scope.Diseases.shift()
+                },function(err){
+                console.log(err);
+              });
+        }else if(back == 'mine'){
+            $scope.canEdit = false;
+        // patientId = Storage.get('UID');
+        // var patientId = "U201702080016"
+            initialPatient();
+        }else if(back == 'tasklist'){
+            $scope.canEdit = true;
+            initialPatient();
+        }
+
+    });
 
 
   $scope.Goback = function(){
@@ -552,10 +561,6 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         
     }
 
-  $scope.showProgress = false
-  $scope.showSurgicalTime = false
-  // var patientId = Storage.get('UID')
-  // var patientId = "U201702080016"
   $scope.Genders =
   [
     {Name:"男",Type:1},
@@ -585,9 +590,6 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
       return "未填写";
   }
 
-  $scope.Diseases = ""
-  $scope.DiseaseDetails = ""
-  $scope.timename = ""
   $scope.getDiseaseDetail = function(Disease) {
     if (Disease.typeName == "肾移植")
     {
@@ -759,7 +761,13 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
           });
     }else if (back == 'implement'){
       $scope.canEdit = true;
-      initialPatient();
+      Dict.getDiseaseType({category:'patient_class'}).then(function(data){
+            $scope.Diseases = data.results[0].content
+            $scope.Diseases.push($scope.Diseases[0])
+            $scope.Diseases.shift()
+            },function(err){
+            console.log(err);
+          });
     }else{
         $scope.canEdit = false;
         // patientId = Storage.get('UID');
@@ -1494,19 +1502,26 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
    }
    //CompDateToDefault({});
 
+   $scope.CompleteUserdetail = function(){
+        $state.go('userdetail',{last:'tasklist'});
+    }
+
   //获取对应任务模板
    function GetTasks(TaskCode)
-   {     
-     var promise =  Task.getUserTask({userId:UserId});
-     promise.then(function(data){
-       if(data.result.length != 0)
-       {
-          $scope.Tasks = data.result.task;
-          //console.log($scope.Tasks);
-          HandleTasks();
-       }
+   {
+    var promise =  Task.getUserTask({userId:UserId});
+    promise.then(function(data){
+        if(data.result)
+        {
+            $scope.unCompleted = false;
+            $scope.Tasks = data.result.task;
+            //console.log($scope.Tasks);
+            HandleTasks();
+        }else{
+            $scope.unCompleted = true;
+        }
      },function(){
-                    
+
      })
    }
 
