@@ -1,0 +1,21 @@
+<ion-view title="意见反馈" hide-tabs>
+    <ion-nav-buttons side="left">
+        <my-nav-back-button ng-click="GoBack()"></my-nav-back-button>
+    </ion-nav-buttons>
+    
+    <ion-content class="padding">
+        <form>
+            <label class="item item-input" style="margin-top: 20px">
+                <span class="input-label">意见或问题</span>
+                <input ng-model="advice.topic"  type="text">
+            </label>
+            <label class="item item-input" style="margin-top: 10px">
+                <!-- <i class="icon ion-android-create placeholder-icon"></i> -->
+                <textarea  placeholder="请您详细描述在使用app过程中遇到的问题" rows="8" style="line-height: 25px" ng-model="advice.content"></textarea>
+            </label>
+        
+
+            <button class="button button-block green-bg font-white" ng-disabled="!advice.topic && !advice.content" type="submit" ng-click="deliverAdvice(advice)">提交</button>
+        </form>
+    </ion-content>
+</ion-view>

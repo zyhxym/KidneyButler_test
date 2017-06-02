@@ -170,7 +170,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                                           } else {
                                               $state.go('tab.tasklist');
                                           }
-                                      } else {
+                                      }else {
                                           $state.go('userdetail', { last: 'register' });
                                       }
                                   } else {
@@ -558,6 +558,18 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
         }
       }
       
+    })
+     .state('tab.advice', {
+        cache:false,
+        url: '/mine/advice/',
+        views: {
+            'tab-mine': {
+                templateUrl: 'partials/tabs/mine/advice.html',
+                controller: 'adviceCtrl'
+            }
+
+        }     
+         
     })
     .state('tab.changePassword',{
         cache:false,
