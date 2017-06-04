@@ -553,12 +553,14 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
 
   $scope.Goback = function(){
-        if($scope.canEdit==true){
+        if($stateParams.last == 'tasklist'){
+            $state.go('tab.tasklist');
+        }else if($scope.canEdit==true){
             $scope.canEdit = false;
         }else{
             $ionicHistory.goBack();
         }
-        
+
     }
 
   $scope.Genders =
