@@ -8175,7 +8175,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         $state.go('tab.mine');
     }
 
-    $scope.deliverAdvice = function(adv){
+    $scope.deliverAdvice = function(advice){
         
         Advice.postAdvice({userId:Storage.get('UID'),role:"patient",topic:adv.topic,content:adv.content}).then(
             function(data){
