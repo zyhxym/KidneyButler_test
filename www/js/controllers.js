@@ -8171,9 +8171,6 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 }])
 
 .controller('adviceCtrl', ['$scope','$state','$ionicPopup','$ionicLoading', 'Advice','Storage','$timeout', function ($scope,$state,$ionicPopup,$ionicLoading,Advice,Storage,$timeout) {
-    $scope.GoBack = function(){
-        $state.go('tab.mine');
-    }
 
     $scope.deliverAdvice = function(advice){
         
