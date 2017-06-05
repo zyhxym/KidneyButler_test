@@ -8177,7 +8177,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
     $scope.deliverAdvice = function(advice){
         
-        Advice.postAdvice({userId:Storage.get('UID'),role:"patient",topic:adv.topic,content:adv.content}).then(
+        Advice.postAdvice({userId:Storage.get('UID'),role:"patient",topic:advice.topic,content:advice.content}).then(
             function(data){
                 if(data.result == "新建成功"){
                     $ionicLoading.show({
