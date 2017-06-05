@@ -2355,90 +2355,90 @@ return self;
 .factory('payment',['$q','wechat','Storage','$http','order','$location','$ionicLoading',function($q,wechat,Storage,$http,order,$location,$ionicLoading){
   return {
     payment:function(neworder){
-      $ionicLoading.show({
-        template:"平台处于试用期，6月1日前咨询问诊服务免费",
-        duration:2000
-      })
-      res = {
-        "errMsg":"chooseWXPay:ok",
-        "money":0
-      }
-      var defer = $q.defer()
-      defer.resolve(res);
-      // var defer = $q.defer()
-      // var config = "";
-      // var path = $location.absUrl().split('#')[0]
-      // wechat.settingConfig({url:path}).then(function(data){
-      //   // alert(data.results.timestamp)
-      //   config = data.results;
-      //   config.jsApiList = ['chooseWXPay']
-        // alert(config.jsApiList)
-        // alert(config.debug)
-      //   console.log(angular.toJson(config))
-      //   wx.config({
-      //     debug:false,
-      //     appId:config.appId,
-      //     timestamp:config.timestamp,
-      //     nonceStr:config.nonceStr,
-      //     signature:config.signature,
-      //     jsApiList:config.jsApiList
-      //   })
-      //   wx.ready(function(){
-      //     wx.checkJsApi({
-      //         jsApiList: ['chooseWXPay'],
-      //         success: function(res) {
-      //             // var neworder = {
-      //             //   userId:'doc01',
-      //             //   money:1,
-      //             //   goodsInfo:{
-      //             //     class:'01',
-      //             //     name:'咨询',
-      //             //     notes:'测试'
-      //             //   },
-      //             //   paystatus:0,
-      //             //   paytime:"2017-05-02"
-      //             // }
-      //             order.insertOrder(neworder).then(function(data){
-      //               var json = 'http://ipv4.myexternalip.com/json';
-      //               $http.get(json).then(function(result) {
-      //                   console.log(result.data.ip)
-      //                   if (result.data.ip == null || result.data.ip == undefined || result.data.ip == "")
-      //                   {
-      //                     result.data.ip = "121.43.107.106"
-      //                   }
-      //                   wechat.addOrder({openid:Storage.get('openid'),orderNo:data.results.orderNo,ip:result.data.ip}).then(function(data){
-      //                       $ionicLoading.hide();
-      //                         wx.chooseWXPay({
-      //                           timestamp: data.results.timestamp,
-      //                           nonceStr: data.results.nonceStr,
-      //                           package: data.results.package,
-      //                           signType: data.results.signType,
-      //                           paySign: data.results.paySign,
-      //                           success: function(res) {
-      //                             defer.resolve(res);
-      //                           }
-      //                         })
-      //                   },function(err){
-      //                       defer.reject(err);
-      //                   })
-      //               }, function(e) {
-      //                   defer.reject(e);
-      //               });
-                    
-      //             },function(err){
-      //               defer.reject(err);
-      //             })
-                  
-      //         }
-      //     });
-      //   })
-      //   wx.error(function(res){
-      //     defer.reject(res);
-      //   })
-
-      // },function(err){
-      //   defer.reject(err);
+      // $ionicLoading.show({
+      //   template:"平台处于试用期，6月1日前咨询问诊服务免费",
+      //   duration:2000
       // })
+      // res = {
+      //   "errMsg":"chooseWXPay:ok",
+      //   "money":0
+      // }
+      // var defer = $q.defer()
+      // defer.resolve(res);
+      var defer = $q.defer()
+      var config = "";
+      var path = $location.absUrl().split('#')[0]
+      wechat.settingConfig({url:path}).then(function(data){
+        // alert(data.results.timestamp)
+        config = data.results;
+        config.jsApiList = ['chooseWXPay']
+        alert(config.jsApiList)
+        alert(config.debug)
+        console.log(angular.toJson(config))
+        wx.config({
+          debug:false,
+          appId:config.appId,
+          timestamp:config.timestamp,
+          nonceStr:config.nonceStr,
+          signature:config.signature,
+          jsApiList:config.jsApiList
+        })
+        wx.ready(function(){
+          wx.checkJsApi({
+              jsApiList: ['chooseWXPay'],
+              success: function(res) {
+                  // var neworder = {
+                  //   userId:'doc01',
+                  //   money:1,
+                  //   goodsInfo:{
+                  //     class:'01',
+                  //     name:'咨询',
+                  //     notes:'测试'
+                  //   },
+                  //   paystatus:0,
+                  //   paytime:"2017-05-02"
+                  // }
+                  // order.insertOrder(neworder).then(function(data){
+                        var json = 'http://ipv4.myexternalip.com/json';
+                        $http.get(json).then(function(result) {
+                        console.log(result.data.ip)
+                        if (result.data.ip == null || result.data.ip == undefined || result.data.ip == "")
+                        {
+                          result.data.ip = "121.43.107.106"
+                        }
+                        wechat.addOrder(neworder).then(function(data){
+                            $ionicLoading.hide();
+                              wx.chooseWXPay({
+                                timestamp: data.results.timestamp,
+                                nonceStr: data.results.nonceStr,
+                                package: data.results.package,
+                                signType: data.results.signType,
+                                paySign: data.results.paySign,
+                                success: function(res) {
+                                  defer.resolve(res);
+                                }
+                              })
+                        },function(err){
+                            defer.reject(err);
+                        })
+                    }, function(e) {
+                        defer.reject(e);
+                    });
+                    
+                  // },function(err){
+                  //   defer.reject(err);
+                  // })
+                  
+              }
+          });
+        })
+        wx.error(function(res){
+          defer.reject(res);
+        })
+
+      },function(err){
+        defer.reject(err);
+      })
       return defer.promise;
     }
   };

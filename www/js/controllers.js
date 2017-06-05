@@ -5873,15 +5873,26 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     var time = new Date()
                     time =  $filter("date")(time, "yyyy-MM-dd HH:mm:ss");
                     var neworder = {
-                                  userId:Storage.get('UID'),
-                                  money:doctor.charge2*100,
-                                  goodsInfo:{
-                                    class:'02',
-                                    name:'问诊',
-                                    notes:DoctorId
-                                  },
-                                  paystatus:0,
-                                  paytime:time
+                        "userId":Storage.get('UID'),
+                        "role":"patient",
+                        "money":123,
+                        "class":"123",
+                        "name":"counsel",
+                        "notes":"doctor",
+                        "paystatus":1,
+                        "paytime":"2017-05-11",
+                        "ip":"121.196.221.44",
+                        "openid":Storage.get('openid'),
+                        "trade_type":"JSAPI"
+                                  // userId:Storage.get('UID'),
+                                  // money:doctor.charge2*100,
+                                  // goodsInfo:{
+                                  //   class:'02',
+                                  //   name:'问诊',
+                                  //   notes:DoctorId
+                                  // },
+                                  // paystatus:0,
+                                  // paytime:time
                                 }
                     payment.payment(neworder).then(function(data){
                       console.log(data) //data.errMsg:"chooseWXPay:ok"时支付成功
