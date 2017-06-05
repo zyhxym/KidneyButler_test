@@ -2376,7 +2376,7 @@ return self;
         alert(config.debug)
         console.log(angular.toJson(config))
         wx.config({
-          debug:false,
+          debug:true,
           appId:config.appId,
           timestamp:config.timestamp,
           nonceStr:config.nonceStr,
