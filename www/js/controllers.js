@@ -515,7 +515,26 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
 //个人信息--PXY
 .controller('userdetailCtrl',['$http','$stateParams','$scope','$state','$ionicHistory','$timeout' ,'Storage', '$ionicPopup','$ionicLoading','$ionicPopover','Dict','Patient', 'VitalSign','$filter','Task','User','jmapi',function($http,$stateParams,$scope,$state,$ionicHistory,$timeout,Storage, $ionicPopup,$ionicLoading, $ionicPopover,Dict,Patient, VitalSign,$filter,Task,User,jmapi){
-
+    $scope.User = 
+    {
+      "userId": null,
+      "name": null,
+      "gender": null,
+      "bloodType": null,
+      "hypertension": null,
+      "class": null,
+      "class_info": null,
+      "height": null,
+      "weight": null,
+      "birthday": null,
+      "IDNo": null,
+      "allergic":null,
+      "operationTime":null,
+      "lastVisit":{"time":null,
+      "hospital":null,
+      "diagnosis":null}
+      
+    };
     $scope.$on('$ionicView.enter', function() {
         var back = $stateParams.last;
         // console.log(back);
