@@ -5882,7 +5882,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                         "paystatus":1,
                         "paytime":"2017-05-11",
                         "ip":"121.196.221.44",
-                        "openid":Storage.get('openid'),
+                        "openid":Storage.get('messageopenid'),
                         "trade_type":"JSAPI"
                                   // userId:Storage.get('UID'),
                                   // money:doctor.charge2*100,
