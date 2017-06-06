@@ -2406,6 +2406,7 @@ return self;
                         {
                           result.data.ip = "121.43.107.106"
                         }
+                        neworder.ip = result.data.ip
                         wechat.addOrder(neworder).then(function(data){
                             // $ionicLoading.hide();
                               wx.chooseWXPay({

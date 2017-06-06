@@ -5875,13 +5875,12 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     var neworder = {
                         "userId":Storage.get('UID'),
                         "role":"patient",
-                        "money":1,
-                        "class":"123",
-                        "name":"counsel",
-                        "notes":"doctor",
+                        "money":doctor.charge2*100,
+                        "class":"02",
+                        "name":"问诊",
+                        "notes":DoctorId,
                         "paystatus":1,
-                        "paytime":"2017-05-11",
-                        "ip":"121.196.221.44",
+                        "paytime":time,
                         "openid":Storage.get('messageopenid'),
                         "trade_type":"JSAPI"
                                   // userId:Storage.get('UID'),
