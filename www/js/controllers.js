@@ -5875,7 +5875,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     var neworder = {
                         "userId":Storage.get('UID'),
                         "role":"patient",
-                        "money":123,
+                        "money":1,
                         "class":"123",
                         "name":"counsel",
                         "notes":"doctor",
