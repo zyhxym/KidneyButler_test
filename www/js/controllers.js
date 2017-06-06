@@ -6441,7 +6441,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                   var neworder = {
                       "userId":Storage.get('UID'),
                       "role":"patient",
-                      "money":doctor.charge2*100
+                      "money":doctor.charge2*100,
                       "class":"02",
                       "name":"问诊",
                       "notes":DoctorId,
