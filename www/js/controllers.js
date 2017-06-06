@@ -469,19 +469,20 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                      if(setPassState=='register' || setPassState=='wechat'){
                       //结果分为连接超时或者注册成功
                       $rootScope.password=setPassword.newPass;
-                      Storage.set('PASSWORD',setPassword.newPass);
-                      $state.go('userdetail',{last:'register'});
-                      // var codePromise = User.register({phoneNo:phone,password:setPassword.newPass,role:"patient"});
-                      // codePromise.then(function(data){
-                      //     if(data.results==0){
-                      //         Storage.set('USERNAME',phone);
-                      //         $timeout(function(){$state.go('userdetail');} , 500);
-                      //     }else{
-                      //         $scope.logStatus = "该手机号码已经注册！";
-                      //     }
-                      // },function(){
-                      //     $scope.logStatus = "连接超时！";
-                      // })
+                      // Storage.set('PASSWORD',setPassword.newPass);
+                      // $state.go('userdetail',{last:'register'});
+                      var codePromise = User.register({phoneNo:Storage.get('USERNAME'),password:setPassword.newPass,role:"patient"});
+                      codePromise.then(function(data){
+                          if(data.results==0){
+                              // Storage.set('USERNAME',phone);
+                              $scope.logStatus = "注册患者成功！";
+                              $timeout(function(){$state.go('signin');} , 500);
+                          }else{
+                              $scope.logStatus = "该手机号码已经注册！";
+                          }
+                      },function(){
+                          $scope.logStatus = "连接超时！";
+                      })
                     }else if(setPassState == 'reset'){
                   //如果是重置密码
                   //结果分为连接超时或者修改成功
