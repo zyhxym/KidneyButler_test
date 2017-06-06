@@ -5619,21 +5619,31 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                   var time = new Date()
                   time =  $filter("date")(time, "yyyy-MM-dd HH:mm:ss");
                   var neworder = {
-                                userId:Storage.get('UID'),
-                                money:doctor.charge1*100,
-                                goodsInfo:{
-                                  class:'01',
-                                  name:'咨询',
-                                  notes:DoctorId
-                                },
-                                paystatus:0,
-                                paytime:time
-                              }
+                      "userId":Storage.get('UID'),
+                      "role":"patient",
+                      "money":doctor.charge1*100,
+                      "class":"01",
+                      "name":"咨询",
+                      "notes":DoctorId,
+                      "paystatus":1,
+                      "paytime":time,
+                      "openid":Storage.get('messageopenid'),
+                      "trade_type":"JSAPI"
+                                // userId:Storage.get('UID'),
+                                // money:doctor.charge1*100,
+                                // goodsInfo:{
+                                //   class:'01',
+                                //   name:'咨询',
+                                //   notes:DoctorId
+                                // },
+                                // paystatus:0,
+                                // paytime:time
+                  }
                   payment.payment(neworder).then(function(data){
                     console.log(data) //data.errMsg:"chooseWXPay:ok"时支付成功
                     if (data.errMsg == "chooseWXPay:ok")
                     {
-                      chargemoney = data.money
+                      chargemoney = doctor.charge1
                       Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:'咨询',doctorName:docname,money:chargemoney}).then(function(data){
                         console.log(data)
                       },function(err){
@@ -5691,21 +5701,31 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                 var time = new Date()
                 time =  $filter("date")(time, "yyyy-MM-dd HH:mm:ss");
                 var neworder = {
-                              userId:Storage.get('UID'),
-                              money:doctor.charge2*100 - doctor.charge1*100,
-                              goodsInfo:{
-                                class:'03',
-                                name:'升级',
-                                notes:DoctorId
-                              },
-                              paystatus:0,
-                              paytime:time
-                            }
+                    "userId":Storage.get('UID'),
+                    "role":"patient",
+                    "money":doctor.charge2*100 - doctor.charge1*100,
+                    "class":"03",
+                    "name":"升级",
+                    "notes":DoctorId,
+                    "paystatus":1,
+                    "paytime":time,
+                    "openid":Storage.get('messageopenid'),
+                    "trade_type":"JSAPI"
+                              // userId:Storage.get('UID'),
+                              // money:doctor.charge2*100 - doctor.charge1*100,
+                              // goodsInfo:{
+                              //   class:'03',
+                              //   name:'升级',
+                              //   notes:DoctorId
+                              // },
+                              // paystatus:0,
+                              // paytime:time
+                }
                 payment.payment(neworder).then(function(data){
                   console.log(data) //data.errMsg:"chooseWXPay:ok"时支付成功
                   if (data.errMsg == "chooseWXPay:ok")
                   {
-                    chargemoney = data.money
+                    chargemoney = doctor.charge2 - doctor.charge1
                     Counsels.changeType({doctorId:DoctorId,patientId:Storage.get('UID'),type:1,changeType:"true"}).then(function(data){
                       console.log(data.result)
                       if(data.result=="修改成功"){
@@ -5817,21 +5837,31 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     var time = new Date()
                     time =  $filter("date")(time, "yyyy-MM-dd HH:mm:ss");
                     var neworder = {
-                                  userId:Storage.get('UID'),
-                                  money:doctor.charge2*100 - doctor.charge1*100,
-                                  goodsInfo:{
-                                    class:'03',
-                                    name:'升级',
-                                    notes:DoctorId
-                                  },
-                                  paystatus:0,
-                                  paytime:time
-                                }
+                        "userId":Storage.get('UID'),
+                        "role":"patient",
+                        "money":doctor.charge2*100 - doctor.charge1*100,
+                        "class":"03",
+                        "name":"升级",
+                        "notes":DoctorId,
+                        "paystatus":1,
+                        "paytime":time,
+                        "openid":Storage.get('messageopenid'),
+                        "trade_type":"JSAPI"
+                                  // userId:Storage.get('UID'),
+                                  // money:doctor.charge2*100 - doctor.charge1*100,
+                                  // goodsInfo:{
+                                  //   class:'03',
+                                  //   name:'升级',
+                                  //   notes:DoctorId
+                                  // },
+                                  // paystatus:0,
+                                  // paytime:time
+                    }
                     payment.payment(neworder).then(function(data){
                       console.log(data) //data.errMsg:"chooseWXPay:ok"时支付成功
                       if (data.errMsg == "chooseWXPay:ok")
                       {
-                        chargemoney = data.money
+                        chargemoney = doctor.charge2 - doctor.charge1 
                         Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:'升级',doctorName:docname,money:chargemoney}).then(function(data){
                           console.log(data)
                         },function(err){
@@ -5892,12 +5922,12 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                                   // },
                                   // paystatus:0,
                                   // paytime:time
-                                }
+                    }
                     payment.payment(neworder).then(function(data){
                       console.log(data) //data.errMsg:"chooseWXPay:ok"时支付成功
                       if (data.errMsg == "chooseWXPay:ok")
                       {
-                        chargemoney = data.money
+                        chargemoney = doctor.charge2
                         Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:'问诊',doctorName:docname,money:chargemoney}).then(function(data){
                           console.log(data)
                         },function(err){
@@ -6133,21 +6163,31 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                 var time = new Date()
                 time =  $filter("date")(time, "yyyy-MM-dd HH:mm:ss");
                 var neworder = {
-                              userId:Storage.get('UID'),
-                              money:$scope.doctor.charge1*100,
-                              goodsInfo:{
-                                class:'01',
-                                name:'咨询',
-                                notes:DoctorId
-                              },
-                              paystatus:0,
-                              paytime:time
-                            }
+                    "userId":Storage.get('UID'),
+                    "role":"patient",
+                    "money":doctor.charge1*100,
+                    "class":"01",
+                    "name":"咨询",
+                    "notes":DoctorId,
+                    "paystatus":1,
+                    "paytime":time,
+                    "openid":Storage.get('messageopenid'),
+                    "trade_type":"JSAPI"
+                              // userId:Storage.get('UID'),
+                              // money:$scope.doctor.charge1*100,
+                              // goodsInfo:{
+                              //   class:'01',
+                              //   name:'咨询',
+                              //   notes:DoctorId
+                              // },
+                              // paystatus:0,
+                              // paytime:time
+                }
                 payment.payment(neworder).then(function(data){
                   console.log(data) //data.errMsg:"chooseWXPay:ok"时支付成功
                   if (data.errMsg == "chooseWXPay:ok")
                   {
-                    chargemoney = data.money
+                    chargemoney = doctor.charge1
                     Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:'咨询',doctorName:docname,money:chargemoney}).then(function(data){
                       console.log(data)
                     },function(err){
@@ -6204,21 +6244,31 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                 var time = new Date()
                 time =  $filter("date")(time, "yyyy-MM-dd HH:mm:ss");
                 var neworder = {
-                              userId:Storage.get('UID'),
-                              money:$scope.doctor.charge2*100 - $scope.doctor.charge1*100,
-                              goodsInfo:{
-                                class:'03',
-                                name:'升级',
-                                notes:DoctorId
-                              },
-                              paystatus:0,
-                              paytime:time
-                            }
+                    "userId":Storage.get('UID'),
+                    "role":"patient",
+                    "money":doctor.charge2*100 - doctor.charge1*100,
+                    "class":"03",
+                    "name":"升级",
+                    "notes":DoctorId,
+                    "paystatus":1,
+                    "paytime":time,
+                    "openid":Storage.get('messageopenid'),
+                    "trade_type":"JSAPI"
+                              // userId:Storage.get('UID'),
+                              // money:$scope.doctor.charge2*100 - $scope.doctor.charge1*100,
+                              // goodsInfo:{
+                              //   class:'03',
+                              //   name:'升级',
+                              //   notes:DoctorId
+                              // },
+                              // paystatus:0,
+                              // paytime:time
+                }
                 payment.payment(neworder).then(function(data){
                   console.log(data) //data.errMsg:"chooseWXPay:ok"时支付成功
                   if (data.errMsg == "chooseWXPay:ok")
                   {
-                    chargemoney = data. money
+                    chargemoney = doctor.charge2 - doctor.charge1
                   //点击确认 将咨询的type=1 变成type=3
                   Counsels.changeType({doctorId:DoctorId,patientId:Storage.get('UID'),type:1,changeType:"true"}).then(function(data){
                     console.log(data.result)
@@ -6324,21 +6374,31 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                   var time = new Date()
                   time =  $filter("date")(time, "yyyy-MM-dd HH:mm:ss");
                   var neworder = {
-                                userId:Storage.get('UID'),
-                                money:$scope.doctor.charge2*100 - $scope.doctor.charge1*100,
-                                goodsInfo:{
-                                  class:'03',
-                                  name:'升级',
-                                  notes:DoctorId
-                                },
-                                paystatus:0,
-                                paytime:time
-                              }
+                      "userId":Storage.get('UID'),
+                      "role":"patient",
+                      "money":doctor.charge2*100 - doctor.charge1*100,
+                      "class":"03",
+                      "name":"升级",
+                      "notes":DoctorId,
+                      "paystatus":1,
+                      "paytime":time,
+                      "openid":Storage.get('messageopenid'),
+                      "trade_type":"JSAPI"
+                                // userId:Storage.get('UID'),
+                                // money:$scope.doctor.charge2*100 - $scope.doctor.charge1*100,
+                                // goodsInfo:{
+                                //   class:'03',
+                                //   name:'升级',
+                                //   notes:DoctorId
+                                // },
+                                // paystatus:0,
+                                // paytime:time
+                  }
                   payment.payment(neworder).then(function(data){
                     console.log(data) //data.errMsg:"chooseWXPay:ok"时支付成功
                     if (data.errMsg == "chooseWXPay:ok")
                     {
-                      chargemoney = data.money
+                      chargemoney = doctor.charge2 - doctor.charge1
                       Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:'升级',doctorName:docname,money:chargemoney}).then(function(data){
                         console.log(data)
                       },function(err){
@@ -6379,21 +6439,31 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                   var time = new Date()
                   time =  $filter("date")(time, "yyyy-MM-dd HH:mm:ss");
                   var neworder = {
-                                userId:Storage.get('UID'),
-                                money:$scope.doctor.charge2*100,
-                                goodsInfo:{
-                                  class:'02',
-                                  name:'问诊',
-                                  notes:DoctorId
-                                },
-                                paystatus:0,
-                                paytime:time
-                              }
+                      "userId":Storage.get('UID'),
+                      "role":"patient",
+                      "money":doctor.charge2*100
+                      "class":"02",
+                      "name":"问诊",
+                      "notes":DoctorId,
+                      "paystatus":1,
+                      "paytime":time,
+                      "openid":Storage.get('messageopenid'),
+                      "trade_type":"JSAPI"
+                                // userId:Storage.get('UID'),
+                                // money:$scope.doctor.charge2*100,
+                                // goodsInfo:{
+                                //   class:'02',
+                                //   name:'问诊',
+                                //   notes:DoctorId
+                                // },
+                                // paystatus:0,
+                                // paytime:time
+                  }
                   payment.payment(neworder).then(function(data){
                     console.log(data) //data.errMsg:"chooseWXPay:ok"时支付成功
                     if (data.errMsg == "chooseWXPay:ok")
                     {
-                      chargemoney = data.money
+                      chargemoney = doctor.charge2
                       Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:'问诊',doctorName:docname,money:chargemoney}).then(function(data){
                         console.log(data)
                       },function(err){
@@ -6430,28 +6500,6 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
       })
   }
 
-  var pay = function(patientId,doctorId,code,name,money){
-    var time = new Date()
-    time =  $filter("date")(time, "yyyy-MM-dd HH:mm:ss");
-    var neworder = {
-                  userId:patientId,
-                  money:1,
-                  goodsInfo:{
-                    class:code,
-                    name:name,
-                    notes:doctorId
-                  },
-                  paystatus:0,
-                  paytime:time
-                }
-    payment.payment(neworder).then(function(data){
-      console.log(data) //data.errMsg:"chooseWXPay:ok"时支付成功
-      return data.errMsg;
-    },function(err){
-      console.log(err)
-      return err;
-    })
-  }
 }])
 
 
@@ -8203,7 +8251,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
     $scope.deliverAdvice = function(advice){
         
-        Advice.postAdvice({userId:Storage.get('UID'),role:"patient",topic:advice.topic,content:advice.content}).then(
+        Advice.postAdvice({userId:Storage.get('UID'),role:"patient",content:advice.content}).then(
             function(data){
                 if(data.result == "新建成功"){
                     $ionicLoading.show({
