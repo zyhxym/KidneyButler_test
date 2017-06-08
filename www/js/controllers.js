@@ -6713,7 +6713,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 }])
 
 //肾病保险主页面--TDY
-.controller('insuranceCtrl', ['$scope', '$state', '$ionicHistory','insurance','Storage','$filter',function ($scope, $state,$ionicHistory,insurance,Storage,$filter) {
+.controller('insuranceCtrl', ['$scope', '$state', '$ionicHistory','insurance','Storage','$filter','$ionicPopup',function ($scope, $state,$ionicHistory,insurance,Storage,$filter,$ionicPopup) {
   var show = false;
 
   $scope.isShown = function() {
@@ -6751,7 +6751,15 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     insurance.setPrefer(temp).then(function(data){
       if (data.results == "success")
       {
-        alert("已收到您的保险意向，工作人员将尽快与您联系！")
+        $ionicPopup.show({   
+             title: '已收到您的保险意向，工作人员将尽快与您联系！',
+             buttons: [
+               {
+                    text: '確定',
+                    type: 'button-positive'
+               },
+               ]
+        })
       }
     },
     function(err){
@@ -6767,7 +6775,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 }])
 
 //肾病保险相关工具--TDY
-.controller('insurancefunctionCtrl', ['$scope', '$state', '$http', function ($scope, $state, $http) {
+.controller('insurancefunctionCtrl', ['$scope', '$state', '$http', '$ionicPopup',function ($scope, $state, $http,$ionicPopup) {
   $scope.InsuranceInfo = {
     "InsuranceAge": 25,
     "Gender": "NotSelected",
@@ -6863,12 +6871,30 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
       if ($scope.InsuranceInfo.CalculationType == "CalculateExpense")
       {
         $scope.InsuranceInfo.InsuranceExpense = $scope.InsuranceInfo.InsuranceMoney*$scope.InsuranceInfo.InsuranceParameter/1000
-        alert("您的保费为：" + $scope.InsuranceInfo.InsuranceExpense.toFixed(2) + "元")
+        // alert("您的保费为：" + $scope.InsuranceInfo.InsuranceExpense.toFixed(2) + "元")
+        $ionicPopup.show({   
+             title: "您的保费为：" + $scope.InsuranceInfo.InsuranceExpense.toFixed(2) + "元",
+             buttons: [
+               {
+                    text: '確定',
+                    type: 'button-positive'
+               },
+               ]
+        })
       }
       else if ($scope.InsuranceInfo.CalculationType == "CalculateMoney")
       {
         $scope.InsuranceInfo.InsuranceExpense = 1000*$scope.InsuranceInfo.InsuranceMoney/$scope.InsuranceInfo.InsuranceParameter
-        alert("您的保额为：" + $scope.InsuranceInfo.InsuranceExpense.toFixed(2) + "元")
+        // alert("您的保额为：" + $scope.InsuranceInfo.InsuranceExpense.toFixed(2) + "元")
+        $ionicPopup.show({   
+             title: "您的保额为：" + $scope.InsuranceInfo.InsuranceExpense.toFixed(2) + "元",
+             buttons: [
+               {
+                    text: '確定',
+                    type: 'button-positive'
+               },
+               ]
+        })
       }
     }
   }
@@ -6971,7 +6997,16 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     {
       kidneyclass = "CDK 5期";
     }
-    alert("估算您的肾小球滤过率为：" + $scope.Kidneyfunction.KidneyfunctionValue.toFixed(2) + ",您处于" +kidneyclass)
+    // alert("估算您的肾小球滤过率为：" + $scope.Kidneyfunction.KidneyfunctionValue.toFixed(2) + ",您处于" +kidneyclass)
+    $ionicPopup.show({   
+         title: "估算您的肾小球滤过率为：" + $scope.Kidneyfunction.KidneyfunctionValue.toFixed(2) + ",您处于" +kidneyclass,
+         buttons: [
+           {
+                text: '確定',
+                type: 'button-positive'
+           },
+           ]
+    })
   }
 
   $scope.resetkidneyfunction = function(){
