@@ -5302,7 +5302,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 }])
 
 //医生列表--PXY
-.controller('DoctorCtrl', ['Storage','$ionicLoading','$scope','$state','$ionicPopup','$ionicHistory','Dict','Patient','$location','Doctor','Counsels','wechat','order','Account','$http','CONFIG','payment','$filter','Expense','$q',function(Storage,$ionicLoading,$scope, $state,$ionicPopup,$ionicHistory,Dict,Patient,$location,Doctor,Counsels,wechat,order,Account,$http,CONFIG,payment,$filter,Expense.$q) {
+.controller('DoctorCtrl', ['Storage','$ionicLoading','$scope','$state','$ionicPopup','$ionicHistory','Dict','Patient','$location','Doctor','Counsels','wechat','order','Account','$http','CONFIG','payment','$filter','Expense','$q',function(Storage,$ionicLoading,$scope, $state,$ionicPopup,$ionicHistory,Dict,Patient,$location,Doctor,Counsels,wechat,order,Account,$http,CONFIG,payment,$filter,Expense,$q) {
   //$scope.barwidth="width:0%";
   $scope.Goback = function(){
     $state.go('tab.myDoctors');
