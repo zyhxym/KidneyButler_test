@@ -1,0 +1,16 @@
+<ion-view view-title="意见反馈">
+    <ion-nav-bar class="bar-positive " align-title="center">
+        <ion-nav-buttons side="left">
+        <button class="button button-icon icon ion-ios-arrow-left fc-ff" ng-click="$ionicGoBack()"></button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-content class="padding">
+        <form>
+
+            <label class="item item-input" style="border:1px solid #6ac4f8;border-radius: 5px;margin-top: 10px ">
+              <textarea placeholder="请您详细描述在使用app过程中遇到的问题" rows="8" style="line-height: 25px" ng-model="advice.content"></textarea>
+            </label>
+            <button style="margin-top:0 ;background: #6ac4f8;width: 80%;margin: 0 auto" class="button button-block button-positive mt-40" ng-disabled="!(advice.content)" type="submit" ng-click="deliverAdvice(advice)">提交</button>
+        </form>
+    </ion-content>
+</ion-view>

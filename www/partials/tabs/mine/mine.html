@@ -2,7 +2,7 @@
 <ion-view cache-view="false" view-title='个人中心' show-tabs>
     
   <!-- <div  style="position: absolute;top: 43px;z-index:100;display: block;height: 2.5px;background-color: #33cd5f;{{barwidth}}" ></div> -->
-    <ion-content>
+    <ion-content class="bg-f5">
 
         <div class="me-top-box">
         <div class="me-top-bg"></div>
@@ -44,69 +44,40 @@
     <!-- 上传照片的弹出框 -->
 
 
-     <div class="content has-header ionic-pseudo">
+     <div class="me-mun bg-wite mt-10">
+            <div class="row ">
+                <a class="col col-50 text-center" ng-click="GoUserDetail()"><i class="icon iconfont icon-gerenxinxi"></i>个人信息</a>
+                <a class="col col-50 text-center" ng-click="GoManagement()"><i class="icon iconfont icon-shenjieshi"></i>肾病方案</a>
+            </div>
+            <div class="row">
+                <a class="col col-50 text-center" ng-click="GoDiagnosiInfo()"><i class="icon iconfont icon-dedaozhenduanbaogao"></i>诊断记录</a>
+                <a class="col col-50 text-center" ng-click="GoHealthInfo()"><i class="icon  iconfont icon-jiankang"></i>健康信息</a>
+            </div>
+            <div class="row">
+                <a class="col col-50 text-center" ng-click="GoConsultRecord()"><i class="icon iconfont icon-iconfontconsult"></i>咨询记录</a>
+                <a class="col col-50 text-center"  ng-click="GoMoney()"><i class="icon iconfont icon-zengzhifuwu"></i>增值服务</a>
+            </div>
+        </div>
+        <div class="me-list list mt-15">
 
-      <div class="list">
-        <a class="item item-icon-left item-icon-right" ng-click="GoUserDetail()">
-          <i class="icon iconfont icon-gerenxinxi mg-left10"></i>
-            <span class="mg-left10">个人信息</span>
-          <i class="icon ion-ios-arrow-right"></i>
-        </a>
+            <a class="item item-icon-left" ng-click="ChangePassword()">
+                <i class="icon iconfont icon-xiugaimima"></i>修改密码
+            </a>
 
-        <a class="item item-icon-left item-icon-right" ng-click="GoDiagnosiInfo()">
-          <i class="icon iconfont icon-dedaozhenduanbaogao mg-left10"></i>
-            <span class="mg-left10">诊断记录</span>
-          <i class="icon ion-ios-arrow-right"></i>
-        </a>
+            <a class="item item-icon-left" ng-click="SignOut()">
+                <i class="icon iconfont icon-tuichuzhanghu"></i>
+                退出账号
+            </a>
 
-        <a class="item item-icon-left item-icon-right" ng-click="GoConsultRecord()">
-          <i class="icon iconfont icon-iconfontconsult mg-left10"></i>
-          <span class="mg-left10">咨询记录</span>
-          <i class="icon ion-ios-arrow-right"></i>
-        </a>
-
-        <a class="item item-icon-left item-icon-right" ng-click="GoHealthInfo()">
-          <i class="icon  iconfont icon-jiankang mg-left10"></i>
-          <span class="mg-left10"> 健康信息</span>
-          <i class="icon ion-ios-arrow-right"></i>
-        </a>
-
-        <a class="item item-icon-left item-icon-right" ng-click="GoManagement()">
-          <i class="icon iconfont icon-shenjieshi mg-left10"></i>
-          <span class="mg-left10"> 肾病管理方案</span>
-          <i class="icon ion-ios-arrow-right"></i>
-        </a>
-
-        <a class="item item-icon-left item-icon-right" ng-click="GoMoney()">
-          <i class="icon iconfont icon-zengzhifuwu mg-left10"></i>
-          <span class="mg-left10">增值服务</span>
-          <i class="icon ion-ios-arrow-right"></i>
-        </a>
-        
-        <a class="item item-icon-left item-icon-right" ng-click="ChangePassword()">
-            <i class="icon iconfont icon-xiugaimima mg-left10"></i>
-          <span class="mg-left10">修改密码</span>
-            <i class="icon ion-ios-arrow-right"></i>
-          </a>
-
-          <a class="item item-icon-left item-icon-right" ng-click="SignOut()">
-            <i class="icon iconfont icon-tuichuzhanghu mg-left10"></i>
-            <span class="mg-left10">退出账号</span>
-            <i class="icon ion-ios-arrow-right"></i>
-          </a>
-
-          <a class="item item-icon-left item-icon-right" ng-click="About()">
-            <i class="icon iconfont icon-jiangpai mg-left10"></i>
-              <span class="mg-left10">关于</span>
-            <i class="icon ion-ios-arrow-right"></i>
-          </a>
-
-
-          <iframe id="bbsframe_login" ng-src ='{{navigation_login}}' height="100%" width="100%" ng-show=false>
-            <p>Your browser does not support iframes.</p>
-          </iframe>
-       </div>
-     </div>
+            <a class="item item-icon-left" ng-click="ReflectAdvice()">
+                <i class="icon iconfont ion-paper-airplane"></i>
+            意见反馈
+            </a>
+            <a class="item item-icon-left" ng-click="About()">
+                <i class="icon iconfont icon-jiangpai"></i>
+            关于我们
+            </a>
+        </div>
 
 
     </ion-content>    

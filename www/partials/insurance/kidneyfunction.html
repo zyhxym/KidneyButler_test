@@ -1,53 +1,32 @@
 <ion-view cache-view="false" title="肾功能计算小工具">
-  <ion-nav-bar class="bar-dark nav-title-slide-ios7 green-bg" style="" >
-     <ion-nav-buttons class="bar-dark nav-title-slide-ios7" side="left" >
-         <button class="button button-clear"  ng-click="Goback()"><i class="icon ion-ios-arrow-back font-white"></i></button>
-      </ion-nav-buttons>
+  <ion-nav-bar class="bar-positive green-bg" align-title="center">
+    <ion-nav-buttons side="left">
+      <button class="button button-icon icon ion-ios-arrow-back font-white" ng-click="$ionicGoBack()"></button>
+    </ion-nav-buttons>
   </ion-nav-bar>
-  <div  style="position: absolute;top: 43px;z-index:100;display: block;height: 2px;background-color: #33cd5f;{{barwidth}}" ></div>
-  <ion-content padding="true"  style=" padding-left:0%;padding-right:0%;background : -webkit-linear-gradient(bottom, rgb(101, 98, 160) 00%, rgb(0, 0, 0) 99%);">
+  <ion-content padding="true">
+      <label  class="item item-input item-select-custom">
+          <i class="icon ion-asterisk" style="color:red;font-size:8px"></i><span class="input-label">性别</span>
+          <select  ng-model="Kidneyfunction.Gender" ng-options="Gender.Type as Gender.Name for Gender in Genders"></select>
+      </label>
+      <label class="item item-input">
+          <i class="icon ion-asterisk" style="color:red;font-size:8px"></i><span class="input-label">年龄</span>
+
+          <input  ng-model="Kidneyfunction.Age"  type="number" placeholder="请输入您的年龄" >
+      </label>
+      <label  class="item item-input item-select-custom">
+          <i class="icon ion-asterisk" style="color:red;font-size:8px"></i><span class="input-label">肌酐单位</span>
+          <select  ng-model="Kidneyfunction.CreatinineUnit" ng-options="CreatinineUnit.Type as CreatinineUnit.Type for CreatinineUnit in CreatinineUnits"></select>
+      </label>
+      <label class="item item-input">
+          <i class="icon ion-asterisk" style="color:red;font-size:8px"></i><span class="input-label">肌酐</span>
+
+          <input  ng-model="Kidneyfunction.Creatinine"  type="number" placeholder="请输入您的肌酐" >
+      </label>
+    
     <div>
-      <div class="row">
-          <div class="col">
-            <span class="input-label">性别</span> 
-          </div>  
-          <div class="col col-67" style="width:100%">
-            <select ng-model="Kidneyfunction.Gender" ng-options="Gender.Type as Gender.Name for Gender in Genders" style="width:100%">
-              <!-- <option value="">-请选择-</option> -->
-            </select>
-          </div>
-      </div>
-      <div class="row">
-          <div class="col">
-            <span class="input-label">年龄</span> 
-          </div>  
-          <div class="col col-67" style="width:100%">
-            <input class="item-input-wrapper" type="number" ng-model="Kidneyfunction.Age" placeholder="请输入您的年龄" style="width:100%">
-          </div>
-      </div>
-      <div class="row">
-          <div class="col">
-            <span class="input-label">肌酐单位</span> 
-          </div>  
-          <div class="col col-67" style="width:100%">
-            <input class="item-input-wrapper" type="tring" ng-model="Kidneyfunction.CreatinineUnit" placeholder="mg/dl" style="width:100%" ng-disabled="true">
-            <!-- <select ng-model="Kidneyfunction.CreatinineUnit" ng-options="CreatinineUnit in CreatinineUnits" style="width:100%"> -->
-              <!-- <option value="">-请选择-</option> -->
-            <!-- </select> -->
-          </div>
-      </div>
-      <div class="row">
-          <div class="col">
-            <span class="input-label">肌酐</span> 
-          </div>  
-          <div class="col col-67" style="width:100%">
-            <input class="item-input-wrapper" type="number" ng-model="Kidneyfunction.Creatinine" placeholder="请输入您的肌酐" style="width:100%">
-          </div>
-      </div>
-    </div>
-    <div>
-      <button ion-button block style=" width:80%;margin-left:10% " ng-click="getkidneyfunction()">确认</button>
-      <button ion-button block style=" width:80%;margin-left:10% " ng-click="resetkidneyfunction()">重置</button>
+      <button style="margin:20px auto;width: 80%" class="button button-block green-bg font-white" ng-click="getkidneyfunction()">确认</button>
+      <button style="margin:20px auto;width: 80%" class="button button-block green-bg font-white" ng-click="resetkidneyfunction()">重置</button>
     </div>
   </ion-content>
 </ion-view>
