@@ -469,20 +469,33 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                      if(setPassState=='register' || setPassState=='wechat'){
                       //结果分为连接超时或者注册成功
                       $rootScope.password=setPassword.newPass;
-                      // Storage.set('PASSWORD',setPassword.newPass);
-                      // $state.go('userdetail',{last:'register'});
-                      var codePromise = User.register({phoneNo:Storage.get('USERNAME'),password:setPassword.newPass,role:"patient"});
-                      codePromise.then(function(data){
+                      User.register({phoneNo:Storage.get('USERNAME'),password:setPassword.newPass,role:"patient"}).then(function(data){
+                          console.log(data);
                           if(data.results==0){
-                              // Storage.set('USERNAME',phone);
-                              $scope.logStatus = "注册患者成功！";
-                              $timeout(function(){$state.go('signin');} , 500);
-                          }else{
-                              $scope.logStatus = "该手机号码已经注册！";
+                            // alert(JSON.stringify(data))
+                              var patientId = data.userNo;
+                              Storage.set('UID',patientId);
+                                     
+                             
+                              User.updateAgree({userId:patientId,agreement:"0"}).then(function(data){
+                                  // alert("updateagree"+JSON.stringify(data))
+                                  if(data.results!=null){
+                                      $scope.logStatus ="恭喜您注册成功！";
+                                      $timeout(function(){$state.go('signin')},1500);
+                                  }
+                              },function(err){
+                                  // console.log(err);
+
+                              });
+
                           }
                       },function(){
+                          $ionicLoading.show({
+                              template: '注册失败',
+                              duration:1000
+                          });
                           $scope.logStatus = "连接超时！";
-                      })
+                      });
                     }else if(setPassState == 'reset'){
                   //如果是重置密码
                   //结果分为连接超时或者修改成功
