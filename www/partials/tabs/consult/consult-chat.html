@@ -11,8 +11,8 @@
         <div style="float:left;width:100%;" ng-style="{'padding-top':'{{params.helpDivHeight}}px'}"></div>
         <div style="float:left;width:100%;padding-top:70px"></div>
     </ion-content>
-    <form name="sendMessageForm" novalidate>
-        <div class="chat-bar">
+    <form novalidate>
+        <ion-footer-bar class="chat-bar">
             <div class="chat-top">
                 <!-- <button style="position: absolute;bottom: 2px;z-index: 999" class="button button-icon iconfont  icon-yuyin" ng-init="showVoice=false;" ng-click="showVoice==false?showVoice=true:showVoice=false;showMore=false;" ng-model="showVoice"></button> -->
                 <div class="chat-input" style="position: absolute;bottom: 4px;width: 100%;padding-left:3vw;padding-right:13vw;">
@@ -38,6 +38,6 @@
           <img src="img/icon_card@2x.png" alt="">
         </span> -->
             </div>
-        </div>
+        </ion-footer-bar>
     </form>
 </ion-view>
