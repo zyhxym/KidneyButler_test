@@ -5586,12 +5586,12 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                         console.log(data)
                       },function(err){
                         console.log(err)
-                      })
+                      }),
                       Account.modifyCounts({patientId:Storage.get('UID'),doctorId:DoctorId,modify:3}).then(function(data){
                         console.log(data)
                       },function(err){
                         console.log(err)
-                      })
+                      }),
                       Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:'咨询',doctorName:docname,money:0}).then(function(data){
                         console.log(data)
                       },function(err){
@@ -5667,7 +5667,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                             console.log(data)
                           },function(err){
                             console.log(err)
-                          })
+                          }),
                           //plus doc answer count  patientId:doctorId:modify
                           Account.modifyCounts({patientId:Storage.get('UID'),doctorId:DoctorId,modify:3}).then(function(data){
                             console.log(data)
@@ -5771,7 +5771,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                               console.log(data)
                             },function(err){
                               console.log(err)
-                            })
+                            }),
                             //plus doc answer count  patientId:doctorId:modify
                             Account.modifyCounts({patientId:Storage.get('UID'),doctorId:DoctorId,modify:999}).then(function(data){
                               console.log(data)
@@ -5942,7 +5942,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                               console.log(data)
                             },function(err){
                               console.log(err)
-                            })
+                            }),
                             //plus doc answer count  patientId:doctorId:modify
                             Account.modifyCounts({patientId:Storage.get('UID'),doctorId:DoctorId,modify:999}).then(function(data){
                               console.log(id+Storage.get('UID'))
@@ -6026,7 +6026,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                               console.log(data)
                             },function(err){
                               console.log(err)
-                            })
+                            }),
                             //plus doc answer count  patientId:doctorId:modify
                             Account.modifyCounts({patientId:Storage.get('UID'),doctorId:DoctorId,modify:2}).then(function(data){
                               console.log(data)
