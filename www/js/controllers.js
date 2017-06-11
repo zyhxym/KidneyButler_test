@@ -4041,7 +4041,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     }
     $scope.submitMsg = function() {
         if($scope.counselstatus!=1) return nomoney();
-        var actionUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfa2216ac422fb747&redirect_uri=http://proxy.haihonghospitalmanagement.com/go&response_type=code&scope=snsapi_userinfo&state=doctor_11_'+ $scope.params.counseltype+'_'+$scope.params.UID+'_'+$scope.params.counsel.counselId+ '&#wechat_redirect';
+        var actionUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfa2216ac422fb747&redirect_uri=http://proxy.haihonghospitalmanagement.com/go&response_type=code&scope=snsapi_userinfo&state=doctor_11_'+ $scope.params.counselstatus+'_'+$scope.params.UID+'_'+$scope.params.counsel.counselId+ '&#wechat_redirect';
         var template = {
             "userId": $scope.params.chatId, //医生的UID
             "role": "doctor",
