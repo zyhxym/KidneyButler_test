@@ -439,7 +439,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
 
 //设置密码  --PXY 
-.controller('setPasswordCtrl', ['$scope','$state','$rootScope' ,'$timeout' ,'Storage','$stateParams','User','$q','$http',function($scope,$state,$rootScope,$timeout,Storage,$stateParams,User,$q,$http) {
+.controller('setPasswordCtrl', ['$scope','$state','$rootScope' ,'$timeout' ,'Storage','$stateParams','User','$q','$http','jmapi',function($scope,$state,$rootScope,$timeout,Storage,$stateParams,User,$q,$http,jmapi) {
     //$scope.barwidth="width:0%";
     $scope.BackMain = function(){
         $state.go('signin');
