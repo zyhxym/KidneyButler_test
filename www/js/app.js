@@ -27,6 +27,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
             Storage.set('code',code)
         }
     }
+
     var wechatData = ""
     if (angular.isDefined(code) == true)
     {
@@ -129,8 +130,11 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                           var results = [];
                           var errs = [];
 
-                          
-                          if(params.length > 1 && params[0]=='patient'){
+                          if (state == 'testpatientinsurance')
+                          {
+                              $state.go('insurance')
+                          }
+                          else if(params.length > 1 && params[0]=='patient'){
                               if(params[1]=='11') $state.go('tab.consult-chat',{chatId:params[3]});
                           }else{
                               $q.all([

@@ -6608,8 +6608,24 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 }])
 
 //肾病保险主页面--TDY
-.controller('insuranceCtrl', ['$scope', '$state', '$ionicHistory','insurance','Storage','$filter','$ionicPopup',function ($scope, $state,$ionicHistory,insurance,Storage,$filter,$ionicPopup) {
+.controller('insuranceCtrl', ['$scope', '$state', '$ionicHistory','insurance','Storage','$filter','$ionicPopup','$location',function ($scope, $state,$ionicHistory,insurance,Storage,$filter,$ionicPopup,$location) {
   var show = false;
+  $scope.back = true;
+  var temp = $location.absUrl().split('=')
+  if (angular.isDefined(temp[1]) == true)
+  {
+      if (angular.isDefined(temp[2]) == true)
+      {
+          var code = temp[1].split('&')[0]
+          var state = temp[2].split('#')[0]
+
+      }
+  }
+
+  if (state == "testpatientinsurance")
+  {
+    $scope.back = false;
+  }
 
   $scope.isShown = function() {
         return show;
