@@ -194,10 +194,10 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                       {
                         $timeout(function(){$state.go('tab.tasklist');},500);
                       }
-                      else
-                      {
-                        $state.go('userdetail',{last:'implement'});
-                      }
+                      // else
+                      // {
+                      //   $state.go('userdetail',{last:'implement'});
+                      // }
                     },function(err){
                         console.log(err);
                     })

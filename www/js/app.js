@@ -167,12 +167,13 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                                               Patient.editPatientDetail({ userId: Storage.get("UID"), photoUrl: wechatData.headimgurl }).then(function(r) {
                                                   $state.go('tab.tasklist');
                                               })
-                                          } else {
+                                          }else {
                                               $state.go('tab.tasklist');
                                           }
-                                      }else {
-                                          $state.go('userdetail', { last: 'implement' });
                                       }
+                                      // else {
+                                      //     $state.go('userdetail', { last: 'implement' });
+                                      // }
                                   } else {
                                       $state.go('agreement', { last: 'signin' });
                                   }
