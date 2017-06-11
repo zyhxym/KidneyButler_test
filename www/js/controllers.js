@@ -3199,7 +3199,38 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
  
   // 上传头像的点击事件----------------------------
   $scope.onClickCamera = function($event){
-    $scope.openPopover($event);
+    Patient.getPatientDetail({userId:Storage.get('UID')}).then(function(data){
+        if (data.results == null)
+        {
+          $ionicPopup.show({
+                template: '您的个人信息尚未补全，请完善个人信息上传头像！',
+                title: '请完善个人信息',
+                scope: $scope,
+                buttons: [
+                { 
+                    text: '取消',
+                    type: 'button-small',
+                    onTap: function(e){
+                      $state.go('tab.mine');
+                    }
+                },
+                {
+                    text: '确定',
+                    type: 'button-small button-positive ',
+                    onTap: function(e) {
+                      $state.go('userdetail',{last:'implement'});
+                    }
+                }
+                ]
+            });
+        }
+        else
+        {
+          $scope.openPopover($event);
+        }
+      },function(err){
+          console.log(err);
+      })
   };
   $scope.reload=function(){
     var t=$scope.myAvatar; 
