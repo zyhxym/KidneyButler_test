@@ -171,7 +171,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                                               $state.go('tab.tasklist');
                                           }
                                       }else {
-                                          $state.go('userdetail', { last: 'register' });
+                                          $state.go('userdetail', { last: 'implement' });
                                       }
                                   } else {
                                       $state.go('agreement', { last: 'signin' });
