@@ -103,6 +103,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     $ionicHistory.clearCache();
                     $ionicHistory.clearHistory();
                     Storage.set('TOKEN',data.results.token);//token作用目前还不明确
+                    Storage.set('refreshToken',data.results.refreshToken);
                     Storage.set('isSignIn',"Yes");
                     Storage.set('UID',data.results.userId);
                     User.getAgree({userId:data.results.userId}).then(function(res){
@@ -1273,7 +1274,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     }
     GetUnread();
     if(Storage.get('isSignIn')=='Yes'){
-      RefreshUnread = $interval(GetUnread,2000);
+      // RefreshUnread = $interval(GetUnread,2000);
     }
 
 }])
@@ -5526,7 +5527,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                       "paystatus":1,
                       "paytime":time,
                       "openid":Storage.get('messageopenid'),
-                      "trade_type":"JSAPI"
+                      "trade_type":"JSAPI",
+                      "body_description":"咨询付费"
                                 // userId:Storage.get('UID'),
                                 // money:doctor.charge1*100,
                                 // goodsInfo:{
@@ -5625,7 +5627,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     "paystatus":1,
                     "paytime":time,
                     "openid":Storage.get('messageopenid'),
-                    "trade_type":"JSAPI"
+                    "trade_type":"JSAPI",
+                    "body_description":"咨询升级问诊付费"
                               // userId:Storage.get('UID'),
                               // money:doctor.charge2*100 - doctor.charge1*100,
                               // goodsInfo:{
@@ -5801,7 +5804,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                         "paystatus":1,
                         "paytime":time,
                         "openid":Storage.get('messageopenid'),
-                        "trade_type":"JSAPI"
+                        "trade_type":"JSAPI",
+                        "body_description":"咨询升级问诊付费"
                                   // userId:Storage.get('UID'),
                                   // money:doctor.charge2*100 - doctor.charge1*100,
                                   // goodsInfo:{
@@ -5885,7 +5889,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                         "paystatus":1,
                         "paytime":time,
                         "openid":Storage.get('messageopenid'),
-                        "trade_type":"JSAPI"
+                        "trade_type":"JSAPI",
+                        "body_description":"问诊付费"
                                   // userId:Storage.get('UID'),
                                   // money:doctor.charge2*100,
                                   // goodsInfo:{
@@ -6162,7 +6167,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     "paystatus":1,
                     "paytime":time,
                     "openid":Storage.get('messageopenid'),
-                    "trade_type":"JSAPI"
+                    "trade_type":"JSAPI",
+                    "body_description":"咨询付费"
                               // userId:Storage.get('UID'),
                               // money:$scope.doctor.charge1*100,
                               // goodsInfo:{
@@ -6243,7 +6249,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     "paystatus":1,
                     "paytime":time,
                     "openid":Storage.get('messageopenid'),
-                    "trade_type":"JSAPI"
+                    "trade_type":"JSAPI",
+                    "body_description":"咨询升级问诊付费"
                               // userId:Storage.get('UID'),
                               // money:$scope.doctor.charge2*100 - $scope.doctor.charge1*100,
                               // goodsInfo:{
@@ -6373,7 +6380,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                       "paystatus":1,
                       "paytime":time,
                       "openid":Storage.get('messageopenid'),
-                      "trade_type":"JSAPI"
+                      "trade_type":"JSAPI",
+                      "body_description":"咨询升级问诊付费"
                                 // userId:Storage.get('UID'),
                                 // money:$scope.doctor.charge2*100 - $scope.doctor.charge1*100,
                                 // goodsInfo:{
@@ -6438,7 +6446,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                       "paystatus":1,
                       "paytime":time,
                       "openid":Storage.get('messageopenid'),
-                      "trade_type":"JSAPI"
+                      "trade_type":"JSAPI",
+                      "body_description":"问诊付费"
                                 // userId:Storage.get('UID'),
                                 // money:$scope.doctor.charge2*100,
                                 // goodsInfo:{
