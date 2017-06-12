@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.directives','kidney.filters','ngCordova','ngFileUpload'])
+angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.directives','kidney.filters','ngCordova','ngFileUpload','angular-jwt'])
 
 .run(function($ionicPlatform, $state, Storage, $location, $ionicHistory, $ionicPopup,$rootScope,JM,$location,wechat,User,Patient,$q,$window) {
   $ionicPlatform.ready(function() {
@@ -53,26 +53,14 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                     },function(err){
                         temperr.push(err)
                     }),
-                    User.getMessageOpenId({type:2,userId:data.UserId}).then(function(res){
-                        tempresult.push(res)
+                    User.setMessageOpenId({type:2,userId:data.UserId,openId:wechatData.openid}).then(function(res){
+                        console.log("setopenid");
                     },function(err){
                         temperr.push(err)
                     })
                     ]).then(function(){
                       console.log(temperr)
-                        if (tempresult[0].results == undefined || tempresult[0].results == null)
-                        {
-                          User.setMessageOpenId({type:2,userId:data.UserId,openId:wechatData.openid}).then(function(res){
-                              console.log("setopenid");
-                              $state.go('signin')
-                          },function(){
-                              console.log("连接超时！");
-                          })
-                        }
-                        else
-                        {
-                            $state.go('signin')
-                        }
+                      $state.go('signin')
                     })
                 }
                 else
@@ -124,6 +112,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                               console.log(err)
                           })  
                           Storage.set('TOKEN',data.results.token);//token作用目前还不明确
+                          Storage.set('refreshToken',data.results.refreshToken);
                           Storage.set('isSignIn',"Yes");
                           Storage.set('UID',data.results.userId);
                           
@@ -647,7 +636,90 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
 
 
 
-});   
+})   
 
+// $httpProvider.interceptors提供http request及response的预处理
+.config(['$httpProvider', 'jwtOptionsProvider', function ($httpProvider, jwtOptionsProvider) {
+    // 下面的getter可以注入各种服务, service, factory, value, constant, provider等, constant, provider可以直接在.config中注入, 但是前3者不行
+    jwtOptionsProvider.config({
+      whiteListedDomains: ['testpatient.haihonghospitalmanagement.com', 'testdoctor.haihonghospitalmanagement.com','patient.haihonghospitalmanagement.com','doctor.haihonghospitalmanagement.com','localhost'],
+      tokenGetter: function(options, jwtHelper, $http, CONFIG, Storage,$ionicLoading) {
+         // console.log(config);
+        // console.log(CONFIG.baseUrl);
 
+        // var token = sessionStorage.getItem('token');
+        var token = Storage.get('TOKEN');
+        // var refreshToken = sessionStorage.getItem('refreshToken');
+        var refreshToken = Storage.get('refreshToken');
+        if (!token && !refreshToken) {
+            return null;
+        }
+
+        var isExpired = true;
+        try {
+            isExpired = jwtHelper.isTokenExpired(token);
+             // console.log(isExpired);
+        }
+        catch (e) {
+             console.log(e);
+            isExpired = true;
+        }
+        // 这里如果同时http.get两个模板, 会产生两个$http请求, 插入两次jwtInterceptor, 执行两次getrefreshtoken的刷新token操作, 会导致同时查询redis的操作, ×××估计由于数据库锁的关系×××(由于token_manager.js中的exports.refreshToken中直接删除了redis数据库里前一个refreshToken, 导致同时发起的附带有这个refreshToken的getrefreshtoken请求查询返回reply为null, 导致返回"凭证不存在!"错误), 其中一次会查询失败, 导致返回"凭证不存在!"错误, 使程序流程出现异常(但是为什么会出现模板不能加载的情况? 是什么地方阻止了模板的下载?)
+        if (options.url.substr(options.url.length - 5) === '.html' || options.url.substr(options.url.length - 3) === '.js' || options.url.substr(options.url.length - 4) === '.css' || options.url.substr(options.url.length - 4) === '.jpg' || options.url.substr(options.url.length - 4) === '.png' || options.url.substr(options.url.length - 4) === '.ico' || options.url.substr(options.url.length - 5) === '.woff') {  // 应该把这个放到最前面, 否则.html模板载入前会要求refreshToken, 如果封装成APP后, 这个就没用了, 因为都在本地, 不需要从服务器上获取, 也就不存在http get请求, 也就不会interceptors
+             // console.log(config.url);
+            return null;
+        }
+        else if (isExpired) {    // 需要加上refreshToken条件, 否则会出现网页循环跳转
+            // This is a promise of a JWT token
+             // console.log(token);
+            if (refreshToken && refreshToken.length >= 16) {  // refreshToken字符串长度应该大于16, 小于即为非法
+                return $http({
+                    url: CONFIG.baseUrl + 'token/refresh?refresh_token=' + refreshToken,
+                    // This makes it so that this request doesn't send the JWT
+                    skipAuthorization: true,
+                    method: 'GET',
+                    timeout: 5000
+                }).then(function (res) { // $http返回的值不同于$resource, 包含config等对象, 其中数据在res.data中
+                     console.log(res);
+                    // sessionStorage.setItem('token', res.data.token);
+                    // sessionStorage.setItem('refreshToken', res.data.refreshToken);
+                    if (res == '凭证不存在!')
+                    {
+                      $ionicLoading.show({
+                              template: '请重新登录！',
+                              duration:1000
+                          });
+                      Storage.rm('refreshToken');  
+                      return null;
+                    }
+                    else
+                    {
+                      Storage.set('TOKEN', res.data.token);
+                      Storage.set('refreshToken', res.data.refreshToken);
+                      return res.data.token;
+                    }
+                }, function (err) {
+                    console.log(err);
+                    // sessionStorage.removeItem('token');
+                    // sessionStorage.removeItem('refreshToken');
+                    // Storage.rm('token');
+                    // Storage.rm('refreshToken');
+                    return null;
+                });
+            }
+            else {
+                Storage.rm('refreshToken');  // 如果是非法refreshToken, 删除之
+                return null;
+            }  
+        } 
+        else {
+            // console.log(token);
+            return token;
+        }
+      },
+      unauthenticatedRedirectPath: '#/signin'
+    })
+
+  $httpProvider.interceptors.push('jwtInterceptor');
+}])
  
