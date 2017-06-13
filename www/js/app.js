@@ -642,8 +642,8 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
 .config(['$httpProvider', 'jwtOptionsProvider', function ($httpProvider, jwtOptionsProvider) {
     // 下面的getter可以注入各种服务, service, factory, value, constant, provider等, constant, provider可以直接在.config中注入, 但是前3者不行
     jwtOptionsProvider.config({
-      whiteListedDomains: ['testpatient.haihonghospitalmanagement.com', 'testdoctor.haihonghospitalmanagement.com','patient.haihonghospitalmanagement.com','doctor.haihonghospitalmanagement.com','localhost'],
-      tokenGetter: function(options, jwtHelper, $http, CONFIG, Storage,$ionicLoading) {
+      whiteListedDomains: ['121.43.107.106', 'testpatient.haihonghospitalmanagement.com', 'testdoctor.haihonghospitalmanagement.com','patient.haihonghospitalmanagement.com','doctor.haihonghospitalmanagement.com','localhost'],
+      tokenGetter: ['options', 'jwtHelper', '$http', 'CONFIG', 'Storage', '$state', function(options, jwtHelper, $http, CONFIG, Storage,$state) {
          // console.log(config);
         // console.log(CONFIG.baseUrl);
 
@@ -657,7 +657,20 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
 
         var isExpired = true;
         try {
-            isExpired = jwtHelper.isTokenExpired(token);
+            // isExpired = jwtHelper.isTokenExpired(token);
+            var temp = jwtHelper.decodeToken(token);
+            if (temp.exp === "undefined")
+            {
+              isExpired = false;
+            }
+            else
+            {
+              // var d = new Date(0); // The 0 here is the key, which sets the date to the epoch
+              // d.setUTCSeconds(temp.expireAfter);
+              isExpired = !(temp.exp > new Date().valueOf());//(new Date().valueOf() - 8*3600*1000));
+              console.log(temp)
+            }
+           
              // console.log(isExpired);
         }
         catch (e) {
@@ -680,26 +693,20 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                     method: 'GET',
                     timeout: 5000
                 }).then(function (res) { // $http返回的值不同于$resource, 包含config等对象, 其中数据在res.data中
-                     console.log(res);
+                     // console.log(res);
                     // sessionStorage.setItem('token', res.data.token);
                     // sessionStorage.setItem('refreshToken', res.data.refreshToken);
-                    if (res == '凭证不存在!')
-                    {
-                      $ionicLoading.show({
-                              template: '请重新登录！',
-                              duration:1000
-                          });
-                      Storage.rm('refreshToken');  
-                      return null;
-                    }
-                    else
-                    {
-                      Storage.set('TOKEN', res.data.token);
-                      Storage.set('refreshToken', res.data.refreshToken);
-                      return res.data.token;
-                    }
+                      Storage.set('TOKEN', res.data.results.token);
+                      Storage.set('refreshToken', res.data.results.refreshToken);
+                      return res.data.results.token;
                 }, function (err) {
                     console.log(err);
+                    if (refreshToken == Storage.get('refreshToken'))
+                    {
+                      console.log("凭证不存在!")
+                      console.log(options)
+                      $state.go('signin')
+                    }
                     // sessionStorage.removeItem('token');
                     // sessionStorage.removeItem('refreshToken');
                     // Storage.rm('token');
@@ -716,8 +723,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
             // console.log(token);
             return token;
         }
-      },
-      unauthenticatedRedirectPath: '#/signin'
+      }]
     })
 
   $httpProvider.interceptors.push('jwtInterceptor');

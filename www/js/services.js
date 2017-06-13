@@ -744,9 +744,9 @@ angular.module('kidney.services', ['ionic','ngResource'])
 
     var User = function(){
         return $resource(CONFIG.baseUrl + ':path/:route',{path:'user'},{
-            register:{method:'POST', params:{route: 'register',phoneNo:'@phoneNo',password:'@password',role:'@role'}, timeout: 100000},
-            changePassword:{method:'POST', params:{route: 'reset',phoneNo:'@phoneNo',password:'@password'}, timeout: 100000},
-            logIn:{method:'POST', params:{route: 'login'}, timeout: 100000},
+            register:{method:'POST', params:{route: 'register', skipAuthorization: true, phoneNo:'@phoneNo',password:'@password',role:'@role'}, timeout: 100000},
+            changePassword:{method:'POST', params:{route: 'reset', skipAuthorization: true, phoneNo:'@phoneNo',password:'@password'}, timeout: 100000},
+            logIn:{method:'POST', skipAuthorization: true, params:{route: 'login'}, timeout: 100000},
             logOut:{method:'POST', params:{route: 'logout',userId:'@userId'}, timeout: 100000},
             getUserId:{method:'GET', params:{route: 'getUserID',phoneNo:'@phoneNo'}, timeout: 100000},
             sendSMS:{method:'POST', params:{route: 'sendSMS',mobile:'@mobile',smsType:'@smsType'}, timeout: 100000},//第一次验证码发送成功返回结果为”User doesn't exist“，如果再次发送才返回”验证码成功发送“
@@ -830,8 +830,8 @@ angular.module('kidney.services', ['ionic','ngResource'])
 
     var wechat = function(){
         return $resource(CONFIG.baseUrl + ':path/:route',{path:'wechat'},{
-            settingConfig:{method:'GET', params:{route: 'settingConfig'}, timeout: 100000},
-            getUserInfo:{method:'GET', params:{route: 'getUserInfo'}, timeout: 100000},
+            settingConfig:{method:'GET', skipAuthorization: true, params:{route: 'settingConfig'}, timeout: 100000},
+            getUserInfo:{method:'GET', skipAuthorization: true, params:{route: 'getUserInfo'}, timeout: 100000},
             download:{method:'GET', params:{route: 'download'}, timeout: 100000},
             addOrder:{method:'POST', params:{route: 'addOrder'}, timeout: 100000},
             messageTemplate:{method:'POST', params:{route: 'messageTemplate'}, timeout: 100000}
@@ -2376,7 +2376,7 @@ return self;
         alert(config.debug)
         console.log(angular.toJson(config))
         wx.config({
-          debug:true,
+          debug:false,
           appId:config.appId,
           timestamp:config.timestamp,
           nonceStr:config.nonceStr,

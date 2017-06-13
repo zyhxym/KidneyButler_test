@@ -65,14 +65,6 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
             return;
         }
       else{
-            User.getUserId({phoneNo:logOn.username}).then(function(data){
-                if (data.UserId && data.roles) 
-                {
-                  User.setMessageOpenId({type:2,userId:data.UserId,openId:Storage.get('messageopenid')}).then(function(res){
-                  },function(err){
-                  })
-                }
-            })
             Storage.set('USERNAME',logOn.username);
             var logPromise = User.logIn({username:logOn.username,password:logOn.password,role:"patient"});
             logPromise.then(function(data){
@@ -107,11 +99,15 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     Storage.set('isSignIn',"Yes");
                     Storage.set('UID',data.results.userId);
                     User.getAgree({userId:data.results.userId}).then(function(res){
+                        User.setMessageOpenId({type:2,userId:data.results.userId,openId:Storage.get('messageopenid')}).then(function(res){
+                        },function(err){
+                        })
                         if(res.results.agreement=="0"){
                             // Patient.getPatientDetail({userId:Storage.get('UID')}).then(function(data){
                             //   if (data.results != null)
                             //   {
-                                $timeout(function(){$state.go('tab.tasklist');},500);
+                              
+                              $timeout(function(){$state.go('tab.tasklist');},500);
                             //   }
                             //   else
                             //   {
