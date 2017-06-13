@@ -282,7 +282,19 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
     window.addEventListener('native.keyboardhide', function(e) {
         $rootScope.$broadcast('keyboardhide');
     });
-
+    $rootScope.online = navigator.onLine;
+    $window.addEventListener("offline", function () {
+      $rootScope.$apply(function() {
+        $rootScope.online = false;
+  //        $window.location.reload();
+      });
+    }, false);
+    $window.addEventListener("online", function () {
+      $rootScope.$apply(function() {
+        $rootScope.online = true;
+   //       $window.location.reload();
+      });
+    }, false);
   });
 })
 
@@ -642,8 +654,8 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
 .config(['$httpProvider', 'jwtOptionsProvider', function ($httpProvider, jwtOptionsProvider) {
     // 下面的getter可以注入各种服务, service, factory, value, constant, provider等, constant, provider可以直接在.config中注入, 但是前3者不行
     jwtOptionsProvider.config({
-      whiteListedDomains: ['121.43.107.106', 'testpatient.haihonghospitalmanagement.com', 'testdoctor.haihonghospitalmanagement.com','patient.haihonghospitalmanagement.com','doctor.haihonghospitalmanagement.com','localhost'],
-      tokenGetter: ['options', 'jwtHelper', '$http', 'CONFIG', 'Storage', '$state', function(options, jwtHelper, $http, CONFIG, Storage,$state) {
+      whiteListedDomains: ['121.196.221.44','121.43.107.106', 'testpatient.haihonghospitalmanagement.com', 'testdoctor.haihonghospitalmanagement.com','patient.haihonghospitalmanagement.com','doctor.haihonghospitalmanagement.com','localhost'],
+      tokenGetter: ['options', 'jwtHelper', '$http', 'CONFIG', 'Storage', '$state', '$ionicPopup',function(options, jwtHelper, $http, CONFIG, Storage,$state,$ionicPopup) {
          // console.log(config);
         // console.log(CONFIG.baseUrl);
 
@@ -703,9 +715,24 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                     console.log(err);
                     if (refreshToken == Storage.get('refreshToken'))
                     {
-                      console.log("凭证不存在!")
-                      console.log(options)
-                      $state.go('signin')
+                      // console.log("凭证不存在!")
+                      // console.log(options)
+                      $ionicPopup.show({   
+                           title: '您离开太久了，请重新登录',
+                           buttons: [
+                             { 
+                                  text: '取消',
+                                  type: 'button'
+                              },
+                             {
+                                  text: '確定',
+                                  type: 'button-positive',
+                                  onTap: function(e) {
+                                      $state.go('signin')
+                                  }
+                             },
+                             ]
+                      })
                     }
                     // sessionStorage.removeItem('token');
                     // sessionStorage.removeItem('refreshToken');
