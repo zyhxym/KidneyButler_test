@@ -101,6 +101,12 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                           // $scope.logStatus = "登录成功！";
                           $ionicHistory.clearCache();
                           $ionicHistory.clearHistory();
+
+                          Storage.set('TOKEN',data.results.token);//token作用目前还不明确
+                          Storage.set('refreshToken',data.results.refreshToken);
+                          Storage.set('isSignIn',"Yes");
+                          Storage.set('UID',data.results.userId);
+
                           User.getUserIDbyOpenId({openId:Storage.get('openid')}).then(function(data)
                           {
                               if (angular.isDefined(data.phoneNo) == true)
@@ -111,10 +117,6 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                           {
                               console.log(err)
                           })  
-                          Storage.set('TOKEN',data.results.token);//token作用目前还不明确
-                          Storage.set('refreshToken',data.results.refreshToken);
-                          Storage.set('isSignIn',"Yes");
-                          Storage.set('UID',data.results.userId);
                           
                           var results = [];
                           var errs = [];
@@ -285,13 +287,15 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
     $rootScope.online = navigator.onLine;
     $window.addEventListener("offline", function () {
       $rootScope.$apply(function() {
-        alert('offline')
+        $ionicLoading.show({
+          template:"请确认您的手机已连接到数据网络或无线网络！",
+          duration:1500
+        })
         $rootScope.online = false;
       });
     }, false);
     $window.addEventListener("online", function () {
       $rootScope.$apply(function() {
-        alert('online')
         $rootScope.online = true;
       });
     }, false);
