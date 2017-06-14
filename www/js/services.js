@@ -749,11 +749,11 @@ angular.module('kidney.services', ['ionic','ngResource'])
             logIn:{method:'POST', skipAuthorization: true, params:{route: 'login'}, timeout: 100000},
             logOut:{method:'POST', params:{route: 'logout',userId:'@userId'}, timeout: 100000},
             getUserId:{method:'GET', params:{route: 'getUserID',phoneNo:'@phoneNo'}, timeout: 100000},
-            sendSMS:{method:'POST', params:{route: 'sendSMS',mobile:'@mobile',smsType:'@smsType'}, timeout: 100000},//第一次验证码发送成功返回结果为”User doesn't exist“，如果再次发送才返回”验证码成功发送“
-            verifySMS:{method:'GET', params:{route: 'verifySMS',mobile:'@mobile',smsType:'@smsType',smsCode:'@smsCode'}, timeout: 100000},
+            sendSMS:{method:'POST', params:{route: 'sendSMS', skipAuthorization: true, mobile:'@mobile',smsType:'@smsType'}, timeout: 100000},//第一次验证码发送成功返回结果为”User doesn't exist“，如果再次发送才返回”验证码成功发送“
+            verifySMS:{method:'GET', params:{route: 'verifySMS', skipAuthorization: true, mobile:'@mobile',smsType:'@smsType',smsCode:'@smsCode'}, timeout: 100000},
             getAgree:{method:'GET', params:{route: 'getUserAgreement',userId:'@userId'}, timeout: 100000},
             updateAgree:{method:'POST', params:{route: 'updateUserAgreement'}, timeout: 100000},
-            getUserIDbyOpenId:{method:'GET', params:{route: 'getUserIDbyOpenId'}, timeout: 100000},
+            getUserIDbyOpenId:{method:'GET', params:{route: 'getUserIDbyOpenId', skipAuthorization: true}, timeout: 100000},
             setOpenId:{method:'POST', params:{route: 'setOpenId'}, timeout: 100000},
             getMessageOpenId:{method:'GET', params:{route: 'getMessageOpenId'}, timeout: 100000},
             setMessageOpenId:{method:'POST', params:{route: 'setMessageOpenId'}, timeout: 100000}

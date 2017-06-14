@@ -135,7 +135,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                                       errs.push(err)
                                   }),
                                   User.setMessageOpenId({ type: 2, userId: Storage.get("UID"), openId: Storage.get('messageopenid') }).then(function(res) {
-                                      results.push(res)
+                                      // results.push(res)
                                   }, function(err) {
                                       errs.push(err)
                                   }),
@@ -146,14 +146,12 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                                   })
                               ]).then(function() {
                                   console.log(results)
-                                  var a, b, c;
+                                  var a, b;
                                   for (var i in results) {
                                       if (results[i].results.agreement != undefined) {
                                           a = i;
-                                      } else if (results[i].recentDiagnosis != undefined) {
-                                          b = i;
                                       } else {
-                                          c = i;
+                                          b = i;
                                       }
                                   }
                                   if (results[a].results.agreement == "0") {
