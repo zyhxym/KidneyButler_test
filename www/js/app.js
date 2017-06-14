@@ -34,7 +34,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
         wechat.getUserInfo({code:code}).then(function(data){ 
           // alert(1)
           wechatData = data.results
-          console.log(wechatData)
+          // console.log(wechatData)
           Storage.set('openid',wechatData.unionid)
           Storage.set('messageopenid',wechatData.openid)
           Storage.set('wechathead',wechatData.headimgurl)
@@ -48,18 +48,18 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                     var tempresult = []
                     var temperr = []
                     $q.all([
-                    User.setOpenId({phoneNo:data.phoneNo,openId:Storage.get('openid')}).then(function(res){
-                        console.log("替换openid");
-                    },function(err){
-                        temperr.push(err)
-                    }),
-                    User.setMessageOpenId({type:2,userId:data.UserId,openId:wechatData.openid}).then(function(res){
-                        console.log("setopenid");
-                    },function(err){
-                        temperr.push(err)
-                    })
+                        User.setOpenId({phoneNo:data.phoneNo,openId:Storage.get('openid')}).then(function(res){
+                            console.log("替换openid");
+                        },function(err){
+                            temperr.push(err)
+                        }),
+                        User.setMessageOpenId({type:2,userId:data.UserId,openId:wechatData.openid}).then(function(res){
+                            console.log("setopenid");
+                        },function(err){
+                            temperr.push(err)
+                        })
                     ]).then(function(){
-                      console.log(temperr)
+                      // console.log(temperr)
                       $state.go('signin')
                     })
                 }
@@ -285,14 +285,14 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
     $rootScope.online = navigator.onLine;
     $window.addEventListener("offline", function () {
       $rootScope.$apply(function() {
+        alert('offline')
         $rootScope.online = false;
-  //        $window.location.reload();
       });
     }, false);
     $window.addEventListener("online", function () {
       $rootScope.$apply(function() {
+        alert('online')
         $rootScope.online = true;
-   //       $window.location.reload();
       });
     }, false);
   });
@@ -680,7 +680,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
               // var d = new Date(0); // The 0 here is the key, which sets the date to the epoch
               // d.setUTCSeconds(temp.expireAfter);
               isExpired = !(temp.exp > new Date().valueOf());//(new Date().valueOf() - 8*3600*1000));
-              console.log(temp)
+              // console.log(temp)
             }
            
              // console.log(isExpired);

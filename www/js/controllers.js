@@ -5210,7 +5210,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
   }  
 
- 
+  
     $scope.Provinces={};
     $scope.Cities={};
     // $scope.Districts={};
