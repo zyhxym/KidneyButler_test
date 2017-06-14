@@ -754,9 +754,9 @@ angular.module('kidney.services', ['ionic','ngResource'])
             getAgree:{method:'GET', params:{route: 'getUserAgreement',userId:'@userId'}, timeout: 100000},
             updateAgree:{method:'POST', params:{route: 'updateUserAgreement'}, timeout: 100000},
             getUserIDbyOpenId:{method:'GET', params:{route: 'getUserIDbyOpenId', skipAuthorization: true}, timeout: 100000},
-            setOpenId:{method:'POST', params:{route: 'setOpenId'}, timeout: 100000},
-            getMessageOpenId:{method:'GET', params:{route: 'getMessageOpenId'}, timeout: 100000},
-            setMessageOpenId:{method:'POST', params:{route: 'setMessageOpenId'}, timeout: 100000}
+            setOpenId:{method:'POST', params:{route: 'setOpenId', skipAuthorization: true}, timeout: 100000},
+            getMessageOpenId:{method:'GET', params:{route: 'getMessageOpenId', skipAuthorization: true}, timeout: 100000},
+            setMessageOpenId:{method:'POST', params:{route: 'setMessageOpenId', skipAuthorization: true}, timeout: 100000}
         });
     }
 
