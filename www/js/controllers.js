@@ -3600,26 +3600,28 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
             counselcount:0,
             counseltype:'',
             counselstatus:'',
-            needlisten:0,
             counsel:'',
-            connect:false
+            loaded:false
         }
-        // if($state.params.type=='0') $scope.params.hidePanel=false;
-        // if (window.JMessage) {
-        //     window.JMessage.enterSingleConversation($state.params.chatId, CONFIG.crossKey);
-        //     getMsg(15);
-        // }
-        var loadWatcher = $scope.$watch('msgs.length',function(newv,oldv){
-            if(newv) {
-                loadWatcher();
-                var lastMsg=$scope.msgs[$scope.msgs.length-1];
-                if(lastMsg.fromID==$scope.params.UID) return;
-                return News.insertNews({userId:lastMsg.targetID,sendBy:lastMsg.fromID,type:'11',readOrNot:1});
-            }
-        });
+
+        // var loadWatcher = $scope.$watch('msgs.length',function(newv,oldv){
+        //     if(newv) {
+        //         loadWatcher();
+        //         var lastMsg=$scope.msgs[$scope.msgs.length-1];
+        //         if(lastMsg.fromID==$scope.params.UID) return;
+        //         return News.insertNews({userId:lastMsg.targetID,sendBy:lastMsg.fromID,type:'11',readOrNot:1});
+        //     }
+        // });
         $scope.getMsg(15).then(function(data){
             $scope.msgs=data;
             toBottom(true,400);
+            if(data.length!=0){
+                var lastMsg=$scope.msgs[$scope.msgs.length-1];
+                if(lastMsg.fromID!=$scope.params.UID){
+                    News.insertNews({userId:lastMsg.targetID,sendBy:lastMsg.fromID,type:'11',readOrNot:1});
+                }
+            }
+            $scope.params.loaded = true;
         });
     });
     $scope.$on('$ionicView.enter', function() {
@@ -3636,38 +3638,16 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
                 Account.getCounts({doctorId:$scope.params.chatId,patientId:Storage.get('UID')})
                 .then(function(res){
-                    if($scope.params.connect){
+                    if($scope.params.loaded){
                         return sendNotice($scope.params.counseltype,$scope.counselstatus,res.result.count);
                     }else{
-                        var connectWatcher = $scope.$watch('params.connect',function(newv,oldv){
+                        var connectWatcher = $scope.$watch('params.loaded',function(newv,oldv){
                             if(newv) {
                                 connectWatcher();
                                 return sendNotice($scope.params.counseltype,$scope.counselstatus,res.result.count);
                             }
                         });
                     }
-                    // var head='',body='';
-                    // if($scope.params.counseltype!='1'){
-                    //     head+='问诊';
-                    //     if($scope.counselstatus=='0'){
-                    //         head+='-已结束';
-                    //         body='您没有提问次数了。如需提问，请新建咨询或问诊';
-                    //     }else{
-                    //         body='您可以不限次数进行提问';
-                    //     }
-                    // }else{
-                    //     head+='咨询';
-                    //     if(res.result.count<=0){
-                    //         head+='-已结束';
-                    //         body='您没有提问次数了。如需提问，请新建咨询或问诊';
-                    //     }else{
-                    //         body='您还有'+res.result.count+'次提问机会';
-                    //     }
-                    // }
-                    // var alertPopup = $ionicPopup.alert({
-                    //     title: head,
-                    //     template: body
-                    // });
                 })
             },function(err)
             {
@@ -3682,7 +3662,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
             thisPatient=response.results;
             $scope.photoUrls[response.results.userId]=response.results.photoUrl;
             // socket = io.connect('ws://121.43.107.106:4050/chat');
-            socket.emit('newUser',{user_name:response.results.name,user_id:$scope.params.UID});
+            socket.emit('newUser',{user_name:response.results.name,user_id:$scope.params.UID,client:'wechatpatient'});
             socket.on('err',function(data){
                 console.error(data)
                 // $rootScope.$broadcast('receiveMessage',data);
@@ -3730,7 +3710,6 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                 }
                 // $rootScope.$broadcast('messageResponse',data);
             });
-            $scope.params.connect=true;
         }, function(err) {
 
         });
@@ -3760,10 +3739,10 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     //     }
     // }
     function sendNotice(type,status,cnt){
-        var t = setTimeout(function(){
+        // var t = setTimeout(function(){
             return sendCnNotice(type,status,cnt);
-        },2000);
-        $scope.timer.push(t);
+        // },2000);
+        // $scope.timer.push(t);
     }
     function sendCnNotice(type,status,cnt){
 
@@ -3798,6 +3777,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                 counseltype:type
             }
             var msgJson={
+                clientType:'wechatpatient',
+                targetRole:'doctor',
                 contentType:'custom',
                 fromID:$scope.params.UID,
                 fromName:thisPatient.name,
@@ -3812,7 +3793,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                 newsType:11,
                 content:notice
             }
-            socket.emit('message',{msg:msgJson,to:$scope.params.chatId,role:'patient'});
+            $scope.msgs.push(msgJson);
+            // socket.emit('message',{msg:msgJson,to:$scope.params.chatId,role:'patient'});
         }
     }
     function noMore(){
@@ -3828,6 +3810,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         return $q(function(resolve,reject){
             var q={
                 messageType:'1',
+                newsType:'11',
                 id1:Storage.get('UID'),
                 id2:$scope.params.chatId,
                 skip:$scope.params.msgCount,
@@ -4019,6 +4002,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
             };
         }
         var msgJson={
+            clientType:'wechatpatient',
+            targetRole:'doctor',
             contentType:type,
             fromID:$scope.params.UID,
             fromName:thisPatient.name,
@@ -5661,6 +5646,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                             })
                         ]).then(function(){
                           var msgJson={
+                              clientType:'wechatpatient',
+                              targetRole:'doctor',
                               contentType:'custom',
                               fromName:'',
                               fromID:Storage.get('UID'),
@@ -5677,13 +5664,15 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                                   type:'counsel-upgrade',
                               }
                           }
-                          socket.emit('newUser',{user_name:Storage.get('UID'),user_id:Storage.get('UID')});
+                          socket.emit('newUser',{user_name:Storage.get('UID'),user_id:Storage.get('UID'),client:'wechatpatient'});
                           socket.emit('message',{msg:msgJson,to:id,role:'patient'});
-                          socket.on('messageRes',function(data){
-                            socket.off('messageRes');
-                            socket.emit('disconnect');
-                            $state.go("tab.consult-chat",{chatId:id,type:3,status:1}); 
-                          })
+                          // socket.on('messageRes',function(data){
+                            // socket.off('messageRes');
+                            // socket.emit('disconnect');
+                            setTimeout(function(){
+                                $state.go("tab.consult-chat",{chatId:id,type:3,status:1}); 
+                            },500);
+                          // })
                         })
                         // Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:'升级',doctorName:docname,money:chargemoney}).then(function(data){
                         //   console.log(data)
@@ -6280,6 +6269,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                         console.log(err)
                       })
                       var msgJson={
+                          clientType:'wechatpatient',
+                          targetRole:'doctor',
                           contentType:'custom',
                           fromName:'',
                           fromID:Storage.get('UID'),
@@ -6296,13 +6287,15 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                               type:'counsel-upgrade',
                           }
                       }
-                      socket.emit('newUser',{user_name:Storage.get('UID'),user_id:Storage.get('UID')});
+                      socket.emit('newUser',{user_name:Storage.get('UID'),user_id:Storage.get('UID'),client:'wechatpatient'});
                       socket.emit('message',{msg:msgJson,to:DoctorId,role:'patient'});
-                      socket.on('messageRes',function(data){
-                        socket.off('messageRes');
-                        socket.emit('disconnect');
-                        $state.go("tab.consult-chat",{chatId:DoctorId,type:3,status:1});
-                      })
+                      // socket.on('messageRes',function(data){
+                        // socket.off('messageRes');
+                        // socket.emit('disconnect');
+                        setTimeout(function(){
+                            $state.go("tab.consult-chat",{chatId:DoctorId,type:3,status:1});
+                        },500);
+                      // })
                     }
                   },function(err)
                   {
@@ -7734,6 +7727,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                 targetId:DoctorId
             };
             var msgJson={
+                clientType:'wechatpatient',
+                targetRole:'doctor',
                 contentType:'custom',
                 fromName:thisPatient.name,
                 fromID:patientId,
@@ -7748,11 +7743,11 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                 newsType:'11',
                 content:msgContent
             }
-            socket.emit('newUser',{user_name:$scope.BasicInfo.name,user_id:patientId});
+            socket.emit('newUser',{user_name:$scope.BasicInfo.name,user_id:patientId,client:'wechatpatient'});
             socket.emit('message',{msg:msgJson,to:DoctorId,role:'patient'});
-            socket.on('messageRes',function(messageRes){
-                socket.off('messageRes');
-                socket.emit('disconnect');
+            // socket.on('messageRes',function(messageRes){
+                // socket.off('messageRes');
+                // socket.emit('disconnect');
                 if(DoctorId=='U201612291283'){
                     var time = new Date();
                     var gid='G'+$filter('date')(time, 'MMddHmsss');
@@ -7768,6 +7763,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     }
                     msgContent.consultationId=gid;
                     var msgTeam={
+                        clientType:'wechatpatient',
+                        targetRole:'doctor',
                         contentType:'custom',
                         fromID:DoctorId,
                         fromName:'陈江华',
@@ -7786,73 +7783,24 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     Communication.newConsultation(d)
                     .then(function(con){
                         console.log(con);
-                        socket.emit('newUser',{user_name:'陈江华'.name,user_id:DoctorId});
+                        // socket.emit('newUser',{user_name:'陈江华'.name,user_id:DoctorId});
                         socket.emit('message',{msg:msgTeam,to:'10050278',role:'patient'});
-                        socket.on('messageRes',function(messageRes){
-                            socket.off('messageRes');
-                            socket.emit('disconnect');
-                            $state.go('tab.consult-chat',{chatId:DoctorId});
-                        });
+                        // socket.on('messageRes',function(messageRes){
+                            // socket.off('messageRes');
+                            // socket.emit('disconnect');
+                            setTimeout(function(){
+                                $state.go('tab.consult-chat',{chatId:DoctorId});
+                            },500);
+                        // });
                     },function(er){
                         console.error(err);
                     })
-                    // Communication.getTeam({teamId:'10050278'})
-                    // .then(function(response){
-                    //     var team = response.results,
-                    //         idarr = [];
-                    //     team.members.forEach(function(member){
-                    //         this.push(member.userId);
-                    //     },idarr);
-                    //     jmapi.groups(DoctorId,idarr,thisPatient.name + '-' +team.name,'consultatioin_open')
-                    //     .then(function(res){
-                    //         var d = {
-                    //             teamId: team.teamId,
-                    //             counselId: data.results.counselId,
-                    //             sponsorId: DoctorId,
-                    //             patientId: patientId,
-                    //             consultationId: res.results.gid,
-                    //             status: '1'
-                    //         }
-                    //         msgContent.consultationId=res.results.gid;
-                    //         var msgTeam={
-                    //             contentType:'custom',
-                    //             fromID:DoctorId,
-                    //             fromName:'陈江华',
-                    //             fromUser:{
-                    //                 avatarPath:CONFIG.mediaUrl+'uploads/photos/resized'+DoctorId+'_myAvatar.jpg'
-                    //             },
-                    //             targetID:team.teamId,
-                    //             teamId:team.teamId,
-                    //             targetName:team.name,
-                    //             targetType:'group',
-                    //             status:'send_going',
-                    //             newsType:'13',
-                    //             createTimeInMillis: Date.now(),
-                    //             content:msgContent
-                    //         }
-
-                    //         Communication.newConsultation(d)
-                    //         .then(function(con){
-                    //             console.log(con);
-                    //             socket.emit('newUser',{user_name:'陈江华'.name,user_id:DoctorId});
-                    //             socket.emit('message',{msg:msgTeam,to:team.teamId,role:'patient'});
-                    //             socket.on('messageRes',function(messageRes){
-                    //                 socket.off('messageRes');
-                    //                 socket.emit('disconnect');
-                    //                 $state.go('tab.consult-chat',{chatId:DoctorId});
-                    //             });
-                    //         },function(er){
-                    //             console.error(err);
-                    //         })
-                    //     },function(err){
-                    //         console.error(err);
-                    //     })                
-
-                    // });
                 }else{
-                    $state.go('tab.consult-chat',{chatId:DoctorId});
+                    setTimeout(function(){
+                        $state.go('tab.consult-chat',{chatId:DoctorId});
+                    },500);
                 }
-            });
+            // });
           
         }
         console.log(data.results)
