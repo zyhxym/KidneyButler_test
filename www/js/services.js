@@ -2498,3 +2498,25 @@ return self;
     };
     return self;
 }])
+
+.factory('checknetwork',['$q','$ionicLoading',function($q,$ionicLoading){
+    return {
+        checknetwork: function(){
+            $scope.$watch('online',function(){
+                if(navigator.onLine)
+                {
+                    $ionicLoading.show({
+                        template:"请确认您连接的网络有效！",
+                        duration:1500
+                    })
+                }
+                else{
+                    $ionicLoading.show({
+                        template:"请确认您的手机是否连接网络！",
+                        duration:1500
+                    })
+                }
+            })
+        }
+    }
+}])

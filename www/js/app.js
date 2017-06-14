@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.directives','kidney.filters','ngCordova','ngFileUpload','angular-jwt'])
 
-.run(function($ionicPlatform, $state, Storage, $location, $ionicHistory, $ionicPopup,$rootScope,JM,$location,wechat,User,Patient,$q,$window,$ionicLoading) {
+.run(function($ionicPlatform, $state, Storage, $location, $ionicHistory, $ionicPopup,$rootScope,JM,$location,wechat,User,Patient,$q,$window) {
   $ionicPlatform.ready(function() {
     socket = io.connect('ws://121.43.107.106:4050/chat');
     
@@ -287,10 +287,6 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
     $rootScope.online = navigator.onLine;
     $window.addEventListener("offline", function () {
       $rootScope.$apply(function() {
-        $ionicLoading.show({
-          template:"请确认您的手机已连接到数据网络或无线网络！",
-          duration:1500
-        })
         $rootScope.online = false;
       });
     }, false);
@@ -720,7 +716,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                     if (refreshToken == Storage.get('refreshToken'))
                     {
                       // console.log("凭证不存在!")
-                      // console.log(options)
+                      console.log(options)
                       $ionicPopup.show({   
                            title: '您离开太久了，请重新登录',
                            buttons: [
