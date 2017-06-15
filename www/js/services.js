@@ -744,19 +744,19 @@ angular.module('kidney.services', ['ionic','ngResource'])
 
     var User = function(){
         return $resource(CONFIG.baseUrl + ':path/:route',{path:'user'},{
-            register:{method:'POST', params:{route: 'register', skipAuthorization: true, phoneNo:'@phoneNo',password:'@password',role:'@role'}, timeout: 100000},
-            changePassword:{method:'POST', params:{route: 'reset', skipAuthorization: true, phoneNo:'@phoneNo',password:'@password'}, timeout: 100000},
+            register:{method:'POST', skipAuthorization: true, params:{route: 'register', phoneNo:'@phoneNo',password:'@password',role:'@role'}, timeout: 100000},
+            changePassword:{method:'POST', skipAuthorization: true, params:{route: 'reset', phoneNo:'@phoneNo',password:'@password'}, timeout: 100000},
             logIn:{method:'POST', skipAuthorization: true, params:{route: 'login'}, timeout: 100000},
             logOut:{method:'POST', params:{route: 'logout',userId:'@userId'}, timeout: 100000},
             getUserId:{method:'GET', params:{route: 'getUserID',phoneNo:'@phoneNo'}, timeout: 100000},
-            sendSMS:{method:'POST', params:{route: 'sendSMS', skipAuthorization: true, mobile:'@mobile',smsType:'@smsType'}, timeout: 100000},//第一次验证码发送成功返回结果为”User doesn't exist“，如果再次发送才返回”验证码成功发送“
-            verifySMS:{method:'GET', params:{route: 'verifySMS', skipAuthorization: true, mobile:'@mobile',smsType:'@smsType',smsCode:'@smsCode'}, timeout: 100000},
+            sendSMS:{method:'POST', skipAuthorization: true, params:{route: 'sendSMS', mobile:'@mobile',smsType:'@smsType'}, timeout: 100000},//第一次验证码发送成功返回结果为”User doesn't exist“，如果再次发送才返回”验证码成功发送“
+            verifySMS:{method:'GET', skipAuthorization: true, params:{route: 'verifySMS', mobile:'@mobile',smsType:'@smsType',smsCode:'@smsCode'}, timeout: 100000},
             getAgree:{method:'GET', params:{route: 'getUserAgreement',userId:'@userId'}, timeout: 100000},
             updateAgree:{method:'POST', params:{route: 'updateUserAgreement'}, timeout: 100000},
-            getUserIDbyOpenId:{method:'GET', params:{route: 'getUserIDbyOpenId', skipAuthorization: true}, timeout: 100000},
-            setOpenId:{method:'POST', params:{route: 'setOpenId', skipAuthorization: true}, timeout: 100000},
-            getMessageOpenId:{method:'GET', params:{route: 'getMessageOpenId', skipAuthorization: true}, timeout: 100000},
-            setMessageOpenId:{method:'POST', params:{route: 'setMessageOpenId', skipAuthorization: true}, timeout: 100000}
+            getUserIDbyOpenId:{method:'GET', skipAuthorization: true, params:{route: 'getUserIDbyOpenId'}, timeout: 100000},
+            setOpenId:{method:'POST', skipAuthorization: true, params:{route: 'setOpenId'}, timeout: 100000},
+            getMessageOpenId:{method:'GET', skipAuthorization: true, params:{route: 'getMessageOpenId'}, timeout: 100000},
+            setMessageOpenId:{method:'POST', skipAuthorization: true, params:{route: 'setMessageOpenId'}, timeout: 100000}
         });
     }
 
