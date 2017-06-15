@@ -2458,6 +2458,15 @@ return self;
       var defer = $q.defer()
       var config = "";
       var path = $location.absUrl().split('#')[0]
+      if (neworder.money == 0)
+      {
+        res = {
+            "errMsg":"chooseWXPay:ok",
+            "money":0
+        }
+        defer.resolve(res);
+        return defer.promise;
+      }
       wechat.settingConfig({url:path}).then(function(data){
         // alert(data.results.timestamp)
         config = data.results;
@@ -2605,19 +2614,26 @@ return self;
                     if(navigator.onLine)
                     {
                         $ionicLoading.show({
-                            template:"请确认您连接的网络有效！",
-                            duration:3000
+                            template:"<p ng-click='stoploading()'>请确认您连接的网络有效！</p>",
+                            duration:3000,
+                            scope:$rootScope
                         })
                     }
                     else{
                         $ionicLoading.show({
-                            template:"请确认您的手机是否连接网络！",
-                            duration:3000
+                            template:"<p ng-click='stoploading()'>请确认您的手机是否连接网络！</p>",
+                            duration:3000,
+                            scope:$rootScope
                         })
                     }
                 }
                 
-            })
+            });
+            $rootScope.stoploading = function(){
+                $ionicLoading.hide();
+            }
         }
+
+        
     }
 }])
