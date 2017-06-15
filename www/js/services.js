@@ -2499,10 +2499,10 @@ return self;
     return self;
 }])
 
-.factory('checknetwork',['$q','$ionicLoading',function($q,$ionicLoading){
+.factory('checknetwork',['$q','$ionicLoading','$rootScope',function($q,$ionicLoading,$rootScope){
     return {
         checknetwork: function(){
-            $scope.$watch('online',function(){
+            $rootScope.$watch('online',function(){
                 if(navigator.onLine)
                 {
                     $ionicLoading.show({

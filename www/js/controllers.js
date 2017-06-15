@@ -8241,7 +8241,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
 }])
 
-.controller('adviceCtrl', ['$scope','$state','$ionicPopup','$ionicLoading', 'Advice','Storage','$timeout', function ($scope,$state,$ionicPopup,$ionicLoading,Advice,Storage,$timeout) {
+.controller('adviceCtrl', ['$scope','$state','$ionicPopup','$ionicLoading', 'Advice','Storage','$timeout', 'checknetwork',function ($scope,$state,$ionicPopup,$ionicLoading,Advice,Storage,$timeout,checknetwork) {
 
     $scope.deliverAdvice = function(advice){
         
@@ -8257,12 +8257,13 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     $timeout(function(){$state.go('tab.mine');},900);
                 }
             },function(err){
-                $ionicLoading.show({
-                    template: '提交失败',
-                    noBackdrop: false,
-                    duration: 1000,
-                    hideOnStateChange: true
-                });
+                checknetwork.checknetwork();
+                // $ionicLoading.show({
+                //     template: '提交失败',
+                //     noBackdrop: false,
+                //     duration: 1000,
+                //     hideOnStateChange: true
+                // });
             })
         
     }
