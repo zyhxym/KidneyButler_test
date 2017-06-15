@@ -2492,10 +2492,7 @@ return self;
                 deferred.resolve(data);
             },
             function(err){
-                if (err.status != 401)
-                {
-                  checknetwork.checknetwork();
-                }
+                checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2505,21 +2502,25 @@ return self;
 
 .factory('checknetwork',['$q','$ionicLoading','$rootScope',function($q,$ionicLoading,$rootScope){
     return {
-        checknetwork: function(){
+        checknetwork: function(err){
             $rootScope.$watch('online',function(){
-                if(navigator.onLine)
+                if (err.status != 401)
                 {
-                    $ionicLoading.show({
-                        template:"请确认您连接的网络有效！",
-                        duration:1500
-                    })
+                    if(navigator.onLine)
+                    {
+                        $ionicLoading.show({
+                            template:"请确认您连接的网络有效！",
+                            duration:1500
+                        })
+                    }
+                    else{
+                        $ionicLoading.show({
+                            template:"请确认您的手机是否连接网络！",
+                            duration:1500
+                        })
+                    }
                 }
-                else{
-                    $ionicLoading.show({
-                        template:"请确认您的手机是否连接网络！",
-                        duration:1500
-                    })
-                }
+                
             })
         }
     }

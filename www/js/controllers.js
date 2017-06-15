@@ -6867,44 +6867,44 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     {
       if ($scope.Kidneyfunction.Creatinine <= 62)
       {
-        $scope.Kidneyfunction.KidneyfunctionValue = 141*Math.pow(($scope.Kidneyfunction.Creatinine/0.9),-0.411)*Math.pow(0.993,$scope.Kidneyfunction.Age)
+        $scope.Kidneyfunction.KidneyfunctionValue = 141*Math.pow(($scope.Kidneyfunction.Creatinine*0.01131/0.9),-0.411)*Math.pow(0.993,$scope.Kidneyfunction.Age)
       }
       else
       {
-        $scope.Kidneyfunction.KidneyfunctionValue = 141*Math.pow(($scope.Kidneyfunction.Creatinine/0.9),-1.209)*Math.pow(0.993,$scope.Kidneyfunction.Age)
+        $scope.Kidneyfunction.KidneyfunctionValue = 141*Math.pow(($scope.Kidneyfunction.Creatinine*0.01131/0.9),-1.209)*Math.pow(0.993,$scope.Kidneyfunction.Age)
       }
     }
     else if ($scope.Kidneyfunction.CreatinineUnit == "μmol/L" && $scope.Kidneyfunction.Gender == "Male")
     {
       if ($scope.Kidneyfunction.Creatinine <= 80)
       {
-        $scope.Kidneyfunction.KidneyfunctionValue = 141*Math.pow(($scope.Kidneyfunction.Creatinine/0.9),-0.411)*Math.pow(0.993,$scope.Kidneyfunction.Age)
+        $scope.Kidneyfunction.KidneyfunctionValue = 141*Math.pow(($scope.Kidneyfunction.Creatinine*0.01131/0.9),-0.411)*Math.pow(0.993,$scope.Kidneyfunction.Age)
       }
       else
       {
-        $scope.Kidneyfunction.KidneyfunctionValue = 141*Math.pow(($scope.Kidneyfunction.Creatinine/0.9),-1.209)*Math.pow(0.993,$scope.Kidneyfunction.Age)
+        $scope.Kidneyfunction.KidneyfunctionValue = 141*Math.pow(($scope.Kidneyfunction.Creatinine*0.01131/0.9),-1.209)*Math.pow(0.993,$scope.Kidneyfunction.Age)
       }
     }
     var kidneyclass = ""
     if ($scope.Kidneyfunction.KidneyfunctionValue >= 90)
     {
-      kidneyclass = "CDK 1期";
+      kidneyclass = "慢性肾病1期";
     }
     else if ($scope.Kidneyfunction.KidneyfunctionValue < 90 && $scope.Kidneyfunction.KidneyfunctionValue >= 60)
     {
-      kidneyclass = "CDK 2期";
+      kidneyclass = "慢性肾病2期";
     }
     else if ($scope.Kidneyfunction.KidneyfunctionValue < 60 && $scope.Kidneyfunction.KidneyfunctionValue >= 30)
     {
-      kidneyclass = "CDK 3期";
+      kidneyclass = "慢性肾病3期";
     }
     else if ($scope.Kidneyfunction.KidneyfunctionValue < 30 && $scope.Kidneyfunction.KidneyfunctionValue >= 15)
     {
-      kidneyclass = "CDK 4期";
+      kidneyclass = "慢性肾病4期";
     }
     else if ($scope.Kidneyfunction.KidneyfunctionValue < 15)
     {
-      kidneyclass = "CDK 5期";
+      kidneyclass = "慢性肾病5期";
     }
     // alert("估算您的肾小球滤过率为：" + $scope.Kidneyfunction.KidneyfunctionValue.toFixed(2) + ",您处于" +kidneyclass)
     $ionicPopup.show({   
@@ -8257,7 +8257,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     $timeout(function(){$state.go('tab.mine');},900);
                 }
             },function(err){
-                
+
                 // $ionicLoading.show({
                 //     template: '提交失败',
                 //     noBackdrop: false,
