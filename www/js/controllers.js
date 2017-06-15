@@ -8257,7 +8257,10 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     $timeout(function(){$state.go('tab.mine');},900);
                 }
             },function(err){
-                checknetwork.checknetwork();
+                if (err.status != 401)
+                {
+                  checknetwork.checknetwork();
+                }
                 // $ionicLoading.show({
                 //     template: '提交失败',
                 //     noBackdrop: false,
