@@ -2606,13 +2606,13 @@ return self;
                     {
                         $ionicLoading.show({
                             template:"请确认您连接的网络有效！",
-                            duration:3000,
+                            duration:3000
                         })
                     }
                     else{
                         $ionicLoading.show({
                             template:"请确认您的手机是否连接网络！",
-                            duration:3000,
+                            duration:3000
                         })
                     }
                 }
