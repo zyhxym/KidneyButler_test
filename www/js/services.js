@@ -812,7 +812,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
         return $resource(CONFIG.baseUrl + ':path/:route',{path:'new'},{
             getNews:{method:'GET', params:{route: 'getNews'}, timeout: 100000},
             insertNews:{method:'POST', params:{route: 'insertNews'}, timeout: 100000},
-            getNewsByReadOrNot:{method:'GET', params:{route: 'getNewsByReadOrNot'}, timeout: 100000}
+            getNewsByReadOrNot:{method:'GET', skipAuthorization: true, params:{route: 'getNewsByReadOrNot'}, timeout: 100000}
         });
     }
 
@@ -2481,7 +2481,7 @@ return self;
     return self;
 }])
 
-.factory('Advice', ['$q', 'Data', function($q, Data){
+.factory('Advice', ['$q', 'Data', 'checknetwork',function($q, Data,checknetwork){
     var self = this;
     //params->0:{type:1}
     self.postAdvice = function(params){
@@ -2492,6 +2492,10 @@ return self;
                 deferred.resolve(data);
             },
             function(err){
+                if (err.status != 401)
+                {
+                  checknetwork.checknetwork();
+                }
                 deferred.reject(err);
         });
         return deferred.promise;
