@@ -156,6 +156,26 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     $state.go('phonevalid',{phonevalidType:'reset'});
   } 
   
+  $scope.bingdwechat = function () 
+  {
+    $ionicPopup.show({   
+      title: '将您的微信账号与手机账号进行绑定，绑定后在公众号内可以自动登录',
+      buttons: [
+        { 
+          text: '取消',
+          type: 'button'
+        },
+        {
+          text: '確定',
+          type: 'button-positive',
+          onTap: function(e) {
+              Storage.set('validMode',0)
+              $state.go('phonevalid',{phonevalidType:"wechat"})
+          }
+        }
+      ]
+    })
+  }
   // User.getUserIDbyOpenId({openId:Storage.get('openid')}).then(function(data)
   // {
   //     if (angular.isDefined(data.UserId) == true)
@@ -376,27 +396,24 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                                   {
                                     User.setMessageOpenId({type:2,userId:tempuserId,openId:Storage.get('messageopenid')}).then(function(res){
                                         console.log("setopenid");
-                                    },function(){
+                                        $ionicPopup.show({   
+                                           title: '微信账号绑定手机账号成功，是否重置密码？',
+                                           buttons: [
+                                             { 
+                                                  text: '取消',
+                                                  type: 'button'
+                                                },
+                                             {
+                                                  text: '確定',
+                                                  type: 'button-positive',
+                                                  onTap: function(e) {
+                                                      $state.go('setpassword',{phonevalidType:"reset"})
+                                                  }
+                                             },
+                                            ]
+                                        })
+                                    },function(err){
                                         console.log("连接超时！");
-                                    })
-                                    $ionicPopup.show({   
-                                         title: '微信账号绑定手机账号成功，您的初试密码是123456，是否重置密码？',
-                                         buttons: [
-                                           { 
-                                                text: '取消',
-                                                type: 'button',
-                                                onTap: function(e) {
-                                                    $state.go('signin')
-                                                }
-                                              },
-                                           {
-                                                text: '確定',
-                                                type: 'button-positive',
-                                                onTap: function(e) {
-                                                    $state.go('setpassword',{phonevalidType:"reset"})
-                                                }
-                                           },
-                                           ]
                                     })
                                   }
                               },function(){
@@ -3187,7 +3204,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     // console.log(res.results)
     console.log(res.results.photoUrl)
     // console.log(angular.fromJson(res.results))
-    if(res.results.photoUrl==undefined||res.results.photoUrl==""){
+    if(!(res.results && res.results.photoUrl)){
       $scope.myAvatar=Storage.get('wechathead')
     }else{
       $scope.myAvatar=res.results.photoUrl;

@@ -40,61 +40,61 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
           Storage.set('wechathead',wechatData.headimgurl)
           if (wechatData.unionid&&wechatData.openid)
           {
-            User.getUserIDbyOpenId({openId:wechatData.openid}).then(function(data)
-            {
-                var tempuserId = data.UserId
-                if (angular.isDefined(data.phoneNo) == true)
-                {
-                    var tempresult = []
-                    var temperr = []
-                    $q.all([
-                        User.setOpenId({phoneNo:data.phoneNo,openId:Storage.get('openid')}).then(function(res){
-                            console.log("替换openid");
-                        },function(err){
-                            temperr.push(err)
-                        }),
-                        User.setMessageOpenId({type:2,userId:data.UserId,openId:wechatData.openid}).then(function(res){
-                            console.log("setopenid");
-                        },function(err){
-                            temperr.push(err)
-                        })
-                    ]).then(function(){
-                      // console.log(temperr)
-                      $state.go('signin')
-                    })
-                }
-                else
-                {
+            // User.getUserIDbyOpenId({openId:wechatData.openid}).then(function(data)
+            // {
+            //     var tempuserId = data.UserId
+            //     if (angular.isDefined(data.phoneNo) == true)
+            //     {
+            //         var tempresult = []
+            //         var temperr = []
+            //         $q.all([
+            //             User.setOpenId({phoneNo:data.phoneNo,openId:Storage.get('openid')}).then(function(res){
+            //                 console.log("替换openid");
+            //             },function(err){
+            //                 temperr.push(err)
+            //             }),
+            //             User.setMessageOpenId({type:2,userId:data.UserId,openId:wechatData.openid}).then(function(res){
+            //                 console.log("setopenid");
+            //             },function(err){
+            //                 temperr.push(err)
+            //             })
+            //         ]).then(function(){
+            //           // console.log(temperr)
+            //           $state.go('signin')
+            //         })
+            //     }
+            //     else
+            //     {
                   User.logIn({username:Storage.get('openid'),password:Storage.get('openid'),role:"patient"}).then(function(data){
                       if(data.results==1){
-                        if(data.mesg == "No authority!")
-                        {
-                          alert("您没有权限登陆肾事管家，如您是医生，请登录肾病守护者")
-                          $state.go('signin')
-                        }
-                        else
-                        {
-                          $ionicPopup.show({   
-                               title: '由于系统更新，如您已拥有手机账号，请重新进行验证并绑定微信账号。如果您是首次使用，请点击取消后进行注册！',
-                               buttons: [
-                                 { 
-                                      text: '取消',
-                                      type: 'button',
-                                      onTap: function(e) {
-                                          $state.go('signin')
-                                      }
-                                    },
-                                 {
-                                      text: '確定',
-                                      type: 'button-positive',
-                                      onTap: function(e) {
-                                          Storage.set('validMode',0)
-                                          $state.go('phonevalid',{phonevalidType:"wechat"})
-                                      }
-                                 },
-                                 ]
-                          })
-                        }
+                        // if(data.mesg == "No authority!")
+                        // {
+                          // alert("您没有权限登陆肾事管家，如您是医生，请登录肾病守护者")
+                        $state.go('signin')
+                        // }
+                        // else
+                        // {
+                        //   $ionicPopup.show({   
+                        //        title: '由于系统更新，如您已拥有手机账号，请重新进行验证并绑定微信账号。如果您是首次使用，请点击取消后进行注册！',
+                        //        buttons: [
+                        //          { 
+                        //               text: '取消',
+                        //               type: 'button',
+                        //               onTap: function(e) {
+                        //                   $state.go('signin')
+                        //               }
+                        //             },
+                        //          {
+                        //               text: '確定',
+                        //               type: 'button-positive',
+                        //               onTap: function(e) {
+                        //                   Storage.set('validMode',0)
+                        //                   $state.go('phonevalid',{phonevalidType:"wechat"})
+                        //               }
+                        //          },
+                        //          ]
+                        //   })
+                        // }
                       }
                       else if(data.results.mesg=="login success!"){
 
@@ -191,11 +191,11 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                       }
                       $state.go('signin')
                   });
-                }
-            },function(err)
-            {
-                console.log(err)
-            })
+                // }
+            // },function(err)
+            // {
+            //     console.log(err)
+            // })
 
           }
           
