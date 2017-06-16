@@ -7,7 +7,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
 
 .run(function($ionicPlatform, $state, Storage, $location, $ionicHistory, $ionicPopup,$rootScope,JM,$location,wechat,User,Patient,$q,$window) {
   $ionicPlatform.ready(function() {
-    socket = io.connect('ws://121.43.107.106:4050/chat');
+    socket = io.connect('http://121.43.107.106:4050/chat');
     
 
     var temp = $location.absUrl().split('=')
