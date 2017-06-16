@@ -1272,24 +1272,30 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
           console.log(err);
       })
     }
-    var RefreshUnread;
-    var GetUnread = function(){
-        // console.log(new Date());
-        News.getNewsByReadOrNot({userId:Storage.get('UID'),readOrNot:0}).then(//
-            function(data){
-                if(data.results.length){
-                    $scope.HasUnreadMessages = true;
-                    // console.log($scope.HasUnreadMessages);
-                }
-            },function(err){
-                    console.log(err);
-            });
-    }
-    GetUnread();
-    if(Storage.get('isSignIn')=='Yes'){
-      RefreshUnread = $interval(GetUnread,2000);
-    }
+    // var RefreshUnread;
+    // var GetUnread = function(){
+    //     // console.log(new Date());
+    //     News.getNewsByReadOrNot({userId:Storage.get('UID'),readOrNot:0}).then(//
+    //         function(data){
+    //             if(data.results.length){
+    //                 $scope.HasUnreadMessages = true;
+    //                 // console.log($scope.HasUnreadMessages);
+    //             }
+    //         },function(err){
+    //                 console.log(err);
+    //         });
+    // }
+    // GetUnread();
+    // if(Storage.get('isSignIn')=='Yes'){
+    //   RefreshUnread = $interval(GetUnread,2000);
+    // }
 
+    // $scope.$on('$destroy',function(){
+    //   $interval.cancel(RefreshUnread);
+    // })
+    // $scope.$on('$stateChangeSuccess',function(){
+    //   $interval.cancel(RefreshUnread);
+    // })
 }])
 
 
@@ -1297,7 +1303,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
 
 //任务列表--GL
-.controller('tasklistCtrl', ['$scope','$timeout','$state','$cordovaBarcodeScanner','Storage','$ionicHistory', '$ionicPopup', '$ionicModal', 'Compliance', '$window', 'Task', 'Patient', 'VitalSign', function($scope, $timeout,$state,$cordovaBarcodeScanner,Storage,$ionicHistory,$ionicPopup,$ionicModal,Compliance, $window, Task, Patient, VitalSign) {
+.controller('tasklistCtrl', ['$scope','$timeout','$state','$cordovaBarcodeScanner','Storage','$ionicHistory', '$ionicPopup', '$ionicModal', 'Compliance', '$window', 'Task', 'Patient', 'VitalSign', '$interval', 'News', function($scope, $timeout,$state,$cordovaBarcodeScanner,Storage,$ionicHistory,$ionicPopup,$ionicModal,Compliance, $window, Task, Patient, VitalSign, $interval, News) {
   
   //初始化
     // $scope.barwidth="width:0%";
@@ -1309,9 +1315,31 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     var OverTimeTaks = [];
     var index = 0;
     var dateNowStr = ChangeTimeForm(new Date()); //方便设定当前日期进行调试，或是之后从数据库获取当前日期
-    $scope.$on('$ionicView.enter', function() {      
-        GetTasks();      
-    });  
+    var RefreshUnread;
+    var GetUnread = function(){
+        // console.log(new Date());
+        News.getNewsByReadOrNot({userId:Storage.get('UID'),readOrNot:0}).then(//
+            function(data){
+                // console.log(data);
+                if(data.results.length){
+                    $scope.HasUnreadMessages = true;
+                    // console.log($scope.HasUnreadMessages);
+                }else{
+                    $scope.HasUnreadMessages = false;
+                }
+            },function(err){
+                    console.log(err);
+            });
+    }
+
+    $scope.$on('$destroy', function ()
+    {
+      $interval.cancel(RefreshUnread);
+    });
+    $scope.$on('$ionicView.enter', function() {
+        GetTasks();
+        RefreshUnread = $interval(GetUnread,2000);
+    }); 
   
   //判断是否需要修改任务时间
    function IfTaskOverTime(startTime, frequencyTimes, unit, times)
@@ -3124,11 +3152,37 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
 //我的 页面--PXY
 //我的 页面--PXY
-.controller('MineCtrl', ['$scope','$ionicHistory','$state','$ionicPopup','$resource','Storage','CONFIG','$ionicLoading','$ionicPopover','Camera', 'Patient','Upload','wechat','$location','$timeout','$sce',function($scope, $ionicHistory, $state, $ionicPopup, $resource, Storage, CONFIG, $ionicLoading, $ionicPopover, Camera,Patient,Upload,wechat,$location,$timeout,$sce) {
+.controller('MineCtrl', ['$scope','$ionicHistory','$state','$ionicPopup','$resource','Storage','CONFIG','$ionicLoading','$ionicPopover','Camera', 'Patient','Upload','wechat','$location','$timeout','$sce','$interval','News',function($scope, $ionicHistory, $state, $ionicPopup, $resource, Storage, CONFIG, $ionicLoading, $ionicPopover, Camera,Patient,Upload,wechat,$location,$timeout,$sce,$interval,News) {
   //$scope.barwidth="width:0%";
   // Storage.set("personalinfobackstate","mine")
   
   var patientId = Storage.get('UID')
+
+  var RefreshUnread;
+  var GetUnread = function(){
+      // console.log(new Date());
+      News.getNewsByReadOrNot({userId:Storage.get('UID'),readOrNot:0}).then(//
+          function(data){
+              // console.log(data);
+              if(data.results.length){
+                  $scope.HasUnreadMessages = true;
+                  // console.log($scope.HasUnreadMessages);
+              }else{
+                  $scope.HasUnreadMessages = false;
+              }
+          },function(err){
+                  console.log(err);
+          });
+  }
+
+  $scope.$on('$destroy', function ()
+  {
+    $interval.cancel(RefreshUnread);
+  });
+  $scope.$on('$ionicView.enter', function() {
+      RefreshUnread = $interval(GetUnread,2000);
+  });
+
   //页面跳转---------------------------------
   $scope.GoUserDetail = function(){
     $state.go('userdetail',{last:'mine'});
@@ -5196,8 +5250,37 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 }])
 
 //医生列表--PXY
-.controller('DoctorCtrl', ['Storage','$ionicLoading','$scope','$state','$ionicPopup','$ionicHistory','Dict','Patient','$location','Doctor','Counsels','wechat','order','Account','$http','CONFIG','payment','$filter','Expense','$q',function(Storage,$ionicLoading,$scope, $state,$ionicPopup,$ionicHistory,Dict,Patient,$location,Doctor,Counsels,wechat,order,Account,$http,CONFIG,payment,$filter,Expense,$q) {
+.controller('DoctorCtrl', ['Storage','$ionicLoading','$scope','$state','$ionicPopup','$ionicHistory','Dict','Patient','$location','Doctor','Counsels','wechat','order','Account','$http','CONFIG','payment','$filter','Expense','$q','$interval','News',function(Storage,$ionicLoading,$scope, $state,$ionicPopup,$ionicHistory,Dict,Patient,$location,Doctor,Counsels,wechat,order,Account,$http,CONFIG,payment,$filter,Expense,$q,$interval,News) {
   //$scope.barwidth="width:0%";
+  var RefreshUnread;
+  var GetUnread = function(){
+      // console.log(new Date());
+      News.getNewsByReadOrNot({userId:Storage.get('UID'),readOrNot:0}).then(//
+          function(data){
+              // console.log(data);
+              if(data.results.length){
+                  $scope.HasUnreadMessages = true;
+                  // console.log($scope.HasUnreadMessages);
+              }else{
+                  $scope.HasUnreadMessages = false;
+              }
+          },function(err){
+                  console.log(err);
+          });
+  }
+
+  $scope.$on('$destroy', function ()
+  {
+    $interval.cancel(RefreshUnread);
+  });
+  $scope.$on('$ionicView.enter', function() {
+    if ($ionicHistory.currentView().stateId === 'tab.myDoctors')
+    {
+      RefreshUnread = $interval(GetUnread,2000);
+    }
+    
+  });
+
   $scope.Goback = function(){
     $state.go('tab.myDoctors');
     // $ionicHistory.goBack();
@@ -7905,9 +7988,35 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 }])
 
 //论坛
-.controller('forumCtrl', ['$scope', '$state', '$sce','$http','Storage','Patient',function ($scope, $state,$sce,$http,Storage,Patient) {
+.controller('forumCtrl', ['$scope', '$state', '$sce','$http','Storage','Patient','$interval','News',function ($scope, $state,$sce,$http,Storage,Patient,$interval,News) {
     var phoneNum=Storage.get('USERNAME')
-    console.log(phoneNum)
+    // console.log(phoneNum)
+
+    var RefreshUnread;
+    var GetUnread = function(){
+        // console.log(new Date());
+        News.getNewsByReadOrNot({userId:Storage.get('UID'),readOrNot:0}).then(//
+            function(data){
+                // console.log(data);
+                if(data.results.length){
+                    $scope.HasUnreadMessages = true;
+                    // console.log($scope.HasUnreadMessages);
+                }else{
+                    $scope.HasUnreadMessages = false;
+                }
+            },function(err){
+                    console.log(err);
+            });
+    }
+
+    $scope.$on('$destroy', function ()
+    {
+      $interval.cancel(RefreshUnread);
+    });
+    $scope.$on('$ionicView.enter', function() {
+        RefreshUnread = $interval(GetUnread,2000);
+    });
+
     Patient.getPatientDetail({userId: Storage.get('UID')})
     .then(function(data)
     {
