@@ -1,6 +1,6 @@
 angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','ionic-datepicker','kidney.directives'])//,'ngRoute'
 //登录--PXY
-.controller('SignInCtrl', ['$scope','$timeout','$state','Storage','$ionicHistory','$http','Data','User','jmapi', '$location','wechat','$sce','Patient',function($scope, $timeout,$state,Storage,$ionicHistory,$http,Data,User,jmapi,$location,wechat,$sce,Patient) {
+.controller('SignInCtrl', ['$scope','$timeout','$state','Storage','$ionicHistory','$http','Data','User','jmapi', '$location','wechat','$sce','Patient', '$ionicPopup', function($scope, $timeout,$state,Storage,$ionicHistory,$http,Data,User,jmapi,$location,wechat,$sce,Patient, $ionicPopup) {
   //$scope.barwidth="width:0%";
   $scope.navigation_login=$sce.trustAsResourceUrl("http://patientdiscuss.haihonghospitalmanagement.com/member.php?mod=logging&action=logout&formhash=xxxxxx");
   // Storage.set("personalinfobackstate","logOn");
@@ -1332,14 +1332,19 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
             });
     }
 
-    $scope.$on('$destroy', function ()
+    $scope.$on('$ionicView.enter', function() 
     {
-      $interval.cancel(RefreshUnread);
-    });
-    $scope.$on('$ionicView.enter', function() {
         GetTasks();
         RefreshUnread = $interval(GetUnread,2000);
-    }); 
+    });
+    $scope.$on('$ionicView.leave', function ()
+    {
+      // console.log('destroy');
+      
+      $interval.cancel(RefreshUnread);
+      
+      
+    });
   
   //判断是否需要修改任务时间
    function IfTaskOverTime(startTime, frequencyTimes, unit, times)
@@ -3175,12 +3180,13 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
           });
   }
 
-  $scope.$on('$destroy', function ()
-  {
-    $interval.cancel(RefreshUnread);
-  });
   $scope.$on('$ionicView.enter', function() {
-      RefreshUnread = $interval(GetUnread,2000);
+    RefreshUnread = $interval(GetUnread,2000);
+  });
+  $scope.$on('$ionicView.leave', function ()
+  {
+    // console.log('destroy');
+    $interval.cancel(RefreshUnread);
   });
 
   //页面跳转---------------------------------
@@ -5269,16 +5275,18 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
           });
   }
 
-  $scope.$on('$destroy', function ()
-  {
-    $interval.cancel(RefreshUnread);
-  });
   $scope.$on('$ionicView.enter', function() {
     if ($ionicHistory.currentView().stateId === 'tab.myDoctors')
-    {
-      RefreshUnread = $interval(GetUnread,2000);
-    }
-    
+      {
+        RefreshUnread = $interval(GetUnread,2000);
+      }
+      
+  });
+
+  $scope.$on('$ionicView.leave', function ()
+  {
+    // console.log('destroy');
+    $interval.cancel(RefreshUnread); 
   });
 
   $scope.Goback = function(){
@@ -8009,12 +8017,14 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
             });
     }
 
-    $scope.$on('$destroy', function ()
-    {
-      $interval.cancel(RefreshUnread);
-    });
     $scope.$on('$ionicView.enter', function() {
-        RefreshUnread = $interval(GetUnread,2000);
+      RefreshUnread = $interval(GetUnread,2000);
+    });
+
+    $scope.$on('$ionicView.leave', function ()
+    {
+      // console.log('destroy'); 
+      $interval.cancel(RefreshUnread);
     });
 
     Patient.getPatientDetail({userId: Storage.get('UID')})
