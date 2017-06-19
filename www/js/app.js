@@ -198,7 +198,10 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
             // })
 
           }
-          
+          else
+          {
+            $state.go('signin');
+          }
           // alert(wechatData.openid)
           // alert(wechatData.nickname)
           

@@ -696,8 +696,8 @@ angular.module('kidney.services', ['ionic','ngResource'])
 
     var Task2 = function(){
         return $resource(CONFIG.baseUrl + ':path/:route',{path:'tasks'},{
-            changeTaskstatus:{method:'GET', params:{route: 'status'}, timeout: 100000},
-            changeTasktime:{method:'GET', params:{route: 'time'}, timeout: 100000},
+            changeTaskstatus:{method:'POST', params:{route: 'status'}, timeout: 100000},
+            changeTasktime:{method:'POST', params:{route: 'time'}, timeout: 100000},
             insertTask:{method:'POST', params:{route: 'insertTaskModel'}, timeout: 100000},
             getUserTask:{method:'GET', params:{route: 'getUserTask'}, timeout: 100000},
             updateUserTask:{method:'POST', params:{route: 'updateUserTask'}, timeout: 100000}
@@ -864,7 +864,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
 
     var insurance = function(){
         return $resource(CONFIG.baseUrl + ':path/:route',{path:'insurance'},{
-            setPrefer:{method:'GET', params:{route: 'setPrefer'}, timeout: 100000},
+            setPrefer:{method:'POST', params:{route: 'setPrefer'}, timeout: 100000},
             getPrefer:{method:'GET', params:{route: 'getPrefer'}, timeout: 100000}
         })
     }
