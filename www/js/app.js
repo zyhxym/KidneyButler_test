@@ -107,7 +107,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                           Storage.set('isSignIn',"Yes");
                           Storage.set('UID',data.results.userId);
 
-                          User.getUserIDbyOpenId({openId:Storage.get('openid')}).then(function(data)
+                          User.getUserId({openId:Storage.get('openid')}).then(function(data)
                           {
                               if (angular.isDefined(data.phoneNo) == true)
                               {

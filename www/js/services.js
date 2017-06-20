@@ -761,7 +761,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
             verifySMS:{method:'GET', skipAuthorization: true, params:{route: 'verifySMS', mobile:'@mobile',smsType:'@smsType',smsCode:'@smsCode'}, timeout: 100000},
             getAgree:{method:'GET', params:{route: 'getUserAgreement',userId:'@userId'}, timeout: 100000},
             updateAgree:{method:'POST', params:{route: 'updateUserAgreement'}, timeout: 100000},
-            getUserIDbyOpenId:{method:'GET', skipAuthorization: true, params:{route: 'getUserIDbyOpenId'}, timeout: 100000},
+            // getUserIDbyOpenId:{method:'GET', skipAuthorization: true, params:{route: 'getUserIDbyOpenId'}, timeout: 100000}, //20170619 后端删除该方法，与getUserID方法合并
             setOpenId:{method:'POST', skipAuthorization: true, params:{route: 'setOpenId'}, timeout: 100000},
             getMessageOpenId:{method:'GET', skipAuthorization: true, params:{route: 'getMessageOpenId'}, timeout: 100000},
             setMessageOpenId:{method:'POST', skipAuthorization: true, params:{route: 'setMessageOpenId'}, timeout: 100000}
@@ -1330,20 +1330,20 @@ angular.module('kidney.services', ['ionic','ngResource'])
     }
 
     
-    //params->{openId:"U201703310032"}
-    self.getUserIDbyOpenId = function(params){
-        var deferred = $q.defer();
-        Data.User.getUserIDbyOpenId(
-            params,
-            function(data, headers){
-                deferred.resolve(data);
-            },
-            function(err){
-                checknetwork.checknetwork(err);
-                deferred.reject(err);
-        });
-        return deferred.promise;
-    }
+    //params->{openId:"U201703310032"} //20170619 后端删除该方法，与getUserID方法合并
+    // self.getUserIDbyOpenId = function(params){
+    //     var deferred = $q.defer();
+    //     Data.User.getUserIDbyOpenId(
+    //         params,
+    //         function(data, headers){
+    //             deferred.resolve(data);
+    //         },
+    //         function(err){
+    //             checknetwork.checknetwork(err);
+    //             deferred.reject(err);
+    //     });
+    //     return deferred.promise;
+    // }
     
     //params->{phoneNo:"",openId:"U201703310032"}
     self.setOpenId = function(params){
