@@ -3234,6 +3234,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     Storage.set("IsSignIn","No");
                      Storage.set("USERNAME",USERNAME);
                      //$timeout(function () {
+                    Storage.clear();
                      $ionicHistory.clearCache();
                      $ionicHistory.clearHistory();
                      $scope.navigation_login=$sce.trustAsResourceUrl("http://patientdiscuss.haihonghospitalmanagement.com/member.php?mod=logging&action=logout&formhash=xxxxxx");
