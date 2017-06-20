@@ -107,7 +107,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                           Storage.set('isSignIn',"Yes");
                           Storage.set('UID',data.results.userId);
 
-                          User.getUserId({openId:Storage.get('openid')}).then(function(data)
+                          User.getUserId({username:Storage.get('openid')}).then(function(data)
                           {
                               if (angular.isDefined(data.phoneNo) == true)
                               {
@@ -126,7 +126,14 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                               $state.go('insurance')
                           }
                           else if(params.length > 1 && params[0]=='patient'){
-                              if(params[1]=='11') $state.go('tab.consult-chat',{chatId:params[3]});
+                              if(params[1]=='11') 
+                              {
+                                $state.go('tab.consult-chat',{chatId:params[3]});
+                              }
+                              else
+                              {
+                                $state.go('signin')
+                              }
                           }else{
                               $q.all([
                                   User.getAgree({ userId: data.results.userId }).then(function(res) {
@@ -159,6 +166,8 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                                           if (results[b].results.photoUrl == undefined || results[b].results.photoUrl == "") {
                                               Patient.editPatientDetail({ userId: Storage.get("UID"), photoUrl: wechatData.headimgurl }).then(function(r) {
                                                   $state.go('tab.tasklist');
+                                              },function(err){
+                                                $state.go('tab.tasklist');
                                               })
                                           }else {
                                               $state.go('tab.tasklist');

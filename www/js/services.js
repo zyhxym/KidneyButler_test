@@ -189,7 +189,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
 .factory('jmapi',['$http','JM','jm','checknetwork',function($http,JM,jm,checknetwork){
     return {
         registerByPhone:function(phone){
-            return User.getUserId({phoneNo:phone})
+            return User.getUserId({username:phone})
                 .then(function(data){
                     if(data.UserId) return this.users(data.UserId);
                     return data;
@@ -756,7 +756,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
             changePassword:{method:'POST', skipAuthorization: true, params:{route: 'reset', phoneNo:'@phoneNo',password:'@password'}, timeout: 100000},
             logIn:{method:'POST', skipAuthorization: true, params:{route: 'login'}, timeout: 100000},
             logOut:{method:'POST', params:{route: 'logout',userId:'@userId'}, timeout: 100000},
-            getUserId:{method:'GET', params:{route: 'getUserID',phoneNo:'@phoneNo'}, timeout: 100000},
+            getUserId:{method:'GET', params:{route: 'getUserID',username:'@username'}, timeout: 100000},
             sendSMS:{method:'POST', skipAuthorization: true, params:{route: 'sendSMS', mobile:'@mobile',smsType:'@smsType'}, timeout: 100000},//第一次验证码发送成功返回结果为”User doesn't exist“，如果再次发送才返回”验证码成功发送“
             verifySMS:{method:'GET', skipAuthorization: true, params:{route: 'verifySMS', mobile:'@mobile',smsType:'@smsType',smsCode:'@smsCode'}, timeout: 100000},
             getAgree:{method:'GET', params:{route: 'getUserAgreement',userId:'@userId'}, timeout: 100000},
