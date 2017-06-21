@@ -7840,8 +7840,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
               wechat.messageTemplate(template);
 
               Storage.rm('tempquestionare')
-            Storage.rm('tempimgrul')
-            var msgContent={
+              Storage.rm('tempimgrul')
+              var msgContent={
                 counsel:data.results,
                 type:'card',
                 counselId:data.results.counselId,
@@ -7850,26 +7850,26 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                 doctorId:DoctorId,
                 fromId:patientId,
                 targetId:DoctorId
-            };
-            var msgJson={
-                clientType:'wechatpatient',
-                targetRole:'doctor',
-                contentType:'custom',
-                fromName:thisPatient.name,
-                fromID:patientId,
-                fromUser:{
-                    avatarPath:CONFIG.mediaUrl+'uploads/photos/resized'+patientId+'_myAvatar.jpg'
-                },
-                targetID:DoctorId,
-                targetName:'',
-                targetType:'single',
-                status:'send_going',
-                createTimeInMillis: Date.now(),
-                newsType:'11',
-                content:msgContent
-            }
-            socket.emit('newUser',{user_name:$scope.BasicInfo.name,user_id:patientId,client:'wechatpatient'});
-            socket.emit('message',{msg:msgJson,to:DoctorId,role:'patient'});
+              };
+              var msgJson={
+                  clientType:'wechatpatient',
+                  targetRole:'doctor',
+                  contentType:'custom',
+                  fromName:thisPatient.name,
+                  fromID:patientId,
+                  fromUser:{
+                      avatarPath:CONFIG.mediaUrl+'uploads/photos/resized'+patientId+'_myAvatar.jpg'
+                  },
+                  targetID:DoctorId,
+                  targetName:'',
+                  targetType:'single',
+                  status:'send_going',
+                  createTimeInMillis: Date.now(),
+                  newsType:'11',
+                  content:msgContent
+              }
+              socket.emit('newUser',{user_name:$scope.BasicInfo.name,user_id:patientId,client:'wechatpatient'});
+              socket.emit('message',{msg:msgJson,to:DoctorId,role:'patient'});
             // socket.on('messageRes',function(messageRes){
                 // socket.off('messageRes');
                 // socket.emit('disconnect');
@@ -7926,8 +7926,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     },500);
                 }
             // });
-          
-        }
+          }
+        
         console.log(data.results)
       },
       function(err)
@@ -7935,12 +7935,6 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         console.log(err);
       }
     )
-    }else{
-        $ionicLoading.show({
-            template: '信息填写不完整,请完善必填信息',
-            duration:1000
-            });
-    }
   }
 
 
@@ -8160,7 +8154,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     // .then(function(data)
     // {
     //   console.log(data)
-      $scope.navigation_login=$sce.trustAsResourceUrl("http://patientdiscuss.haihonghospitalmanagement.com/member.php?mod=logging&action=login&loginsubmit=yes&loginhash=$loginhash&mobile=2&username="+Storage.get('UID')+"&password="+Storage.get('UID');
+      $scope.navigation_login=$sce.trustAsResourceUrl("http://patientdiscuss.haihonghospitalmanagement.com/member.php?mod=logging&action=login&loginsubmit=yes&loginhash=$loginhash&mobile=2&username="+Storage.get('UID')+"&password="+Storage.get('UID'));
       $scope.navigation=$sce.trustAsResourceUrl("http://patientdiscuss.haihonghospitalmanagement.com/");
     // })
 
