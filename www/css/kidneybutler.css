@@ -216,10 +216,12 @@
   width: 50%;
   height: 15px;
   background: #cccccc;
+  padding: 0px !important;
 }
 .task-jd span{
   display: block;
-  background: #5de6a2;
+  /*background: #5de6a2;*/
+  background:#6ac4f8;
   height: 100%;
 }
 .chat-bar{

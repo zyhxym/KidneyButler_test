@@ -1,0 +1,229 @@
+<ion-view cache-view="true" title="咨询问卷">
+    <ion-nav-buttons side="left">
+        <my-nav-back-button ng-click="$ionicGoBack()"></my-nav-back-button>
+    </ion-nav-buttons>
+    <ion-content padding="true">
+        <ion-list> 
+            <a class="item green-bg font-white" style="border: 0;font-size: 14px;border-bottom: 1px solid #fff;margin-bottom: 0" ng-click="openDiag==true?openDiag=false:openDiag=true" ng-model="openDiag">咨询问题</a>
+            <form name="askForm" nonvalidate style="border: 0.1px solid #ddd">
+                <label class="item item-input">
+                    <span class="input-label" style="font: bold"><i class="icon ion-asterisk" style="color:red;font-size:6px"></i>你要问医生的问题是什么</span>
+                </label>
+                <label class="item item-input">
+                    <input  class="item-text-wrap" name="help" required ng-model="Questionare.help"  type="text" placeholder="方便医生给出您针对性解答">
+                    <span class="tick">
+                        <i style="color:#6ac4f8;" ng-if="askForm.help.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
+                        <i style="color:#FB6753;" ng-if="askForm.help.$invalid" class="icon ion-alert-circled placeholder-icon"></i>
+                    </span>
+
+                </label>
+                <label class="item item-input">
+                    <span class="input-label" style="font: bold"><i class="icon ion-asterisk" style="color:red;font-size:6px"></i>为您的咨询写个简单的标题</span>
+                </label>
+                <label class="item item-input">
+                    <input  ng-model="Questionare.title" name="title" required type="text" placeholder="方便让医生注意到">
+                    <span class="tick">
+                        <i style="color:#6ac4f8;" ng-if="askForm.title.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
+                        <i style="color:#FB6753;" ng-if="askForm.title.$invalid" class="icon ion-alert-circled placeholder-icon"></i>
+                    </span>
+                </label>
+            </form>
+        </ion-list>
+        <ion-list>
+            <a class="item green-bg font-white" style="border: 0;font-size: 14px;border-bottom: 1px solid #fff;margin-bottom: 0" ng-click="openPersonal==true?openPersonal=false:openPersonal=true" ng-model="openPersonal">个人信息
+                <i class="icon ion-chevron-up" ng-if="!openPersonal"></i> 
+                <i class="icon ion-chevron-down" ng-if="openPersonal"></i>
+            </a>  
+
+            <form name="questionForm" nonvalidate style="border: 0.1px solid #ddd" ng-show="!openPersonal">
+                <label class="item item-input">
+                    <i class="icon ion-asterisk" style="color:red;font-size:8px"></i><span class="input-label">姓名</span>
+
+                    <input ng-model="BasicInfo.name"  type="text" name="UserName" required class="hasTick">
+                    <span class="tick">
+                        <i style="color:#6ac4f8;" ng-if="questionForm.UserName.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
+                        <i style="color:#FB6753;" ng-if="questionForm.UserName.$error.required" class="icon ion-alert-circled placeholder-icon"></i>
+                    </span>
+                </label>
+
+                <label  class="item item-input item-select-custom">
+                    <i class="icon ion-asterisk" style="color:red;font-size:8px"></i><span class="input-label">性别</span>
+                    <select ng-model="BasicInfo.gender" name="UserGender" required ng-options="Gender.Name for Gender in Genders track by Gender.Type"></select>
+                    <span class="tick">
+                        <i style="color:#6ac4f8;" ng-if="questionForm.UserGender.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
+                        <i style="color:#FB6753;" ng-if="questionForm.UserGender.$error.required" class="icon ion-alert-circled placeholder-icon"></i>
+                    </span>
+                </label>
+
+                <label  class="item item-input item-select-custom">
+                    <i class="icon ion-asterisk" style="color:red;font-size:6px"></i><span class="input-label">血型</span>
+                    <select  ng-model="BasicInfo.bloodType" name="UserBlood" required ng-options="BloodType.Name for BloodType in BloodTypes track by BloodType.Type">
+                    </select>
+                    <span class="tick">
+                        <i style="color:#6ac4f8;" ng-if="questionForm.UserBlood.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
+                        <i style="color:#FB6753;" ng-if="questionForm.UserBlood.$error.required" class="icon ion-alert-circled placeholder-icon"></i>
+                    </span>
+                </label>
+
+                <label  class="item item-input item-select-custom">
+                    <i class="icon ion-asterisk" style="color:red;font-size:6px"></i><span class="input-label">是否高血压</span>
+                    <select  ng-model="BasicInfo.hypertension" name="UserHyper" required ng-options="Hyper.Name for Hyper in Hypers track by Hyper.Type" >
+                    </select>
+                    <span class="tick">
+                        <i style="color:#6ac4f8;" ng-if="questionForm.UserHyper.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
+                        <i style="color:#FB6753;" ng-if="questionForm.UserHyper.$error.required" class="icon ion-alert-circled placeholder-icon"></i>
+                    </span>
+                </label>
+
+                <label  class="item item-input item-select-custom">
+                    <i class="icon ion-asterisk" style="color:red;font-size:6px"></i><span class="input-label">肾病类型</span>
+                    <select ng-model="BasicInfo.class" name="UserKidney" required ng-options=" Disease.typeName for Disease in Diseases track by Disease.type" ng-change="getDiseaseDetail(User.class)">
+                    </select>
+                    <span class="tick">
+                        <i style="color:#6ac4f8;" ng-if="questionForm.UserKidney.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
+                        <i style="color:#FB6753;" ng-if="questionForm.UserKidney.$error.required" class="icon ion-alert-circled placeholder-icon"></i>
+                    </span>
+                </label>
+
+            
+
+                <ionic-datepicker  input-obj="datepickerObject2"  class="item item-input" ng-if="showSurgicalTime">
+                    <span class="input-label" style="margin-left:13px ">{{timename}}</span>
+                    <input  ng-model="BasicInfo.operationTime" class="hasTick" dateformat  type="text">
+                    <span class="tick">
+                        <i style="color:#6ac4f8;"  class="icon ion-checkmark-circled placeholder-icon"></i>
+                    </span>
+                </ionic-datepicker>
+
+
+                <label class="item item-input">
+                    <i class="icon ion-asterisk" style="color:red;font-size:6px"></i><span class="input-label">过敏信息</span>
+                    <input   ng-model="BasicInfo.allergic" class="hasTick" name="UserAllergic" required type="text" style="width:100%">
+                    <span class="tick">
+                        <i style="color:#6ac4f8;" ng-if="questionForm.UserAllergic.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
+                        <i style="color:#FB6753;" ng-if="questionForm.UserAllergic.$error.required" class="icon ion-alert-circled placeholder-icon"></i>
+                    </span>
+                </label>
+
+           
+
+                <ionic-datepicker  input-obj="datepickerObject3" class="item item-input">
+                    <i class="icon ion-asterisk" style="color:red;font-size:6px"></i><span class="input-label">出生日期</span>
+                    <input  ng-model="BasicInfo.birthday" dateformat name="UserBirthday" class="hasTick" required type="text">
+                    <span class="tick">
+                        <i style="color:#6ac4f8;" ng-if="questionForm.UserBirthday.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
+                        <i style="color:#FB6753;" ng-if="questionForm.UserBirthday.$invalid" class="icon ion-alert-circled placeholder-icon"></i>
+                    </span>
+
+                </ionic-datepicker>
+
+
+                <label class="item item-input">
+                    <i class="icon ion-asterisk" style="color:red;font-size:6px"></i><span class="input-label">身份证号</span>
+                    <input   class="hasTick" name="UserIDNo" ng-model="BasicInfo.IDNo" required ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/" type="text"    style="width:100%" >
+                    <span class="tick">
+                        <i style="color:#6ac4f8;" ng-if="questionForm.UserIDNo.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
+                        <i style="color:#FB6753;" ng-if="questionForm.UserIDNo.$invalid" class="icon ion-alert-circled placeholder-icon"></i>
+                    </span>
+                </label>
+
+                <label class="item item-input">
+                    <span class="input-label" style="margin-left:13px ">身高（cm）</span>
+                    <input  class="hasTick" name="UserHeight" ng-pattern="/(^[1-9]+\d*[\.]?\d+$|^0\.\d+$|^[1-9]+\d*$|^0$)/" ng-model="BasicInfo.height"  type="text"  style="width:100%" >
+                    <span class="tick">
+                        <i style="color:#6ac4f8;" ng-if="questionForm.UserHeight.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
+                        <i style="color:#FB6753;" ng-if="questionForm.UserHeight.$invalid" class="icon ion-alert-circled placeholder-icon"></i>
+                    </span>
+                </label>
+
+                <label class="item item-input">
+                    <span class="input-label" style="margin-left:13px ">体重（kg）</span>
+                    <input  class="hasTick"  ng-model="BasicInfo.weight" name="UserWeight" ng-pattern="/(^[1-9]+\d*[\.]?\d+$|^0\.\d+$|^[1-9]+\d*$|^0$)/" type="text"   style="width:100%" >
+                    <span class="tick">
+                        <i style="color:#6ac4f8;" ng-if="questionForm.UserWeight.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
+                        <i style="color:#FB6753;" ng-if="questionForm.UserWeight.$invalid" class="icon ion-alert-circled placeholder-icon"></i>
+                    </span>
+                </label>
+
+            
+            </form>
+        </ion-list>
+
+        <ion-list> 
+
+            <a class="item green-bg font-white" style="border: 0;font-size: 14px;border-bottom: 1px solid #fff;margin-bottom: 0" ng-click="openDiag==true?openDiag=false:openDiag=true" ng-model="openDiag">就诊信息
+                <i class="icon ion-chevron-up" ng-if="!openDiag"></i> 
+                <i class="icon ion-chevron-down" ng-if="openDiag"></i>
+            </a>
+
+            <div  class="list" style="border: 0.1px solid rgb(221, 221, 221);padding-left: 10px;padding-right: 10px;" ng-show="!openDiag">
+                <ionic-datepicker padding="true" input-obj="datepickerObject4" class="item item-input" style="border: 0;border-bottom: 1px solid #ddd;margin: 0">
+                    <i class="iconfont icon-shijian" style="font-size: 24px;vertical-align: top;margin-right: 5px"></i>
+                    <span class="input-label">慢性肾病首次发病时间</span>
+                    <input  ng-model="Questionare.LastDiseaseTime" dateformat  type="text">
+                </ionic-datepicker>
+            
+    
+                <div  class="col col-50" style="font-size:15px;font-weight: bold;margin-bottom:10px;margin-top: 10px"><i class="iconfont icon-keshishouyaohuizhen" style="font-size: 24px;vertical-align: middle;margin-right: 5px"></i>最近就诊信息</div>        
+          
+                <label class="item item-input" style="margin:  0 10px;border-left: 0;border-right: 0;border-top: 0">
+                    <span class="input-label" style="margin-left:8px ">就诊医院</span>
+                    <input  ng-model="BasicInfo.lastVisit.hospital"  type="text">
+                </label>
+
+                <ionic-datepicker input-obj="datepickerObject1" class="item item-input" style="margin:  0 10px;border-left: 0;border-right: 0;border-top: 0">
+                    <span class="input-label" style="margin-left:8px ">诊断日期</span>
+                    <input  ng-model="BasicInfo.lastVisit.time" dateformat type="text">
+                </ionic-datepicker>
+
+                <label class="item item-input" style="margin-bottom: 0;margin:  0 10px;border-left: 0;border-right: 0;border-top: 0" >
+                    <span class="input-label" style="margin-left:8px;">诊断结果</span>
+                    <input  ng-model="BasicInfo.lastVisit.diagnosis"  type="text">
+                </label>
+        
+                <div class="row" style="font-size:15px;font-weight: bold;margin-top: 10px">
+                    <div class="col"><i class="iconfont icon-xiangji" style="font-size: 24px;vertical-align: middle;margin-right: 5px"></i>
+                      添加健康信息</div>
+                    <div class="col" style="text-align: right;">
+                        <i class="icon ion-plus-round" style="font-size: 24px;vertical-align: middle;margin-right: 5px" ng-click="addnewimage($event)"></i>
+                    </div> 
+                </div>
+           
+                <ion-list>
+                    <div class="card" ng-repeat="item in items | orderBy:'-time'" ng-click="gotoEditHealth($event,item)">
+                        <div class="row">
+                            <p class="col" style="text-align: left;font-weight: bold;">{{item.label}}</p>
+                            <p class="col" style="text-align:center;">{{item.time|dateFormat:"YYYY-MM-DD"}}</p>
+                            <span class="col" style="text-align:right;"><i class="icon ion-trash-a" style="font-size: 20px;"></i></span>
+                        </div>
+                    
+                        <div class="row">
+                            <p style="margin-left:2%">{{item.description}}</p>
+                        </div>
+
+                        <ion-item class="row row-wrap" style="border:none; text-align:center; height:100%;">
+                            <div class="col col-33" ng-repeat = "img in item.url">
+                                <img ng-src="{{img}}" style="height:100%; width:100%;max-height: 87px;max-height: 119px">
+                            </div>
+                        </ion-item>
+
+                    </div>
+                </ion-list>
+            </div>
+        </ion-list>
+
+        
+          
+        <div class="col-50" style="margin:0 auto;">
+            <button  ng-disabled="!(questionForm.$valid)||!(askForm.$valid)||submitable" style="margin-top:10px" class="button button-block green-bg font-white" ng-click ="submit(Questionare,BasicInfo)">
+                        提交
+            </button>
+        </div>
+    
+    
+
+
+           
+    </ion-content>
+          
+</ion-view>

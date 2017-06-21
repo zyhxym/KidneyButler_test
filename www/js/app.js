@@ -313,12 +313,14 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
 })
 
 // --------路由, url模式设置----------------
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
+  //禁止側滑
+  $ionicConfigProvider.views.swipeBackEnabled(false);
   //注册与登录
   $stateProvider
     .state('signin', {
@@ -458,42 +460,53 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
         }
       }
     })
-    .state('tab.consultquestion1', {
-      url: '/consultquestion1',
+    .state('tab.consultQuestionnaire', {
+      url: '/Questionnaire',
       params:{DoctorId:null,counselType:null},
       views: {
         'tab-consult': {
-          cache:false,
-          templateUrl: 'partials/tabs/consult/consultquestion1.html',
+          cache:true,
+          templateUrl: 'partials/tabs/consult/questionnaire.html',
           controller: 'consultquestionCtrl'
         }
       },
-      // params:{DoctorId:null}
     })
-    .state('tab.consultquestion2', {
-      url: '/consultquestion2',
-      params:{DoctorId:null,counselType:null},
-      views: {
-        'tab-consult': {
-          cache:false,
-          templateUrl: 'partials/tabs/consult/consultquestion2.html',
-          controller: 'consultquestionCtrl'
-        }
-      },
-      // params:{DoctorId:null}
-    })
-    .state('tab.consultquestion3', {
-      url: '/consultquestion3',
-      params:{DoctorId:null,counselType:null},
-      views: {
-        'tab-consult': {
-          cache:false,
-          templateUrl: 'partials/tabs/consult/consultquestion3.html',
-          controller: 'consultquestionCtrl'
-        }
-      },
-      // params:{DoctorId:null}
-    })
+    // .state('tab.consultquestion1', {
+    //   url: '/consultquestion1',
+    //   params:{DoctorId:null,counselType:null},
+    //   views: {
+    //     'tab-consult': {
+    //       cache:false,
+    //       templateUrl: 'partials/tabs/consult/consultquestion1.html',
+    //       controller: 'consultquestionCtrl'
+    //     }
+    //   },
+    //   // params:{DoctorId:null}
+    // })
+    // .state('tab.consultquestion2', {
+    //   url: '/consultquestion2',
+    //   params:{DoctorId:null,counselType:null},
+    //   views: {
+    //     'tab-consult': {
+    //       cache:false,
+    //       templateUrl: 'partials/tabs/consult/consultquestion2.html',
+    //       controller: 'consultquestionCtrl'
+    //     }
+    //   },
+    //   // params:{DoctorId:null}
+    // })
+    // .state('tab.consultquestion3', {
+    //   url: '/consultquestion3',
+    //   params:{DoctorId:null,counselType:null},
+    //   views: {
+    //     'tab-consult': {
+    //       cache:false,
+    //       templateUrl: 'partials/tabs/consult/consultquestion3.html',
+    //       controller: 'consultquestionCtrl'
+    //     }
+    //   },
+    //   // params:{DoctorId:null}
+    // })
 
     .state('tab.mine', {
         url: '/mine',

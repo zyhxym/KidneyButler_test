@@ -9,44 +9,51 @@
     </ion-nav-buttons>
   </ion-nav-bar>
 
-  <ion-content padding="true" style="top: 43px">
+  <ion-content padding="true" ng-style="healthDetailStyle">
     
 
-  <ion-list>
-    <label  class="item item-input item-select">
+  <form name="HealthForm" nonvalidate>
+    <label  class="item item-input item-select-custom blue-round-input">
         <span class="input-label"><i class="icon ion-asterisk c-red" ></i>类别</span>
-        <select ng-disabled="!canEdit" ng-model="health.label" ng-options="label.name for label in labels track by label.code" style="width:100%">
+        <select ng-disabled="!canEdit || labTest" ng-model="health.label" name="healthLabel" required ng-options="label.name for label in labels track by label.code">
         </select>
+        <span class="tick" ng-if="canEdit">
+              <i style="color:#6ac4f8;" ng-if="HealthForm.healthLabel.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
+               <i style="color:#FB6753;" ng-if="HealthForm.healthLabel.$invalid" class="icon ion-alert-circled placeholder-icon"></i>
+        </span>
     </label>
 
-    <label ng-if="!canEdit" class="item item-input">
+    <label ng-if="!canEdit" class="item item-input blue-round-input">
         <span class="input-label"><i class="icon ion-asterisk c-red" ></i>时间日期</span>
-        <input  style="text-align: right;" ng-disabled="!canEdit" ng-model="health.date" dateformat type="text">
+        <input  style="text-align: right;" class="hasTick" ng-disabled="!canEdit" ng-model="health.date" dateformat type="text">
     </label>
 
-    <ionic-datepicker ng-if="canEdit" input-obj="datepickerObject4" class="item item-input">
+    <ionic-datepicker ng-if="canEdit" input-obj="datepickerObject4" class="item item-input blue-round-input">
         <span class="input-label"><i class="icon ion-asterisk c-red" ></i>时间日期</span>
-        <input  style="text-align: right;" ng-model="health.date" dateformat type="text">
+        <input  style="text-align: right;" ng-model="health.date" class="hasTick" name="healthDate" required dateformat type="text">
+        <span class="tick">
+              <i style="color:#6ac4f8;" ng-if="HealthForm.healthDate.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
+               <i style="color:#FB6753;" ng-if="HealthForm.healthDate.$invalid" class="icon ion-alert-circled placeholder-icon"></i>
+          </span>
     </ionic-datepicker>
 
-    <label class="item item-input">
-          <span class="input-label" ><i class="icon ion-asterisk c-red"></i>文字描述</span>
-          <input  style="text-align: right;" ng-disabled="!canEdit" ng-model="health.text"  type="text">
+    <label class="item item-input blue-round-input">
+          <textarea ng-disabled="!canEdit" class="no-line" placeholder="请您详细描述自己的健康信息" rows="4" style="line-height: 25px"  name="healthText" ng-model="health.text"></textarea>
     </label>
 
       
 
-    <ion-item class="row row-wrap" style="border:none; text-align:center; height:100%;margin-top:30px" >
+    <ion-item class="row row-wrap" style="border:none; text-align:center; height:100%;margin-top:10px" >
         <div  class="col col-33" ng-repeat="filepath in health.imgurl track by $index">
           <img ng-src="{{filepath}}"  name="Photo" ng-click="showoriginal(filepath)"  style="height:90%; width:90%"  /><i ng-if="canEdit" class="icon ion-close-circled" style="width: 5%;float: right;" ng-click="deleteimg($index)"></i>
         </div>
-             
     </ion-item>
     <div style="text-align: center;" ng-if="canEdit">
            <button class="button button-clear" style="color:#666" ng-click="onClickCamera($event)" ><i class="icon ion-camera"></i>上传图片</button>
     </div>
-  </ion-list>
-    <button ng-if="canEdit" style="margin-top:10px" class="button button-block green-bg font-white" ng-click ="HealthInfoSetup()">
+  </form>
+
+    <button ng-if="canEdit" ng-disabled="!HealthForm.$valid" style="margin-top:10px" class="button button-block green-bg font-white" ng-click ="HealthInfoSetup()">
             保存
       </button>
   </ion-content>
@@ -55,7 +62,7 @@
 
           
 
-      <script id="my-popover1.html" type="text/ng-template">
+     <!--  <script id="my-popover1.html" type="text/ng-template">
         <ion-popover-view>
           <ion-header-bar class="bar-calm">
               <h1 class="title">上传图片</h1>
@@ -75,6 +82,6 @@
           </ion-list>
         </ion-content>
       </ion-popover-view>
-    </script>
+    </script> -->
     <!-- 上传照片的弹出框 -->
 </ion-view>

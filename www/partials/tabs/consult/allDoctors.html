@@ -49,7 +49,7 @@
                 <img style="border-radius: 100%;top: 40%;margin-top: -40px" ng-src="{{doctor.photoUrl  || 'img/DefaultAvatar.jpg'}}">
                 <span>{{doctor.name}}</span>
                 <span style="float: right">{{doctor.department}}</span>
-                <p>医院：{{doctor.workUnit}}</p>
+                <p>{{doctor.workUnit}}</p>
                 <p style="font-size: 12px">职称:{{doctor.title}}</p>
                 <p style="font-size: 12px">收费：<span>咨询{{doctor.charge1}}元</span><span style="margin-left: 20px">问诊{{doctor.charge2}}元</span></p>
                 <div class="row row-below-avatar" style="font-size: 14px;color:#2B67F5;">
@@ -59,10 +59,10 @@
                 </div>
             </div>
 
-            <div class="row" style="color:#181544;font-size:14px;font-weight:bold;text-align: center;">
-            <span ng-click="question(doctor.userId,doctor.name,doctor)" class="col"><i class="icon iconfont icon-zixun2"></i>咨询</span>
-            <span ng-click="consult(doctor.userId,doctor.name,doctor)" class="col"><i class="icon iconfont icon-baojifuben"></i>问诊</span>
-        </div>
+            <div class="row">
+                <button style="color:#181544;font-size:14px;font-weight:bold;text-align: center;" ng-disabled="DisabledConsult" ng-click="question(doctor.userId,doctor.name,doctor)" class="col no-line"><i class="icon iconfont icon-zixun2"></i>咨询</button>
+                <button  style="color:#181544;font-size:14px;font-weight:bold;text-align: center;" ng-disabled="DisabledConsult" ng-click="consult(doctor.userId,doctor.name,doctor.charge1,doctor)" class="col no-line"><i class="icon iconfont icon-baojifuben"></i>问诊</button>
+            </div>
         </ion-item>
 
 
