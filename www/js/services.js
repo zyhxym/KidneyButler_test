@@ -718,7 +718,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
             getStatus:{method:'GET', params:{route: 'status'}, timeout: 100000},
             changeStatus:{method:'POST', params:{route: 'status'}, timeout: 100000},
             changeType:{method:'POST', params:{route: 'type'}, timeout: 100000},
-            insertCommentScore:{method:'POST', params:{route: 'type'}, timeout: 100000}
+            insertCommentScore:{method:'POST', params:{route: 'score'}, timeout: 100000}
         });
     };
 
@@ -785,7 +785,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
     var VitalSign =function(){
         return $resource(CONFIG.baseUrl + ':path/:route',{path:'vitalSign'},{
             getVitalSigns:{method:'GET', params:{route: 'vitalSigns'}, timeout: 100000},
-            insertVitalSign:{method:'POST', params:{route: 'vitalSigns'}, timeout: 100000}
+            insertVitalSign:{method:'POST', params:{route: 'vitalSign'}, timeout: 100000}
         });
     }
 
@@ -794,7 +794,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
             getAccountInfo:{method:'GET', params:{route: 'getAccountInfo'}, timeout: 100000},
             getCounts:{method:'GET', params:{route: 'counts'}, timeout: 100000},
             modifyCounts:{method:'POST', params:{route: 'counts'}, timeout: 100000},
-            rechargeDoctor:{method:'POST', params:{route: 'rechargeDoctor'}, timeout: 100000},
+            // rechargeDoctor:{method:'POST', params:{route: 'rechargeDoctor'}, timeout: 100000},
             updateFreeTime:{method:'POST', params:{route: 'updateFreeTime'}, timeout: 100000},
             getCountsRespective:{method:'GET', params:{route: 'getCountsRespective'}, timeout: 100000}
         });
@@ -814,9 +814,9 @@ angular.module('kidney.services', ['ionic','ngResource'])
 
     var News = function(){
         return $resource(CONFIG.baseUrl + ':path/:route',{path:'new'},{
-            getNews:{method:'GET', params:{route: 'getNews'}, timeout: 100000},
-            insertNews:{method:'POST', params:{route: 'insertNews'}, timeout: 100000},
-            getNewsByReadOrNot:{method:'GET', skipAuthorization: true, params:{route: 'getNewsByReadOrNot'}, timeout: 100000}
+            getNews:{method:'GET', params:{route: 'news'}, timeout: 100000},
+            insertNews:{method:'POST', params:{route: 'news'}, timeout: 100000},
+            getNewsByReadOrNot:{method:'GET', skipAuthorization: true, params:{route: 'newsByReadOrNot'}, timeout: 100000}
         });
     }
 
@@ -2329,19 +2329,19 @@ angular.module('kidney.services', ['ionic','ngResource'])
         return deferred.promise;
     };
     //
-    self.rechargeDoctor = function(params){
-        var deferred = $q.defer();
-        Data.Account.rechargeDoctor(
-            params,
-            function(data, headers){
-                deferred.resolve(data);
-            },
-            function(err){
-                checknetwork.checknetwork(err);
-                deferred.reject(err);
-        });
-        return deferred.promise;
-    };
+    // self.rechargeDoctor = function(params){
+    //     var deferred = $q.defer();
+    //     Data.Account.rechargeDoctor(
+    //         params,
+    //         function(data, headers){
+    //             deferred.resolve(data);
+    //         },
+    //         function(err){
+    //             checknetwork.checknetwork(err);
+    //             deferred.reject(err);
+    //     });
+    //     return deferred.promise;
+    // };
     //
     self.updateFreeTime = function(params){
         var deferred = $q.defer();
