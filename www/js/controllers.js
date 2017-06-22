@@ -3205,7 +3205,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
 //我的 页面--PXY
 //我的 页面--PXY
-.controller('MineCtrl', ['$scope','$ionicHistory','$state','$ionicPopup','$resource','Storage','CONFIG','$ionicLoading','$ionicPopover','Camera', 'Patient','Upload','wechat','$location','$timeout','$sce','$interval','News',function($scope, $ionicHistory, $state, $ionicPopup, $resource, Storage, CONFIG, $ionicLoading, $ionicPopover, Camera,Patient,Upload,wechat,$location,$timeout,$sce,$interval,News) {
+.controller('MineCtrl', ['$scope','$ionicHistory','$state','$ionicPopup','$resource','Storage','CONFIG','$ionicLoading','$ionicPopover','Camera', 'Patient','Upload','wechat','$location','$timeout','$sce','$interval','News', 'CONFIG', function($scope, $ionicHistory, $state, $ionicPopup, $resource, Storage, CONFIG, $ionicLoading, $ionicPopover, Camera,Patient,Upload,wechat,$location,$timeout,$sce,$interval,News, CONFIG) {
   //$scope.barwidth="width:0%";
   // Storage.set("personalinfobackstate","mine")
   
@@ -3383,7 +3383,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
       $timeout(function(){
           $ionicLoading.hide();
           //图片路径
-          $scope.myAvatar="http://121.43.107.106:8052/uploads/photos/"+temp_name+'?'+new Date().getTime();
+          $scope.myAvatar=CONFIG.mediaUrl + "uploads/photos/"+temp_name+'?'+new Date().getTime();
           console.log($scope.myAvatar)
           // $state.reload("tab.mine")
           Patient.editPatientDetail({userId:Storage.get("UID"),photoUrl:$scope.myAvatar}).then(function(r){
@@ -4412,7 +4412,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
 
 //健康详情--PXY
-.controller('HealthDetailCtrl', ['$scope','$state','$ionicHistory','$ionicPopup','$stateParams','$ionicPopover','$ionicModal','$ionicScrollDelegate','HealthInfo','$ionicLoading','$timeout','Dict','Health','Storage','Camera','wechat','$location', 'otherTask', function($scope, $state,$ionicHistory,$ionicPopup,$stateParams,$ionicPopover,$ionicModal,$ionicScrollDelegate,HealthInfo,$ionicLoading,$timeout,Dict,Health,Storage,Camera,wechat,$location, otherTask) {
+.controller('HealthDetailCtrl', ['$scope','$state','$ionicHistory','$ionicPopup','$stateParams','$ionicPopover','$ionicModal','$ionicScrollDelegate','HealthInfo','$ionicLoading','$timeout','Dict','Health','Storage','Camera','wechat','$location', 'otherTask', 'CONFIG', function($scope, $state,$ionicHistory,$ionicPopup,$stateParams,$ionicPopover,$ionicModal,$ionicScrollDelegate,HealthInfo,$ionicLoading,$timeout,Dict,Health,Storage,Camera,wechat,$location, otherTask, CONFIG) {
     // //$scope.barwidth="width:0%";
   var patientId = Storage.get('UID')
   $scope.$watch("canEdit",function(oldval,newval){
@@ -4682,7 +4682,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
       //图片路径
       $timeout(function(){
         $ionicLoading.hide();
-        $scope.health.imgurl.push("http://121.43.107.106:8052/uploads/photos/"+temp_photoaddress)
+        $scope.health.imgurl.push(CONFIG.mediaUrl + "uploads/photos/"+temp_photoaddress)
       },1000)
       
       // $state.reload("tab.mine")
