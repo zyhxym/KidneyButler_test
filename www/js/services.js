@@ -822,7 +822,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
 
     var Communication =function(){
         return $resource(CONFIG.baseUrl + ':path/:route',{path:'communication'},{
-            getCommunication:{method:'GET', params:{route: 'getCommunication'}, timeout: 100000},
+            getCommunication:{method:'GET', params:{route: 'communication'}, timeout: 100000},
             getCounselReport:{method:'GET', params:{route: 'getCounselReport'}, timeout: 100000},
             // getTeam:{method:'GET', params:{route: 'getTeam'}, timeout: 100000},
             // insertMember:{method:'POST', params:{route: 'insertMember'}, timeout: 100000},

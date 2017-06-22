@@ -1,6 +1,6 @@
 <div class="msgbox {{'msgbox-'+msg.direct}}">
 	<!-- display time -->
-	<div ng-if="msg.diff" class="msg-time"><span>{{msg.createTimeInMillis | msgdate}}</span></div>
+	<div ng-if="msg.diff" class="msg-time"><span>{{msg.time | msgdate}}</span></div>
 	<!-- avatar -->
 	<img class="avatar" ng-src="{{photourls[msg.fromID] || 'img/DefaultAvatar.jpg'}}" ng-click="emitEvent('profile',msg)"/>
 	<!-- chat bubble -->
