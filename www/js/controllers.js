@@ -3556,6 +3556,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         var result =[];
         var hash ={};
         for(var i =arr.length-1; i>=0; i--){
+            if(arr[i].doctorId===null) continue;
             var elem = arr[i].doctorId.userId;
             if(!hash[elem]){
                 result.push(arr[i].doctorId);

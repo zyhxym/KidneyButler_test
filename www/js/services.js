@@ -2635,8 +2635,8 @@ return self;
         // alert(data.results.timestamp)
         config = data.results;
         config.jsApiList = ['chooseWXPay']
-        alert(config.jsApiList)
-        alert(config.debug)
+        // alert(config.jsApiList)
+        // alert(config.debug)
         console.log(angular.toJson(config))
         wx.config({
           debug:false,
