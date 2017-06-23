@@ -6,12 +6,12 @@
 angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.directives','kidney.filters','ngCordova','ngFileUpload','angular-jwt'])
 
 .run(function($ionicPlatform, $state, Storage, $location, $ionicHistory, $ionicPopup,$rootScope,JM,$location,wechat,User,Patient,$q,$window) {
-  console.log(9)
+  // console.log(9)
   $ionicPlatform.ready(function() {
-    console.log(11)
+    // console.log(11)
     socket = io.connect('http://121.43.107.106:4050/chat');
     
-    console.log(14)
+    // console.log(14)
     var temp = $location.absUrl().split('=')
     // alert(temp)
     if (angular.isDefined(temp[1]) == true)
@@ -36,7 +36,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
         wechat.getUserInfo({code:code}).then(function(data){ 
           // alert(1)
           wechatData = data.results
-          console.log(wechatData)
+          // console.log(wechatData)
           Storage.set('openid',wechatData.unionid)
           Storage.set('messageopenid',wechatData.openid)
           Storage.set('wechathead',wechatData.headimgurl)
@@ -68,7 +68,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
             //     else
             //     {
                   User.logIn({username:Storage.get('openid'),password:Storage.get('openid'),role:"patient"}).then(function(data){
-                    console.log(data)
+                    // console.log(data)
                       if(data.results==1){
                         // if(data.mesg == "No authority!")
                         // {
@@ -326,6 +326,12 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
   $ionicConfigProvider.views.swipeBackEnabled(false);
   //注册与登录
   $stateProvider
+    .state('welcome', {
+      cache: false,
+      url: '/welcome',
+      templateUrl: 'partials/login/welcome.html',
+      controller: 'welcomeCtrl'
+    })
     .state('signin', {
       cache: false,
       url: '/signin',
@@ -669,7 +675,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
       controller: 'insurancestaffCtrl'
     });
 
-  // $urlRouterProvider.otherwise('/signin');
+  $urlRouterProvider.otherwise('welcome');
 
 
 

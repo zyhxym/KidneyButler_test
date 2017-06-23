@@ -761,7 +761,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
     var wechat = function(){
         return $resource(CONFIG.baseUrl + ':path/:route',{path:'wechat'},{
             settingConfig:{method:'GET', skipAuthorization: true, params:{route: 'settingConfig'}, timeout: 100000},
-            getUserInfo:{method:'GET', skipAuthorization: true, params:{route: 'getUserInfo'}, timeout: 100000},
+            getUserInfo:{method:'GET', skipAuthorization: true, params:{route: 'getUserInfo'}, timeout: 10000},
             download:{method:'GET', params:{route: 'download'}, timeout: 100000},
             addOrder:{method:'POST', params:{route: 'addOrder'}, timeout: 100000},
             messageTemplate:{method:'POST', params:{route: 'messageTemplate'}, timeout: 100000}
