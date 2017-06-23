@@ -6322,13 +6322,13 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                         console.log(data)
                       },function(err){
                         console.log(err)
-                      })
+                      }),
                       //免费咨询次数减一 count+3
                       Account.modifyCounts({patientId:Storage.get('UID'),doctorId:DoctorId,modify:3}).then(function(data){
                         console.log(data)
                       },function(err){
                         console.log(err)
-                      })
+                      }),
                       Account.updateFreeTime({patientId:Storage.get('UID')}).then(function(data){
                         console.log(data)
                       },function(err){
@@ -6403,7 +6403,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                         console.log(data)
                       },function(err){
                         console.log(err)
-                      })
+                      }),
                       //plus doc answer count  patientId:doctorId:modify
                       Account.modifyCounts({patientId:Storage.get('UID'),doctorId:DoctorId,modify:3}).then(function(data){
                         console.log(data)
@@ -6506,7 +6506,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                           console.log(data)
                         },function(err){
                           console.log(err)
-                        })
+                        }),
                         //plus doc answer count  patientId:doctorId:modify
                         Account.modifyCounts({patientId:Storage.get('UID'),doctorId:DoctorId,modify:999}).then(function(data){
                           console.log(data)
@@ -6676,14 +6676,14 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                           console.log(data)
                         },function(err){
                           console.log(err)
-                        })
+                        }),
                         //plus doc answer count  patientId:doctorId:modify
                         Account.modifyCounts({patientId:Storage.get('UID'),doctorId:DoctorId,modify:999}).then(function(data){
                           console.log(DoctorId+Storage.get('UID'))
                           console.log(data)
                         },function(err){
                           console.log(err)
-                        })
+                        }),
                       ]).then(function(){
                         $state.go("tab.consultQuestionnaire",{DoctorId:DoctorId,counselType:2});//这里的type是2不是3 因为还没有新建成功，
                       }) 
@@ -6758,7 +6758,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                           console.log(data)
                         },function(err){
                           console.log(err)
-                        })
+                        }),
                         //plus doc answer count  patientId:doctorId:modify
                         Account.modifyCounts({patientId:Storage.get('UID'),doctorId:DoctorId,modify:999}).then(function(data){
                           console.log(data)
