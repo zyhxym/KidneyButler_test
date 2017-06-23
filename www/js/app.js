@@ -9,7 +9,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
   $ionicPlatform.ready(function() {
     socket = io.connect('http://121.43.107.106:4050/chat');
     
-
+    console.log(12)
     var temp = $location.absUrl().split('=')
     // alert(temp)
     if (angular.isDefined(temp[1]) == true)
@@ -27,14 +27,14 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
             Storage.set('code',code)
         }
     }
-
+    console.log(state)
     var wechatData = ""
     if (angular.isDefined(code) == true)
     {
         wechat.getUserInfo({code:code}).then(function(data){ 
           // alert(1)
           wechatData = data.results
-          // console.log(wechatData)
+          console.log(wechatData)
           Storage.set('openid',wechatData.unionid)
           Storage.set('messageopenid',wechatData.openid)
           Storage.set('wechathead',wechatData.headimgurl)
@@ -66,6 +66,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
             //     else
             //     {
                   User.logIn({username:Storage.get('openid'),password:Storage.get('openid'),role:"patient"}).then(function(data){
+                    console.log(data)
                       if(data.results==1){
                         // if(data.mesg == "No authority!")
                         // {
