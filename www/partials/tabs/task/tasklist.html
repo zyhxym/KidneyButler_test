@@ -68,8 +68,8 @@
                 </div>
                 
                 <p style="text-indent:2em;">{{item.Freq}}</p>
-                <p style="text-indent:2em;">任务时间：{{item.startTime}}</p>
-                <p style="text-indent:2em;" ng-if="item.endTime != ''">执行时间：{{item.endTime}}</p>
+                <p style="text-indent:2em;">任务时间：{{item.startTime|dateFormat:"YYYY-MM-DD"}}</p>
+                <p style="text-indent:2em;" ng-if="item.endTime != ''">执行时间：{{item.endTime|dateFormat:"YYYY-MM-DD"}}</p>
             </div>
 
 
@@ -84,8 +84,8 @@
                 </div>
                 
                 
-                <p ng-if="item.frequencyTimes != 0" style="text-indent:2em;">任务时间：{{item.startTime}}</p>
-                <p style="text-indent:2em;" ng-if="item.DoneFlag">上次执行：{{item.endTime}}</p>
+                <p ng-if="item.frequencyTimes != 0" style="text-indent:2em;">任务时间：{{item.startTime|dateFormat:"YYYY-MM-DD"}}</p>
+                <p style="text-indent:2em;" ng-if="item.DoneFlag">上次执行：{{item.endTime|dateFormat:"YYYY-MM-DD"}}</p>
                 <p style="text-indent:2em;">{{item.content}}</p>
                 <button  class="button button-small button-outline button-stable" style="width: 100% " ng-if = "item.Flag" ng-click = "StartNewTask(item)">新任务</button>
             </div>

@@ -708,7 +708,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
   var initialPatient = function(){
         Patient.getPatientDetail({userId: Storage.get('UID')}).then(function(data){
 
-                if (data.results != "没有填写个人信息"){
+                if (data.results && data.results != "没有填写个人信息"){
                     if($stateParams.last =='mine'){
                         $scope.canEdit = false;
                     }
@@ -4626,9 +4626,10 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
   }
 
-  $scope.$on('$ionicView.beforeLeave',function(){
+  $scope.$on('$destroy', function ()
+  {    
     $ionicLoading.hide();
-  })
+  });
 
   // --------datepicker设置----------------
   var  monthList=["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"];
