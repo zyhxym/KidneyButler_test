@@ -87,7 +87,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                     // console.log(success);
                     resolve(success.nativeURL);
                   }, function (error) {
-                    checknetwork.checknetwork(error);
+                    ////checknetwork.checknetwork(error);
                     console.log(error);
                     reject(error);
                   });
@@ -128,13 +128,13 @@ angular.module('kidney.services', ['ionic','ngResource'])
                             //     });
                             // resolve(fileUrl.substr(fileUrl.lastIndexOf('/')+1));
                         }, function(err) {
-                            checknetwork.checknetwork(err);
+                            //checknetwork.checknetwork(err);
                             console.log(err);
                             reject(err);
                         });
                 },
                 function(err) {
-                    checknetwork.checknetwork(err);
+                    //checknetwork.checknetwork(err);
                     console.error("recordAudio():Audio Error");
                     console.log(err);
                     reject(err);
@@ -154,7 +154,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                     resolve(audio.media)
                 },
                 function(err) {
-                    checknetwork.checknetwork(err);
+                    //checknetwork.checknetwork(err);
                     reject(err);
                 })
         });
@@ -177,7 +177,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
             },
             function(err) {
                 //$ionicLoading.show({ template: 'audio.send():[failed] '+err,duration:1500});
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 console.log("audio.send():failed");
                 console.log(err);
                 // reject(err);
@@ -194,7 +194,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                     if(data.UserId) return this.users(data.UserId);
                     return data;
                 },function(err){
-                    checknetwork.checknetwork(err);
+                    //checknetwork.checknetwork(err);
                     return err;
                 })
         },
@@ -276,7 +276,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                                 resolve(user);
                             },
                             function(err) {
-                                checknetwork.checknetwork(err)
+                                //checknetwork.checknetwork(err)
                                 console.log(err);
                                 // reject(err);
                                 register(user, data.results.name);
@@ -304,7 +304,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                         window.JMessage.nickname = nick;
                         resolve(user);
                     }, function(err){
-                        checknetwork.checknetwork(err)
+                        //checknetwork.checknetwork(err)
                         console.log(err);
                         reject(err);
                     });
@@ -860,7 +860,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -879,7 +879,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -896,7 +896,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -912,7 +912,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -928,7 +928,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -950,7 +950,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
     //             deferred.resolve(data);
     //         },
     //         function(err){
-    //             checknetwork.checknetwork(err);
+    //             //checknetwork.checknetwork(err);
     //             deferred.reject(err);
     //     });
     //     return deferred.promise;
@@ -970,7 +970,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -990,7 +990,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1007,7 +1007,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1021,7 +1021,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1035,7 +1035,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1062,7 +1062,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1079,7 +1079,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1330,7 +1330,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1348,7 +1348,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1368,7 +1368,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1385,7 +1385,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1401,7 +1401,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1419,7 +1419,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1438,7 +1438,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1453,7 +1453,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1470,7 +1470,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1486,7 +1486,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
     //             deferred.resolve(data);
     //         },
     //         function(err){
-    //             checknetwork.checknetwork(err);
+    //             //checknetwork.checknetwork(err);
     //             deferred.reject(err);
     //     });
     //     return deferred.promise;
@@ -1501,7 +1501,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1516,7 +1516,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1531,7 +1531,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1555,7 +1555,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1573,7 +1573,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1594,7 +1594,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1616,7 +1616,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1635,7 +1635,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1656,7 +1656,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1671,7 +1671,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1687,7 +1687,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1702,7 +1702,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1724,7 +1724,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
     //             deferred.resolve(data);
     //         },
     //         function(err){
-    //             checknetwork.checknetwork(err);
+    //             //checknetwork.checknetwork(err);
     //             deferred.reject(err);
     //     });
     //     return deferred.promise;
@@ -1753,7 +1753,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
     //             deferred.resolve(data);
     //         },
     //         function(err){
-    //             checknetwork.checknetwork(err);
+    //             //checknetwork.checknetwork(err);
     //             deferred.reject(err);
     //     });
     //     return deferred.promise;
@@ -1781,7 +1781,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1794,7 +1794,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1845,7 +1845,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
     //             deferred.resolve(data);
     //         },
     //         function(err){
-    //             checknetwork.checknetwork(err);
+    //             //checknetwork.checknetwork(err);
     //             deferred.reject(err);
     //     });
     //     return deferred.promise;
@@ -1861,7 +1861,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
     //             deferred.resolve(data);
     //         },
     //         function(err){
-    //             checknetwork.checknetwork(err);
+    //             //checknetwork.checknetwork(err);
     //             deferred.reject(err);
     //     });
     //     return deferred.promise;
@@ -1877,7 +1877,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1893,7 +1893,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
     //             deferred.resolve(data);
     //         },
     //         function(err){
-    //             checknetwork.checknetwork(err);
+    //             //checknetwork.checknetwork(err);
     //             deferred.reject(err);
     //     });
     //     return deferred.promise;
@@ -1910,7 +1910,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
     //             deferred.resolve(data);
     //         },
     //         function(err){
-    //             checknetwork.checknetwork(err);
+    //             //checknetwork.checknetwork(err);
     //             deferred.reject(err);
     //     });
     //     return deferred.promise;
@@ -1933,7 +1933,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1955,7 +1955,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1973,7 +1973,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -1991,7 +1991,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2009,7 +2009,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2023,7 +2023,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2042,7 +2042,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2057,7 +2057,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
     //             deferred.resolve(data);
     //         },
     //         function(err){
-    //             checknetwork.checknetwork(err);
+    //             //checknetwork.checknetwork(err);
     //             deferred.reject(err);
     //     });
     //     return deferred.promise;
@@ -2073,7 +2073,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2092,7 +2092,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
     //             deferred.resolve(data);
     //         },
     //         function(err){
-    //             checknetwork.checknetwork(err);
+    //             //checknetwork.checknetwork(err);
     //             deferred.reject(err);
     //     });
     //     return deferred.promise;
@@ -2113,7 +2113,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
     //             deferred.resolve(data);
     //         },
     //         function(err){
-    //             checknetwork.checknetwork(err);
+    //             //checknetwork.checknetwork(err);
     //             deferred.reject(err);
     //     });
     //     return deferred.promise;
@@ -2131,7 +2131,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
     //             deferred.resolve(data);
     //         },
     //         function(err){
-    //             checknetwork.checknetwork(err);
+    //             //checknetwork.checknetwork(err);
     //             deferred.reject(err);
     //     });
     //     return deferred.promise;
@@ -2150,7 +2150,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2168,7 +2168,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2182,7 +2182,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2195,7 +2195,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2214,7 +2214,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2231,7 +2231,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2249,7 +2249,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2263,7 +2263,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
     //             deferred.resolve(data);
     //         },
     //         function(err){
-    //             checknetwork.checknetwork(err);
+    //             //checknetwork.checknetwork(err);
     //             deferred.reject(err);
     //     });
     //     return deferred.promise;
@@ -2277,7 +2277,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2291,7 +2291,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2309,7 +2309,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2322,7 +2322,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2340,7 +2340,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2354,7 +2354,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2373,7 +2373,7 @@ angular.module('kidney.services', ['ionic','ngResource'])
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2396,7 +2396,7 @@ return self;
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2413,7 +2413,7 @@ return self;
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2431,7 +2431,7 @@ return self;
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2449,7 +2449,7 @@ return self;
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2466,7 +2466,7 @@ return self;
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2496,7 +2496,7 @@ return self;
     //             deferred.resolve(data);
     //         },
     //         function(err){
-    //             checknetwork.checknetwork(err);
+    //             //checknetwork.checknetwork(err);
     //             deferred.reject(err);
     //     });
     //     return deferred.promise;
@@ -2510,7 +2510,7 @@ return self;
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2524,7 +2524,7 @@ return self;
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2563,7 +2563,7 @@ return self;
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2579,7 +2579,7 @@ return self;
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2596,7 +2596,7 @@ return self;
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2684,11 +2684,11 @@ return self;
                                 }
                               })
                         },function(err){
-                            checknetwork.checknetwork(err);
+                            //checknetwork.checknetwork(err);
                             defer.reject(err);
                         })
                     }, function(e) {
-                        checknetwork.checknetwork(e);
+                        //checknetwork.checknetwork(e);
                         defer.reject(e);
                     });
                     
@@ -2700,12 +2700,12 @@ return self;
           });
         })
         wx.error(function(res){
-            checknetwork.checknetwork(res);
+            //checknetwork.checknetwork(res);
           defer.reject(res);
         })
 
       },function(err){
-        checknetwork.checknetwork(err);
+        //checknetwork.checknetwork(err);
         defer.reject(err);
       })
       return defer.promise;
@@ -2726,7 +2726,7 @@ return self;
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2742,7 +2742,7 @@ return self;
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
@@ -2762,7 +2762,7 @@ return self;
                 deferred.resolve(data);
             },
             function(err){
-                checknetwork.checknetwork(err);
+                //checknetwork.checknetwork(err);
                 deferred.reject(err);
         });
         return deferred.promise;
