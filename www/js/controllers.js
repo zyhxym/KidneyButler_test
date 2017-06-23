@@ -4043,7 +4043,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                 msg.diff = true;
             } else {
                 var m = $scope.msgs[len - 1];
-                if (m.contentType == 'custom' && m.content.type == 'count-notice' && len>1) {
+                if (m.contentType == 'custom' && m.content.type == 'count-notice' && pos>1) {
                     m = $scope.msgs[len - 2];
                 }
                 if (m.hasOwnProperty('time')) {
@@ -4280,7 +4280,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
 
 //健康信息--PXY
-.controller('HealthInfoCtrl', ['$ionicLoading','$scope','$timeout','$state','$ionicHistory','$ionicPopup','HealthInfo','Storage','Health','Dict',function($ionicLoading,$scope, $timeout,$state,$ionicHistory,$ionicPopup,HealthInfo,Storage,Health,Dict) {
+.controller('HealthInfoCtrl', ['$ionicLoading','$scope','$timeout','$state','$ionicHistory','$ionicPopup', 'Storage','Health','Dict',function($ionicLoading,$scope, $timeout,$state,$ionicHistory,$ionicPopup,Storage,Health,Dict) {
   //$scope.barwidth="width:0%";
   var patientId = Storage.get('UID')
 
@@ -4412,7 +4412,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
 
 //健康详情--PXY
-.controller('HealthDetailCtrl', ['$scope','$state','$ionicHistory','$ionicPopup','$stateParams','$ionicPopover','$ionicModal','$ionicScrollDelegate','HealthInfo','$ionicLoading','$timeout','Dict','Health','Storage','Camera','wechat','$location', 'otherTask', 'CONFIG', function($scope, $state,$ionicHistory,$ionicPopup,$stateParams,$ionicPopover,$ionicModal,$ionicScrollDelegate,HealthInfo,$ionicLoading,$timeout,Dict,Health,Storage,Camera,wechat,$location, otherTask, CONFIG) {
+.controller('HealthDetailCtrl', ['$scope','$state','$ionicHistory','$ionicPopup','$stateParams','$ionicPopover','$ionicModal','$ionicScrollDelegate', '$ionicLoading','$timeout','Dict','Health','Storage','Camera','wechat','$location', 'otherTask', 'CONFIG', function($scope, $state,$ionicHistory,$ionicPopup,$stateParams,$ionicPopover,$ionicModal,$ionicScrollDelegate,$ionicLoading,$timeout,Dict,Health,Storage,Camera,wechat,$location, otherTask, CONFIG) {
     // //$scope.barwidth="width:0%";
   var patientId = Storage.get('UID')
   $scope.$watch("canEdit",function(oldval,newval){
@@ -4561,7 +4561,11 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
   console.log($ionicHistory.backView())
   $scope.HealthInfoSetup = function(){
     if($scope.health.label!=""&&$scope.health.text!=""&&$scope.health.date!=""){
-      console.log($stateParams.id)
+      // console.log($stateParams.id)
+        $ionicLoading.show({
+          template:"健康信息上传中",
+          duration:100000
+        })
         if($stateParams.id==null||$stateParams==""){
             Health.createHealth({userId:patientId,type:$scope.health.label.code,time:$scope.health.date,url:$scope.health.imgurl,label:$scope.health.label.name,description:$scope.health.text,comments:""}).then(
               function(data)
@@ -4619,8 +4623,11 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         });
     }
 
-}
+  }
 
+  $scope.$on('$ionicView.beforeLeave',function(){
+    $ionicLoading.hide();
+  })
 
   // --------datepicker设置----------------
   var  monthList=["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"];
