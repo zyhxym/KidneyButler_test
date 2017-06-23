@@ -4960,7 +4960,6 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
 //消息中心--PXY
 .controller('messageCtrl', ['$ionicPopup','Counsels','$q','$scope','$state','$ionicHistory','News','Storage','Doctor',function($ionicPopup,Counsels,$q,$scope, $state,$ionicHistory,News,Storage,Doctor) {
-    //$scope.barwidth="width:0%";
 
     var getDocNamePhoto = function(sender,doctor){
         Doctor.getDoctorInfo({userId:sender}).then(
@@ -4969,13 +4968,13 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     doctor.docName = data.results.name;
                     doctor.docPhoto = data.results.photoUrl;
                 }
-                        
+
             },function(err){
                 console.log(err);
             });
             // return doctor;
     }
- 
+
     var Lastnews = function(){
         var receiver = Storage.get('UID');
         News.getNews({userId:receiver,type:1}).then(
@@ -4984,7 +4983,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     console.log(data.results);
                     $scope.pay = data.results[0];
                 }
-                
+
             },function(err){
                 console.log(err);
             }
@@ -5039,8 +5038,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     }
                 }
                 $scope.chats=data.results;
-                    
-                
+
+
             },function(err){
                 console.log(err);
             }
@@ -5051,7 +5050,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     })
 
 
-    
+
 
     $scope.do_refresher = function(){
         Lastnews();
@@ -5059,8 +5058,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     }
 
 
-    
-    
+
+
 
 
     $scope.Goback = function(){
@@ -5081,8 +5080,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                 }
             );
         }
-        
-        
+
+
     }
 
 
@@ -5091,7 +5090,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     var counseltype=0;
     var counselstatus='';
     var doctorId=chat.sendBy;
-      
+
         //zz最新方法根据docid pid 不填写type获取最新一条咨询信息
         Counsels.getStatus({doctorId:doctorId,patientId:Storage.get('UID')})
         .then(function(data){
@@ -5110,7 +5109,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                       $state.go("tab.consult-chat",{chatId:doctorId,type:1,status:1}); //虽然传了type和status但不打算使用 byZYH
                   }
 
-              })     
+              })
             }else{
               $ionicPopup.confirm({
                   title:"咨询确认",
@@ -5122,7 +5121,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                       $state.go("tab.consult-chat",{chatId:doctorId,type:1,status:0}); //虽然传了type和status但不打算使用 byZYH
                   }
 
-              }) 
+              })
             }
           }else if(data.result.type==2||data.result.type==3){
             if(data.result.status==1){//尚未结束的问诊
@@ -5136,7 +5135,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                       $state.go("tab.consult-chat",{chatId:doctorId,type:data.result.type,status:1}); //虽然传了type和status但不打算使用 byZYH
                   }
 
-              }) 
+              })
             }else{
               $ionicPopup.confirm({
                   title:"问诊确认",
@@ -5153,7 +5152,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
           }
         });
         // SetRead(chat);
-      
+
     }
 
     $scope.getMessageDetail = function(message){
@@ -5175,7 +5174,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
                 }
                 // console.log(doctor);
-                        
+
             },function(err){
                 console.log(err);
             });
@@ -5201,17 +5200,17 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                 break;
 
         }
-        
+
         Message.getMessages({userId:Storage.get('UID'),type:Storage.get('getMessageType')}).then(
             function(data){
-                
+
                 if(data.results.length){
                     console.log(data.results);
                     if(Storage.get('getMessageType')==5){
                         for(var x in data.results){
                             getDocNamePhoto(data.results[x].sendBy,data.results[x]);
                         }
-                        
+
                     }
                     $scope.messages = data.results;
                 }
@@ -5251,7 +5250,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
         $scope.$broadcast("scroll.refreshComplete");
     }
-   
+
 
 
     $scope.MoreMessageDetail = function(ele,doctorId,MessageType){
@@ -5263,7 +5262,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
             }
 
         }
-        
+
     }
     // var messageType = Storage.get("getMessageType")
     // $scope.messages=angular.fromJson(Storage.get("allMessages"))[messageType]
@@ -5282,7 +5281,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         $ionicHistory.goBack();
     }
 
-  
+
 }])
 
 //医生列表--PXY
