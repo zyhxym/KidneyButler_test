@@ -329,8 +329,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
     .state('welcome', {
       cache: false,
       url: '/welcome',
-      templateUrl: 'partials/login/welcome.html',
-      controller: 'welcomeCtrl'
+      templateUrl: 'partials/login/welcome.html'
     })
     .state('signin', {
       cache: false,
