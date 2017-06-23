@@ -6,10 +6,12 @@
 angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.directives','kidney.filters','ngCordova','ngFileUpload','angular-jwt'])
 
 .run(function($ionicPlatform, $state, Storage, $location, $ionicHistory, $ionicPopup,$rootScope,JM,$location,wechat,User,Patient,$q,$window) {
+  console.log(9)
   $ionicPlatform.ready(function() {
+    console.log(11)
     socket = io.connect('http://121.43.107.106:4050/chat');
     
-    console.log(12)
+    console.log(14)
     var temp = $location.absUrl().split('=')
     // alert(temp)
     if (angular.isDefined(temp[1]) == true)
