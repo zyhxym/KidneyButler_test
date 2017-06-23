@@ -675,7 +675,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
       controller: 'insurancestaffCtrl'
     });
 
-  $urlRouterProvider.otherwise('welcome');
+  $urlRouterProvider.otherwise('/welcome');
 
 
 
