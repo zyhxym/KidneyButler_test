@@ -8580,7 +8580,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 .controller('adviceCtrl', ['$scope','$state','$ionicPopup','$ionicLoading', 'Advice','Storage','$timeout', 'checknetwork',function ($scope,$state,$ionicPopup,$ionicLoading,Advice,Storage,$timeout,checknetwork) {
 
     $scope.deliverAdvice = function(advice){
-        
+        $scope.hasDeliver = true;
         Advice.postAdvice({userId:Storage.get('UID'),role:"patient",content:advice.content}).then(
             function(data){
                 if(data.result == "新建成功"){
@@ -8593,13 +8593,13 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     $timeout(function(){$state.go('tab.mine');},900);
                 }
             },function(err){
-
-                // $ionicLoading.show({
-                //     template: '提交失败',
-                //     noBackdrop: false,
-                //     duration: 1000,
-                //     hideOnStateChange: true
-                // });
+              $scope.hasDeliver = false;
+              $ionicLoading.show({
+                  template: '提交失败',
+                  noBackdrop: false,
+                  duration: 1000,
+                  hideOnStateChange: true
+              });
             })
         
     }
