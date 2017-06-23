@@ -8615,8 +8615,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
   $scope.welcomeimg = "img/patient/" + getsplash(width, height);
 
-  // document.getElementById('welcome').style.height = height + "px";
-  // document.getElementById('welcome').style.width = width + "px";
+  document.getElementById('welcome').style.height = height + "px";
+  document.getElementById('welcome').style.width = width + "px";
 
   function search(No, array)
     {
