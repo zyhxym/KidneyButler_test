@@ -2609,16 +2609,17 @@ return self;
 .factory('payment',['$q','wechat','Storage','$http','order','$location','$ionicLoading','checknetwork',function($q,wechat,Storage,$http,order,$location,$ionicLoading,checknetwork){
   return {
     payment:function(neworder){
-      // $ionicLoading.show({
-      //   template:"平台处于试用期，6月1日前咨询问诊服务免费",
-      //   duration:2000
-      // })
+      $ionicLoading.show({
+        template:"请稍候",
+        duration:10000
+      })
       // res = {
       //   "errMsg":"chooseWXPay:ok",
       //   "money":0
       // }
       // var defer = $q.defer()
       // defer.resolve(res);
+
       var defer = $q.defer()
       var config = "";
       var path = $location.absUrl().split('#')[0]
@@ -2671,7 +2672,7 @@ return self;
                         }
                         neworder.ip = result.data.ip
                         wechat.addOrder(neworder).then(function(data){
-                            // $ionicLoading.hide();
+                            $ionicLoading.hide();
                               wx.chooseWXPay({
                                 timestamp: data.results.timestamp,
                                 nonceStr: data.results.nonceStr,
