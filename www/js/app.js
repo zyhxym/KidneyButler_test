@@ -69,37 +69,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
             //     {
                   User.logIn({username:Storage.get('openid'),password:Storage.get('openid'),role:"patient"}).then(function(data){
                     // console.log(data)
-                      if(data.results==1){
-                        // if(data.mesg == "No authority!")
-                        // {
-                          // alert("您没有权限登陆肾事管家，如您是医生，请登录肾病守护者")
-                        $state.go('signin')
-                        // }
-                        // else
-                        // {
-                        //   $ionicPopup.show({   
-                        //        title: '由于系统更新，如您已拥有手机账号，请重新进行验证并绑定微信账号。如果您是首次使用，请点击取消后进行注册！',
-                        //        buttons: [
-                        //          { 
-                        //               text: '取消',
-                        //               type: 'button',
-                        //               onTap: function(e) {
-                        //                   $state.go('signin')
-                        //               }
-                        //             },
-                        //          {
-                        //               text: '確定',
-                        //               type: 'button-positive',
-                        //               onTap: function(e) {
-                        //                   Storage.set('validMode',0)
-                        //                   $state.go('phonevalid',{phonevalidType:"wechat"})
-                        //               }
-                        //          },
-                        //          ]
-                        //   })
-                        // }
-                      }
-                      else if(data.results.mesg=="login success!"){
+                      if(data.results.mesg=="login success!"){
 
                           // $scope.logStatus = "登录成功！";
                           $ionicHistory.clearCache();
