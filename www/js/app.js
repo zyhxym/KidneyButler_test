@@ -29,7 +29,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
             Storage.set('code',code)
         }
     }
-    console.log(state)
+    // console.log(state)
     var wechatData = ""
     if (angular.isDefined(code) == true)
     {
@@ -329,7 +329,8 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
     .state('welcome', {
       cache: false,
       url: '/welcome',
-      templateUrl: 'partials/login/welcome.html'
+      templateUrl: 'partials/login/welcome.html',
+      controller: 'welcomeCtrl'
     })
     .state('signin', {
       cache: false,

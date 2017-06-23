@@ -8605,3 +8605,93 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         
     }
 }])
+
+.controller('welcomeCtrl', ['$scope','$state', function ($scope,$state) {
+  var width = window.screen.width;
+  var height = window.screen.height;
+
+  var w = [200, 240, 320, 480, 720, 960, 1280];
+  var h = [320, 480, 800, 1280, 1600, 1920];
+
+  $scope.welcomeimg = "img/patient/" + getsplash(width, height);
+
+  document.getElementById('welcome').style.height = height + "px";
+  document.getElementById('welcome').style.width = width + "px";
+
+  function search(No, array)
+    {
+        var temp = 0;
+        for (var i = 0; i < array.length; i ++)
+        {
+            if (Math.abs(array[i] - No) < Math.abs(array[temp] - No))
+            {
+                temp = i;
+            }
+        }
+        return array[temp];
+    }
+    function getsplash(a, b)
+    {
+      if (a < b)
+      {
+        a = search(a, w);
+        if (a === 200)
+        {
+          return "200x320.png";
+        }
+        else if (a === 240)
+        {
+          return "240x320.png";
+        }
+        else if (a === 320)
+        {
+          return "320x480.png";
+        }
+          else if (a === 480)
+        {
+          return "480x800.png";
+        }
+        else if (a === 720)
+        {
+          return "720x1280.png";
+        }
+        else if (a === 960)
+        {
+          return "960x1600.png";
+        }
+        else if (a === 1280)
+        {
+          return "1280x1920.png";
+        }
+      }
+      else
+      {
+        a = search(a, h);
+        if (a === 320)
+        {
+          b = search(b, [200, 240]);
+          return a + "x" + b + ".png";
+        }
+        else if (a === 480)
+        {
+          return "480x320.png";
+        }
+        else if (a === 800)
+        {
+          return "800x480.png";
+        }
+        else if (a === 1280)
+        {
+          return "1280x720.png";
+        }
+        else if (a === 1600)
+        {
+          return "1600x960.png";
+        }
+        else if (a === 1920)
+        {
+          return "1920x1280.png";
+        }
+      }
+    };
+}])
