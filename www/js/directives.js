@@ -171,6 +171,22 @@ angular.module('kidney.directives', ['kidney.services'])
     }
 })
 
+// 返回键
+.directive("myNavBackButton", function () {
+    return {
+        restrict: "AE",
+        template:"<button class='button button-clear'><i class='icon ion-ios-arrow-left font-white'></i></button>",
+    };
+})
+
+
+// nav-bar
+.directive("myNavBar", function () {
+    return {
+        restrict: "AE",
+        template:"<ion-nav-bar class='bar-positive green-bg' align-title='center'></ion-nav-bar>",
+    };
+})
 
 //未读消息的小红点
 .directive('headRedPoint', function($compile, $timeout){
