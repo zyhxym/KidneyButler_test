@@ -8321,6 +8321,9 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
       //   $ionicHistory.goBack();
       // }
 
+      $scope.GoBack = function() {
+        $ionicHistory.goBack();;
+      }
 
 }])
 .controller('paymentCtrl', ['$scope', '$state','$ionicHistory','Storage', function ($scope, $state,$ionicHistory,Storage) {
