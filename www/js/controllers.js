@@ -3736,6 +3736,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         $scope.getMsg(15).then(function(data){
             $scope.msgs=data;
             toBottom(true,400);
+            toBottom(true,800);
             if(data.length!=0){
                 var lastMsg=$scope.msgs[$scope.msgs.length-1];
                 if(lastMsg.fromID!=$scope.params.UID){
