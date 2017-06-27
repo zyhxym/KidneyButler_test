@@ -2623,7 +2623,7 @@ return self;
       var defer = $q.defer()
       var config = "";
       var path = $location.absUrl().split('#')[0]
-      if (neworder.money == 0)
+      if (neworder.money === 0)
       {
         res = {
             "errMsg":"chooseWXPay:ok",
@@ -2663,14 +2663,14 @@ return self;
                   //   paytime:"2017-05-02"
                   // }
                   // order.insertOrder(neworder).then(function(data){
-                        var json = 'http://ipv4.myexternalip.com/json';
-                        $http.get(json).then(function(result) {
-                        console.log(result.data.ip)
-                        if (result.data.ip == null || result.data.ip == undefined || result.data.ip == "")
-                        {
-                          result.data.ip = "121.43.107.106"
-                        }
-                        neworder.ip = result.data.ip
+                        // var json = 'http://ipv4.myexternalip.com/json';
+                        // $http.get(json).then(function(result) {
+                        // console.log(result.data.ip)
+                        // if (result.data.ip == null || result.data.ip == undefined || result.data.ip == "")
+                        // {
+                        //   result.data.ip = "121.43.107.106"
+                        // }
+                        // neworder.ip = result.data.ip
                         wechat.addOrder(neworder).then(function(data){
                             $ionicLoading.hide();
                               wx.chooseWXPay({

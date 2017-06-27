@@ -17,17 +17,17 @@
 
 
     <ion-tabs class="tabs-icon-top tabs-color-active-positive bar-footer {{$root.hideTabs}}">
-      <ion-tab title="任务" class="m-tabs" icon-off=" iconfont icon-renwu" icon-on="iconfont icon-renwu" href="#/tab/tasklist">
+      <ion-tab title="任务" class="m-tabs" icon-off=" iconfont icon-renwu" icon-on="iconfont icon-renwu" href="#/tab/tasklist" on-deselect="cancelGetMessage()">
         <ion-nav-view name="tab-tasks"></ion-nav-view>
       </ion-tab>
-      <ion-tab title="咨询" class="m-tabs" icon-off="iconfont icon-zixun " icon-on="iconfont icon-zixun tab-icon-fount" ng-click="gotomyDoctors()">
+      <ion-tab title="咨询" class="m-tabs" icon-off="iconfont icon-zixun " icon-on="iconfont icon-zixun tab-icon-fount" ng-click="gotomyDoctors()" on-deselect="cancelGetMessage()">
         <ion-nav-view name="tab-consult"></ion-nav-view>
       </ion-tab>
-      <ion-tab title="论坛" class="m-tabs" icon-off="iconfont icon-luntan" icon-on="iconfont icon-luntan" href="#/tab/forum">
+      <ion-tab title="论坛" class="m-tabs" icon-off="iconfont icon-luntan" icon-on="iconfont icon-luntan" href="#/tab/forum" on-deselect="cancelGetMessage()">
         <ion-nav-view name="tab-forum"></ion-nav-view>
       </ion-tab>
 
-      <ion-tab title="我的" class="m-tabs" icon-off=" iconfont icon-ren" icon-on="iconfont icon-ren" ng-click="gotomine()" >
+      <ion-tab title="我的" class="m-tabs" icon-off=" iconfont icon-ren" icon-on="iconfont icon-ren" ng-click="gotomine()" on-deselect="cancelGetMessage()">
         <ion-nav-view name="tab-mine"></ion-nav-view>
       </ion-tab>
       <!-- <ion-tab title="其他" icon-off="ion-ios-search" icon-on="ion-ios-search-strong" href="#/tab/others">
