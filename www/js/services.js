@@ -2631,7 +2631,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
                     'money': 0
                   }
                   $ionicLoading.show({
-                    template: '现在为免费体验期，不收取任何费用',
+                    template: data.results.msg,
                     duration: 10000
                   })
                   defer.resolve(res)
