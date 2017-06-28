@@ -2630,6 +2630,10 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
                     'errMsg': 'chooseWXPay:ok',
                     'money': 0
                   }
+                  $ionicLoading.show({
+                    template: '现在为免费体验期，不收取任何费用',
+                    duration: 10000
+                  })
                   defer.resolve(res)
                   return defer.promise
                 }
@@ -2640,6 +2644,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
                   signType: data.results.signType,
                   paySign: data.results.paySign,
                   success: function (res) {
+                    res.money = neworder.money / 100
                     defer.resolve(res)
                   }
                 })
