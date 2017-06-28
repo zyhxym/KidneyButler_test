@@ -2636,18 +2636,19 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
                   })
                   defer.resolve(res)
                   return defer.promise
+                } else {
+                  wx.chooseWXPay({
+                    timestamp: data.results.timestamp,
+                    nonceStr: data.results.nonceStr,
+                    package: data.results.package,
+                    signType: data.results.signType,
+                    paySign: data.results.paySign,
+                    success: function (res) {
+                      res.money = neworder.money / 100
+                      defer.resolve(res)
+                    }
+                  })
                 }
-                wx.chooseWXPay({
-                  timestamp: data.results.timestamp,
-                  nonceStr: data.results.nonceStr,
-                  package: data.results.package,
-                  signType: data.results.signType,
-                  paySign: data.results.paySign,
-                  success: function (res) {
-                    res.money = neworder.money / 100
-                    defer.resolve(res)
-                  }
-                })
               }, function (err) {
                             // checknetwork.checknetwork(err);
                 defer.reject(err)
