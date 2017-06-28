@@ -2625,7 +2625,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
                         // neworder.ip = result.data.ip
               wechat.addOrder(neworder).then(function (data) {
                 $ionicLoading.hide()
-                if (data.results && data.results.msg === 'free') {
+                if (data.results && data.results.status === 0) {
                   res = {
                     'errMsg': 'chooseWXPay:ok',
                     'money': 0
