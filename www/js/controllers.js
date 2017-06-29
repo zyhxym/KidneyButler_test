@@ -5729,7 +5729,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     console.log(data) //data.errMsg:"chooseWXPay:ok"时支付成功
                     if (data.errMsg == "chooseWXPay:ok")
                     {
-                      chargemoney = doctor.charge1
+                      chargemoney = data.money
                       // var tempresult = []
                       // var temperr = []
                       $q.all([
@@ -5829,7 +5829,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                   console.log(data) //data.errMsg:"chooseWXPay:ok"时支付成功
                   if (data.errMsg == "chooseWXPay:ok")
                   {
-                    chargemoney = doctor.charge2 - doctor.charge1
+                    chargemoney = data.money
                     Counsels.changeType({doctorId:DoctorId,patientId:Storage.get('UID'),type:1,changeType:"true"}).then(function(data){
                       console.log(data.result)
                       if(data.result=="修改成功"){
@@ -6010,7 +6010,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                       console.log(data) //data.errMsg:"chooseWXPay:ok"时支付成功
                       if (data.errMsg == "chooseWXPay:ok")
                       {
-                        chargemoney = doctor.charge2 - doctor.charge1
+                        chargemoney = data.money
                         // var tempresult = []
                         // var temperr = []
                         $q.all([
@@ -6096,7 +6096,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                       if (data.errMsg == "chooseWXPay:ok")
                       {
                         // $ionicLoading.hide();
-                        chargemoney = doctor.charge2
+                        chargemoney = data.money
                         // var tempresult = []
                         // var temperr = []
                         $q.all([
@@ -6401,7 +6401,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                   console.log(data) //data.errMsg:"chooseWXPay:ok"时支付成功
                   if (data.errMsg == "chooseWXPay:ok")
                   {
-                    chargemoney = doctor.charge1
+                    chargemoney = data.money
                     $q.all([
                       Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:'咨询',doctorName:docname,money:chargemoney}).then(function(data){
                         console.log(data)
@@ -6498,7 +6498,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                   console.log(data) //data.errMsg:"chooseWXPay:ok"时支付成功
                   if (data.errMsg == "chooseWXPay:ok")
                   {
-                    chargemoney = doctor.charge2 - doctor.charge1
+                    chargemoney = data.money
                   //点击确认 将咨询的type=1 变成type=3
                   Counsels.changeType({doctorId:DoctorId,patientId:Storage.get('UID'),type:1,changeType:"true"}).then(function(data){
                     console.log(data.result)
@@ -6674,7 +6674,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     console.log(data) //data.errMsg:"chooseWXPay:ok"时支付成功
                     if (data.errMsg == "chooseWXPay:ok")
                     {
-                      chargemoney = doctor.charge2 - doctor.charge1
+                      chargemoney = data.money
                       $q.all([
                         Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:'升级',doctorName:docname,money:chargemoney}).then(function(data){
                           console.log(data)
@@ -6756,7 +6756,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     console.log(data) //data.errMsg:"chooseWXPay:ok"时支付成功
                     if (data.errMsg == "chooseWXPay:ok")
                     {
-                      chargemoney = doctor.charge2
+                      chargemoney = data.money
                       $q.all([
                         Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:'问诊',doctorName:docname,money:chargemoney}).then(function(data){
                           console.log(data)

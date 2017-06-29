@@ -2629,7 +2629,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
                 if (data.results && (data.results.status === 0 || data.results.status === 1)) {
                   res = {
                     'errMsg': 'chooseWXPay:ok',
-                    'money': 0
+                    'money': neworder.money / 100
                   }
                   $ionicLoading.show({
                     template: data.results.msg,
