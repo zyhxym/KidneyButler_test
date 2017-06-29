@@ -3703,7 +3703,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
 
 //聊天 XJZ 
-.controller('ChatCtrl',['$scope', '$state', '$rootScope', '$ionicModal', '$ionicScrollDelegate', '$ionicHistory', 'Camera', 'voice','$http','CONFIG','Patient','Storage','wechat','$location','$q','Communication','Counsels','$ionicPopup','Account','News','Doctor','payment', '$filter','$ionicLoading','arrTool',function($scope, $state, $rootScope, $ionicModal, $ionicScrollDelegate, $ionicHistory, Camera, voice,$http,CONFIG,Patient,Storage,wechat,$location,$q,Communication,Counsels,$ionicPopup,Account,News,Doctor,payment,$filter,$ionicLoading,arrTool) {
+.controller('ChatCtrl',['$scope', '$state', '$rootScope', '$ionicModal', '$ionicScrollDelegate', '$ionicHistory', 'Camera', 'voice','$http','CONFIG','Patient','Storage','wechat','$location','$q','Communication','Counsels','$ionicPopup','Account','News','Doctor','payment', '$filter','$ionicLoading','arrTool','$timeout',function($scope, $state, $rootScope, $ionicModal, $ionicScrollDelegate, $ionicHistory, Camera, voice,$http,CONFIG,Patient,Storage,wechat,$location,$q,Communication,Counsels,$ionicPopup,Account,News,Doctor,payment,$filter,$ionicLoading,arrTool,$timeout) {
     $scope.input = {
         text: ''
     }
@@ -3712,8 +3712,14 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     $scope.scrollHandle = $ionicScrollDelegate.$getByHandle('myContentScroll');
     function toBottom(animate,delay){
         if(!delay) delay=100;
-        setTimeout(function(){
+        $timeout(function(){
             $scope.scrollHandle.scrollBottom(animate);
+            $timeout(function(){
+                $scope.scrollHandle.resize();
+            },500);
+            $timeout(function(){
+                $scope.scrollHandle.resize();
+            },1000);
         },delay)
     }
     //render msgs 
@@ -3736,18 +3742,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
             loaded:false
         }
 
-        $scope.getMsg(15).then(function(data){
-            $scope.msgs=data;
-            toBottom(true,400);
-            toBottom(true,800);
-            if(data.length!=0){
-                var lastMsg=$scope.msgs[$scope.msgs.length-1];
-                if(lastMsg.fromID!=$scope.params.UID){
-                    News.insertNews({userId:lastMsg.targetID,sendBy:lastMsg.fromID,type:'11',readOrNot:1});
-                }
-            }
-            $scope.params.loaded = true;
-        });
+        
     });
     $scope.$on('$ionicView.enter', function() {
         $rootScope.conversation.type = 'single';
@@ -3835,6 +3830,17 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
             })
         }); 
         imgModalInit();
+        $scope.getMsg(10).then(function(data){
+            $scope.msgs=data;
+            toBottom(true,500);
+            if(data.length!=0){
+                var lastMsg=$scope.msgs[$scope.msgs.length-1];
+                if(lastMsg.fromID!=$scope.params.UID){
+                    News.insertNews({userId:lastMsg.targetID,sendBy:lastMsg.fromID,type:'11',readOrNot:1});
+                }
+            }
+            $scope.params.loaded = true;
+        });
     })
 
     function sendNotice(type,status,cnt){
@@ -3952,7 +3958,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     }
 
     $scope.DisplayMore = function() {
-        $scope.getMsg(15).then(function(data){
+        $scope.getMsg(10).then(function(data){
             $scope.msgs=data;
         });
     }
@@ -4041,7 +4047,6 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         $scope.msgs[pos]=msg;
     }
     $scope.pushMsg = function(msg){
-        console.info('pushMsg');
         var len = $scope.msgs.length;
         if (msg.hasOwnProperty('time')) {
             if (len == 0) {
@@ -4061,12 +4066,12 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
             msg.content.thumb=CONFIG.mediaUrl+msg.content['src_thumb'];
             $http.get(msg.content.thumb).then(function(data){
                 $scope.msgs.push(msg);
-                toBottom(true,300);
+                toBottom(true,600);
                 $scope.params.msgCount++;
             })
         }else{
             $scope.msgs.push(msg);
-            toBottom(true,100);
+            toBottom(true,200);
             $scope.params.msgCount++;
         }
     }
