@@ -5,11 +5,11 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.directives','kidney.filters','ngCordova','ngFileUpload','angular-jwt'])
 
-.run(function($ionicPlatform, $state, Storage, $location, $ionicHistory, $ionicPopup,$rootScope,JM,$location,wechat,User,Patient,$q,$window) {
+.run(function($ionicPlatform, $state, Storage, $location, $ionicHistory, $ionicPopup,$rootScope,JM,$location,wechat,User,Patient,$q,$window,CONFIG) {
   // console.log(9)
   $ionicPlatform.ready(function() {
     // console.log(11)
-    socket = io.connect('http://121.43.107.106:4050/chat');
+    socket = io.connect(CONFIG.socketUrl);
     
     // console.log(14)
     var temp = $location.absUrl().split('=')
