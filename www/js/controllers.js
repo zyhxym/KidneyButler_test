@@ -4020,11 +4020,6 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         $state.go('tab.consult-comment',{counselId:$scope.params.counsel.counselId,doctorId:$scope.params.chatId,patientId:$scope.params.counsel.patientId.userId});
     });
 
-    $scope.viewPic = function(url) {
-            $scope.imageHandle.zoomTo(1, true);
-            $scope.imageUrl = url;
-            $scope.modal.show();
-        }
     // send message--------------------------------------------------------------------------------
         //
     $scope.updateMsg = function(msg,pos){
