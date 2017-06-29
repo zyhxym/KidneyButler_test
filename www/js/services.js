@@ -2577,14 +2577,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
       var defer = $q.defer()
       var config = ''
       var path = $location.absUrl().split('#')[0]
-      if (neworder.money === 0) {
-        res = {
-          'errMsg': 'chooseWXPay:ok',
-          'money': 0
-        }
-        defer.resolve(res)
-        return defer.promise
-      }
+
       wechat.settingConfig({url: path}).then(function (data) {
         // alert(data.results.timestamp)
         config = data.results
