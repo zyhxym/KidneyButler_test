@@ -3317,6 +3317,9 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     // console.log(angular.fromJson(res.results))
     if(!(res.results && res.results.photoUrl)){
       $scope.myAvatar=Storage.get('wechathead')
+      Patient.editPatientDetail({userId:Storage.get("UID"),photoUrl:$scope.myAvatar}).then(function(r){
+        console.log(r);
+      })
     }else{
       $scope.myAvatar=res.results.photoUrl;
     }

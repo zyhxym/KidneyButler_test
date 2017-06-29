@@ -37,9 +37,15 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
           // alert(1)
           wechatData = data.results
           // console.log(wechatData)
-          Storage.set('openid',wechatData.unionid)
-          Storage.set('messageopenid',wechatData.openid)
-          Storage.set('wechathead',wechatData.headimgurl)
+          if (wechatData.unionid){
+            Storage.set('openid',wechatData.unionid)
+          }
+          if (wechatData.headimgurl){
+            Storage.set('wechathead',wechatData.headimgurl)
+          }
+          if (wechatData.openid){
+            Storage.set('messageopenid',wechatData.openid)
+          }
           if (wechatData.unionid&&wechatData.openid)
           {
             // User.getUserIDbyOpenId({openId:wechatData.openid}).then(function(data)
