@@ -6092,8 +6092,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                       console.log(data) //data.errMsg:"chooseWXPay:ok"时支付成功
                       if (data.errMsg == "chooseWXPay:ok")
                       {
-                        $ionicLoading.hide();
-                        chargemoney = data.money
+                        // $ionicLoading.hide();
+                        chargemoney = doctor.charge2
                         // var tempresult = []
                         // var temperr = []
                         $q.all([
