@@ -46,9 +46,5 @@
   ],
   "cordovaPlatforms": [
     "android"
-  ],
-  "scripts": {
-    "test": "standard && node my-tests.js",
-    "protractor": "protractor tests/e2e-tests.conf.js"
-  }
+  ]
 }
