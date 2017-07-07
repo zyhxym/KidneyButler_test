@@ -266,6 +266,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         },1000);
   }
   //发送验证码
+
     var sendSMS = function(phone){
         var SMS = User.sendSMS({mobile:phone,smsType:1});
             SMS.then(function(data){

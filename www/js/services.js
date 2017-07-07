@@ -77,20 +77,19 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
   return {
     mvMedia: function (type, fileName, ext) {
       return $q(function (resolve, reject) {
-        if (type == 'voice') var path = cordova.file.externalRootDirectory
-        else if (type == 'image') var path = cordova.file.externalCacheDirectory
+        if (type === 'voice') var path = cordova.file.externalRootDirectory
+        else if (type === 'image') var path = cordova.file.externalCacheDirectory
         else reject('type must be voice or image')
         var time = new Date()
         var newName = $filter('date')(time, 'yyyyMMddHHmmss') + ext
-        $cordovaFile.moveFile(path, fileName, cordova.file.dataDirectory, newName)
-                  .then(function (success) {
+        $cordovaFile.moveFile(path, fileName, cordova.file.dataDirectory, newName).then(function (success) {
                     // console.log(success);
-                    resolve(success.nativeURL)
-                  }, function (error) {
+          resolve(success.nativeURL)
+        }, function (error) {
                     /// /checknetwork.checknetwork(error);
-                    console.log(error)
-                    reject(error)
-                  })
+          console.log(error)
+          reject(error)
+        })
       })
     }
   }
@@ -2546,14 +2545,14 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
   self.groupsMembers = function (params) {
     var deferred = $q.defer()
     Data.jm.groupsMembers(
-            params,
-            function (data, headers) {
-              deferred.resolve(data)
-            },
-            function (err) {
-                // checknetwork.checknetwork(err);
-              deferred.reject(err)
-            })
+      params,
+      function (data, headers) {
+        deferred.resolve(data)
+      },
+      function (err) {
+          // checknetwork.checknetwork(err);
+        deferred.reject(err)
+      })
     return deferred.promise
   }
 
