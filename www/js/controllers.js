@@ -6926,359 +6926,348 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
   
 }])
 
-//肾病保险主页面--TDY
-.controller('insuranceCtrl', ['$scope', '$state', '$ionicHistory','insurance','Storage','$filter','$ionicPopup','$location',function ($scope, $state,$ionicHistory,insurance,Storage,$filter,$ionicPopup,$location) {
-  var show = false;
-  $scope.back = true;
-  var temp = $location.absUrl().split('=')
-  if (angular.isDefined(temp[1]) == true)
-  {
-      if (angular.isDefined(temp[2]) == true)
-      {
-          var code = temp[1].split('&')[0]
-          var state = temp[2].split('#')[0]
+// 肾病保险主页面--TDY
+.controller('insuranceCtrl', ['$scope', '$state', '$ionicHistory', 'insurance', 'Storage', '$filter', '$ionicPopup', function ($scope, $state, $ionicHistory, insurance, Storage, $filter, $ionicPopup) {
+  var show = false
 
-      }
+  /**
+   * [点击后显示菜单]
+   * @Author   TongDanyang
+   * @DateTime 2017-07-09
+   * @return   {Boolean}   [description]
+   */
+  $scope.isShown = function () {
+    return show
+  }
+  /**
+   * [再次点击后收回菜单]
+   * @Author   TongDanyang
+   * @DateTime 2017-07-09
+   * @return   {[type]}    [description]
+   */
+  $scope.toggle = function () {
+    show = !show
   }
 
-  if (state == "testpatientinsurance")
-  {
-    $scope.back = false;
+  // $scope.intension = function () {
+  //   $state.go('intension')
+  // }
+
+  /**
+   * [跳转至保费计算页面]
+   * @Author   TongDanyang
+   * @DateTime 2017-07-09
+   * @return   {[type]}    [description]
+   */
+  $scope.expense = function () {
+    $state.go('insuranceexpense')
+  }
+  /**
+   * [跳转至肾功能计算页面]
+   * @Author   TongDanyang
+   * @DateTime 2017-07-09
+   * @return   {[type]}    [description]
+   */
+  $scope.kidneyfunction = function () {
+    $state.go('kidneyfunction')
   }
 
-  $scope.isShown = function() {
-        return show;
-  };
+  // $scope.staff = function () {
+  //   $state.go('insurancestafflogin')
+  // }
 
-  $scope.toggle = function() {
-        show = !show;
-  };
-
-  $scope.intension = function(){
-    $state.go("intension")
-  }
-
-  $scope.expense = function(){
-    $state.go("insuranceexpense")
-  }
-
-  $scope.kidneyfunction = function(){
-    $state.go("kidneyfunction")
-  }
-
-  $scope.staff = function(){
-    $state.go("insurancestafflogin")
-  }
-
-  $scope.submitintension = function(){
+  /**
+   * [提交保险意向，点击后会将患者ID及点击时间存到后台]
+   * @Author   TongDanyang
+   * @DateTime 2017-07-09
+   * @param    {[object]}  temp [包括患者的ID及点击的时间]
+   * @return   {[type]}    [description]
+   */
+  $scope.submitintension = function () {
     var time = new Date()
-    time =  $filter("date")(time, "yyyy-MM-dd HH:mm:ss");
+    time = $filter('date')(time, 'yyyy-MM-dd HH:mm:ss')
     var temp = {
-      "patientId":Storage.get('UID'),
-      "status":1,
-      "date": time.substr(0,10)
+      'patientId': Storage.get('UID'),
+      'status': 1,
+      'date': time.substr(0, 10)
     }
-    insurance.setPrefer(temp).then(function(data){
-      if (data.results == "success")
-      {
-        $ionicPopup.show({   
-             title: '已收到您的保险意向，工作人员将尽快与您联系！',
-             buttons: [
-               {
-                    text: '確定',
-                    type: 'button-positive'
-               },
-               ]
+    insurance.setPrefer(temp).then(function (data) {
+      if (data.results == 'success') {
+        $ionicPopup.show({
+          title: '已收到您的保险意向，工作人员将尽快与您联系！',
+          buttons: [
+            {
+              text: '確定',
+              type: 'button-positive'
+            }
+          ]
         })
       }
     },
-    function(err){
+    function (err) {
 
     })
   }
 
-  $scope.cancel = function(){
-    $state.go("insurance")
-  }
-
-
+  // $scope.cancel = function () {
+  //   $state.go('insurance')
+  // }
 }])
 
-//肾病保险相关工具--TDY
-.controller('insurancefunctionCtrl', ['$scope', '$state', '$http', '$ionicPopup',function ($scope, $state, $http,$ionicPopup) {
+// 肾病保险相关工具--TDY
+.controller('insurancefunctionCtrl', ['$scope', '$state', '$http', '$ionicPopup', function ($scope, $state, $http, $ionicPopup) {
+  /*
+  保费计算页面数据初始化
+   */
   $scope.InsuranceInfo = {
-    "InsuranceAge": 25,
-    "Gender": "NotSelected",
-    "InsuranceTime": "5年",
-    "CalculationType": "CalculateMoney",
-    "InsuranceMoney": null,
-    "InsuranceExpense": 0,
-    "InsuranceParameter": 0
+    'InsuranceAge': 25,
+    'Gender': 'NotSelected',
+    'InsuranceTime': '5年',
+    'CalculationType': 'CalculateMoney',
+    'InsuranceMoney': null,
+    'InsuranceExpense': 0,
+    'InsuranceParameter': 0
   }
-
+  /*
+  肾功能计算页面数据初始化
+   */
   $scope.Kidneyfunction = {
-    "Gender": "NotSelected",
-    "Age": null,
-    "CreatinineUnit": "μmol/L",
-    "Creatinine": null,
-    "KidneyfunctionValue": 0
+    'Gender': 'NotSelected',
+    'Age': null,
+    'CreatinineUnit': 'μmol/L',
+    'Creatinine': null,
+    'KidneyfunctionValue': 0
   }
-
-  $http.get("../data/insruanceage1.json").success(function(data){
+  /*
+  获取本地保险年龄列表
+   */
+  $http.get('data/insruanceage1.json').success(function (data) {
     $scope.InsuranceAges = data
-  });
+  })
 
   $scope.Genders = [
     {
-      "Type": "NotSelected",
-      "Name":"请选择",
-      "No": 0
+      'Type': 'NotSelected',
+      'Name': '请选择',
+      'No': 0
     },
     {
-      "Type": "Male",
-      "Name":"男",
-      "No": 1
+      'Type': 'Male',
+      'Name': '男',
+      'No': 1
     },
     {
-      "Type": "Female",
-      "Name":"女",
-      "No": 2
+      'Type': 'Female',
+      'Name': '女',
+      'No': 2
     }
   ]
 
-  $scope.InsuranceTimes =[
+  $scope.InsuranceTimes = [
     {
-      "Time":"5年"
+      'Time': '5年'
     },
     {
-      "Time":"10年"
+      'Time': '10年'
     }
   ]
 
   $scope.CalculationTypes = [
     {
-      "Type": "CalculateMoney",
-      "Name":"保费算保额",
-      "No": 1
+      'Type': 'CalculateMoney',
+      'Name': '保费算保额',
+      'No': 1
     },
     {
-      "Type": "CalculateExpense",
-      "Name":"保额算保费",
-      "No": 2
+      'Type': 'CalculateExpense',
+      'Name': '保额算保费',
+      'No': 2
     }
   ]
 
   $scope.CreatinineUnits = [
     {
-      "Type":"mg/dl"
+      'Type': 'mg/dl'
     },
     {
-      "Type":"μmol/L"
+      'Type': 'μmol/L'
     }
   ]
-
-  $http.get("../data/InsuranceParameter.json").success(function(data){
+  /*
+  获取本地保费计算系数
+   */
+  $http.get('data/InsuranceParameter.json').success(function (data) {
     dict = data
   })
-  $scope.getexpense = function(){
-    if ($scope.InsuranceInfo.Gender == "NotSelected")
-    {
-      alert("请选择性别")
-    }
-    else if ($scope.InsuranceInfo.InsuranceMoney == null)
-    {
-      alert("请输入金额")
-    }
-    else
-    {
-      for (var i=0;i<dict.length;i++){
-        if (dict[i].Age == $scope.InsuranceInfo.InsuranceAge && dict[i].Gender == $scope.InsuranceInfo.Gender && dict[i].Time == $scope.InsuranceInfo.InsuranceTime)
-        {
+  /*
+  根据患者填写的数据计算保费
+   */
+  $scope.getexpense = function () {
+    if ($scope.InsuranceInfo.Gender == 'NotSelected') {
+      alert('请选择性别')
+    } else if ($scope.InsuranceInfo.InsuranceMoney == null) {
+      alert('请输入金额')
+    } else {
+      for (var i = 0; i < dict.length; i++) {
+        if (dict[i].Age == $scope.InsuranceInfo.InsuranceAge && dict[i].Gender == $scope.InsuranceInfo.Gender && dict[i].Time == $scope.InsuranceInfo.InsuranceTime) {
           $scope.InsuranceInfo.InsuranceParameter = dict[i].Parameter
           break
         }
       }
-      if ($scope.InsuranceInfo.CalculationType == "CalculateExpense")
-      {
-        $scope.InsuranceInfo.InsuranceExpense = $scope.InsuranceInfo.InsuranceMoney*$scope.InsuranceInfo.InsuranceParameter/1000
+      if ($scope.InsuranceInfo.CalculationType == 'CalculateExpense') {
+        $scope.InsuranceInfo.InsuranceExpense = $scope.InsuranceInfo.InsuranceMoney * $scope.InsuranceInfo.InsuranceParameter / 1000
         // alert("您的保费为：" + $scope.InsuranceInfo.InsuranceExpense.toFixed(2) + "元")
-        $ionicPopup.show({   
-             title: "您的保费为：" + $scope.InsuranceInfo.InsuranceExpense.toFixed(2) + "元",
-             buttons: [
-               {
-                    text: '確定',
-                    type: 'button-positive'
-               },
-               ]
+        $ionicPopup.show({
+          title: '您的保费为：' + $scope.InsuranceInfo.InsuranceExpense.toFixed(2) + '元',
+          buttons: [
+            {
+              text: '確定',
+              type: 'button-positive'
+            }
+          ]
         })
-      }
-      else if ($scope.InsuranceInfo.CalculationType == "CalculateMoney")
-      {
-        $scope.InsuranceInfo.InsuranceExpense = 1000*$scope.InsuranceInfo.InsuranceMoney/$scope.InsuranceInfo.InsuranceParameter
+      } else if ($scope.InsuranceInfo.CalculationType == 'CalculateMoney') {
+        $scope.InsuranceInfo.InsuranceExpense = 1000 * $scope.InsuranceInfo.InsuranceMoney / $scope.InsuranceInfo.InsuranceParameter
         // alert("您的保额为：" + $scope.InsuranceInfo.InsuranceExpense.toFixed(2) + "元")
-        $ionicPopup.show({   
-             title: "您的保额为：" + $scope.InsuranceInfo.InsuranceExpense.toFixed(2) + "元",
-             buttons: [
-               {
-                    text: '確定',
-                    type: 'button-positive'
-               },
-               ]
+        $ionicPopup.show({
+          title: '您的保额为：' + $scope.InsuranceInfo.InsuranceExpense.toFixed(2) + '元',
+          buttons: [
+            {
+              text: '確定',
+              type: 'button-positive'
+            }
+          ]
         })
       }
     }
   }
-
-  $scope.resetexpense = function(){
+  /*
+  重置保费计算相关数据
+   */
+  $scope.resetexpense = function () {
     $scope.InsuranceInfo = {
-      "InsuranceAge": 25,
-      "Gender": "NotSelected",
-      "InsuranceTime": "5年",
-      "CalculationType": "CalculateMoney",
-      "InsuranceMoney": null,
-      "InsuranceExpense": 0
+      'InsuranceAge': 25,
+      'Gender': 'NotSelected',
+      'InsuranceTime': '5年',
+      'CalculationType': 'CalculateMoney',
+      'InsuranceMoney': null,
+      'InsuranceExpense': 0
     }
   }
-  $scope.changeAge = function(){
-    if ($scope.InsuranceInfo.InsuranceTime == "5年")
-    {
-      $http.get("../data/insuranceage1.json").success(function(data){
+  /*
+  根据保险年限读取不同的年龄列表
+   */
+  $scope.changeAge = function () {
+    if ($scope.InsuranceInfo.InsuranceTime == '5年') {
+      $http.get('data/insuranceage1.json').success(function (data) {
         $scope.InsuranceAges = data
-      });
-    }
-    else
-    {
-      $http.get("../data/insuranceage2.json").success(function(data){
+      })
+    } else {
+      $http.get('data/insuranceage2.json').success(function (data) {
         $scope.InsuranceAges = data
-      });
+      })
     }
   }
-  $scope.getkidneyfunction = function(){
-    if ($scope.Kidneyfunction.Age == null)
-    {
-      alert("请输入年龄")
+  /*
+  根据患者填写的数据计算肾功能
+   */
+  $scope.getkidneyfunction = function () {
+    if ($scope.Kidneyfunction.Age == null) {
+      alert('请输入年龄')
     }
-    if ($scope.Kidneyfunction.Creatinine == null)
-    {
-      alert("请输入肌酐")
+    if ($scope.Kidneyfunction.Creatinine == null) {
+      alert('请输入肌酐')
     }
-    if ($scope.Kidneyfunction.CreatinineUnit == "mg/dl" && $scope.Kidneyfunction.Gender == "Female")
-    {
-      if ($scope.Kidneyfunction.Creatinine <= 0.7)
-      {
-        $scope.Kidneyfunction.KidneyfunctionValue = 144*Math.pow(($scope.Kidneyfunction.Creatinine/0.7),-0.329)*Math.pow(0.993,$scope.Kidneyfunction.Age)
+    if ($scope.Kidneyfunction.CreatinineUnit == 'mg/dl' && $scope.Kidneyfunction.Gender == 'Female') {
+      if ($scope.Kidneyfunction.Creatinine <= 0.7) {
+        $scope.Kidneyfunction.KidneyfunctionValue = 144 * Math.pow(($scope.Kidneyfunction.Creatinine / 0.7), -0.329) * Math.pow(0.993, $scope.Kidneyfunction.Age)
+      } else {
+        $scope.Kidneyfunction.KidneyfunctionValue = 144 * Math.pow(($scope.Kidneyfunction.Creatinine / 0.7), -1.209) * Math.pow(0.993, $scope.Kidneyfunction.Age)
       }
-      else
-      {
-        $scope.Kidneyfunction.KidneyfunctionValue = 144*Math.pow(($scope.Kidneyfunction.Creatinine/0.7),-1.209)*Math.pow(0.993,$scope.Kidneyfunction.Age)
+    } else if ($scope.Kidneyfunction.CreatinineUnit == 'mg/dl' && $scope.Kidneyfunction.Gender == 'Male') {
+      if ($scope.Kidneyfunction.Creatinine <= 0.9) {
+        $scope.Kidneyfunction.KidneyfunctionValue = 141 * Math.pow(($scope.Kidneyfunction.Creatinine / 0.9), -0.411) * Math.pow(0.993, $scope.Kidneyfunction.Age)
+      } else {
+        $scope.Kidneyfunction.KidneyfunctionValue = 141 * Math.pow(($scope.Kidneyfunction.Creatinine / 0.9), -1.209) * Math.pow(0.993, $scope.Kidneyfunction.Age)
       }
-    }
-    else if ($scope.Kidneyfunction.CreatinineUnit == "mg/dl" && $scope.Kidneyfunction.Gender == "Male")
-    {
-      if ($scope.Kidneyfunction.Creatinine <= 0.9)
-      {
-        $scope.Kidneyfunction.KidneyfunctionValue = 141*Math.pow(($scope.Kidneyfunction.Creatinine/0.9),-0.411)*Math.pow(0.993,$scope.Kidneyfunction.Age)
+    } else if ($scope.Kidneyfunction.CreatinineUnit == 'μmol/L' && $scope.Kidneyfunction.Gender == 'Female') {
+      if ($scope.Kidneyfunction.Creatinine <= 62) {
+        $scope.Kidneyfunction.KidneyfunctionValue = 141 * Math.pow(($scope.Kidneyfunction.Creatinine * 0.01131 / 0.9), -0.411) * Math.pow(0.993, $scope.Kidneyfunction.Age)
+      } else {
+        $scope.Kidneyfunction.KidneyfunctionValue = 141 * Math.pow(($scope.Kidneyfunction.Creatinine * 0.01131 / 0.9), -1.209) * Math.pow(0.993, $scope.Kidneyfunction.Age)
       }
-      else
-      {
-        $scope.Kidneyfunction.KidneyfunctionValue = 141*Math.pow(($scope.Kidneyfunction.Creatinine/0.9),-1.209)*Math.pow(0.993,$scope.Kidneyfunction.Age)
-      }
-    }
-    else if ($scope.Kidneyfunction.CreatinineUnit == "μmol/L" && $scope.Kidneyfunction.Gender == "Female")
-    {
-      if ($scope.Kidneyfunction.Creatinine <= 62)
-      {
-        $scope.Kidneyfunction.KidneyfunctionValue = 141*Math.pow(($scope.Kidneyfunction.Creatinine*0.01131/0.9),-0.411)*Math.pow(0.993,$scope.Kidneyfunction.Age)
-      }
-      else
-      {
-        $scope.Kidneyfunction.KidneyfunctionValue = 141*Math.pow(($scope.Kidneyfunction.Creatinine*0.01131/0.9),-1.209)*Math.pow(0.993,$scope.Kidneyfunction.Age)
+    } else if ($scope.Kidneyfunction.CreatinineUnit == 'μmol/L' && $scope.Kidneyfunction.Gender == 'Male') {
+      if ($scope.Kidneyfunction.Creatinine <= 80) {
+        $scope.Kidneyfunction.KidneyfunctionValue = 141 * Math.pow(($scope.Kidneyfunction.Creatinine * 0.01131 / 0.9), -0.411) * Math.pow(0.993, $scope.Kidneyfunction.Age)
+      } else {
+        $scope.Kidneyfunction.KidneyfunctionValue = 141 * Math.pow(($scope.Kidneyfunction.Creatinine * 0.01131 / 0.9), -1.209) * Math.pow(0.993, $scope.Kidneyfunction.Age)
       }
     }
-    else if ($scope.Kidneyfunction.CreatinineUnit == "μmol/L" && $scope.Kidneyfunction.Gender == "Male")
-    {
-      if ($scope.Kidneyfunction.Creatinine <= 80)
-      {
-        $scope.Kidneyfunction.KidneyfunctionValue = 141*Math.pow(($scope.Kidneyfunction.Creatinine*0.01131/0.9),-0.411)*Math.pow(0.993,$scope.Kidneyfunction.Age)
-      }
-      else
-      {
-        $scope.Kidneyfunction.KidneyfunctionValue = 141*Math.pow(($scope.Kidneyfunction.Creatinine*0.01131/0.9),-1.209)*Math.pow(0.993,$scope.Kidneyfunction.Age)
-      }
-    }
-    var kidneyclass = ""
-    if ($scope.Kidneyfunction.KidneyfunctionValue >= 90)
-    {
-      kidneyclass = "慢性肾病1期";
-    }
-    else if ($scope.Kidneyfunction.KidneyfunctionValue < 90 && $scope.Kidneyfunction.KidneyfunctionValue >= 60)
-    {
-      kidneyclass = "慢性肾病2期";
-    }
-    else if ($scope.Kidneyfunction.KidneyfunctionValue < 60 && $scope.Kidneyfunction.KidneyfunctionValue >= 30)
-    {
-      kidneyclass = "慢性肾病3期";
-    }
-    else if ($scope.Kidneyfunction.KidneyfunctionValue < 30 && $scope.Kidneyfunction.KidneyfunctionValue >= 15)
-    {
-      kidneyclass = "慢性肾病4期";
-    }
-    else if ($scope.Kidneyfunction.KidneyfunctionValue < 15)
-    {
-      kidneyclass = "慢性肾病5期";
+    var kidneyclass = ''
+    if ($scope.Kidneyfunction.KidneyfunctionValue >= 90) {
+      kidneyclass = '慢性肾病1期'
+    } else if ($scope.Kidneyfunction.KidneyfunctionValue < 90 && $scope.Kidneyfunction.KidneyfunctionValue >= 60) {
+      kidneyclass = '慢性肾病2期'
+    } else if ($scope.Kidneyfunction.KidneyfunctionValue < 60 && $scope.Kidneyfunction.KidneyfunctionValue >= 30) {
+      kidneyclass = '慢性肾病3期'
+    } else if ($scope.Kidneyfunction.KidneyfunctionValue < 30 && $scope.Kidneyfunction.KidneyfunctionValue >= 15) {
+      kidneyclass = '慢性肾病4期'
+    } else if ($scope.Kidneyfunction.KidneyfunctionValue < 15) {
+      kidneyclass = '慢性肾病5期'
     }
     // alert("估算您的肾小球滤过率为：" + $scope.Kidneyfunction.KidneyfunctionValue.toFixed(2) + ",您处于" +kidneyclass)
-    $ionicPopup.show({   
-         title: "估算您的肾小球滤过率为：" + $scope.Kidneyfunction.KidneyfunctionValue.toFixed(2) + ",您处于" +kidneyclass,
-         buttons: [
-           {
-                text: '確定',
-                type: 'button-positive'
-           },
-           ]
+    $ionicPopup.show({
+      title: '估算您的肾小球滤过率为：' + $scope.Kidneyfunction.KidneyfunctionValue.toFixed(2) + ',您处于' + kidneyclass,
+      buttons: [
+        {
+          text: '確定',
+          type: 'button-positive'
+        }
+      ]
     })
   }
-
-  $scope.resetkidneyfunction = function(){
+  /*
+  重置肾功能计算页面数据
+   */
+  $scope.resetkidneyfunction = function () {
     $scope.Kidneyfunction = {
-      "Gender": "NotSelected",
-      "Age": null,
-      "CreatinineUnit": "μmol/L",
-      "Creatinine": null,
-      "KidneyfunctionValue": 0
+      'Gender': 'NotSelected',
+      'Age': null,
+      'CreatinineUnit': 'μmol/L',
+      'Creatinine': null,
+      'KidneyfunctionValue': 0
     }
   }
-
 }])
 
-//肾病保险工作人员--TDY
+// 肾病保险工作人员--TDY  暂时不用了
 .controller('insurancestaffCtrl', ['$scope', '$state', function ($scope, $state) {
-  $scope.intensions = 
+  $scope.intensions =
   [
     {
-      "name": "李爱国",
-      "phoneNo": "15688745215"
+      'name': '李爱国',
+      'phoneNo': '15688745215'
     },
     {
-      "name": "张爱民",
-      "phoneNo": "17866656326"
+      'name': '张爱民',
+      'phoneNo': '17866656326'
     },
     {
-      "name": "步爱家",
-      "phoneNo": "13854616548"
+      'name': '步爱家',
+      'phoneNo': '13854616548'
     }
   ]
 
-  $scope.stafflogin = function(){
-    $state.go("insurancestaff")
+  $scope.stafflogin = function () {
+    $state.go('insurancestaff')
   }
 
-  $scope.Goback = function(){
-    $state.go("insurance")
+  $scope.Goback = function () {
+    $state.go('insurance')
   }
 
-  $scope.Back = function(){
-    $state.go("insurancestafflogin")
+  $scope.Back = function () {
+    $state.go('insurancestafflogin')
   }
 }])
 //咨询问卷--TDY

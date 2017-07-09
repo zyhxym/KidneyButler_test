@@ -2577,6 +2577,13 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
       var config = ''
       var path = $location.absUrl().split('#')[0]
 
+      /**
+       * [获取注册微信jssdk所需的参数]
+       * @Author   TongDanyang
+       * @DateTime 2017-07-07
+       * @param    {[string]}    url [当前url的路径，#之前的]
+       * @return   {[object]}    data.results  [注册微信jssdk用到的签名等信息]
+       */
       wechat.settingConfig({url: path}).then(function (data) {
         // alert(data.results.timestamp)
         config = data.results
@@ -2584,6 +2591,9 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
         // alert(config.jsApiList)
         // alert(config.debug)
         console.log(angular.toJson(config))
+        /*
+        注册微信jssdk
+         */
         wx.config({
           debug: false,
           appId: config.appId,
@@ -2592,6 +2602,9 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
           signature: config.signature,
           jsApiList: config.jsApiList
         })
+        /*
+        注册成功后确认支付接口是否成功注册
+         */
         wx.ready(function () {
           wx.checkJsApi({
             jsApiList: ['chooseWXPay'],
@@ -2616,6 +2629,13 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
                         //   result.data.ip = "121.43.107.106"
                         // }
                         // neworder.ip = result.data.ip
+              /**
+               * [生成订单并获取微信支付信息]
+               * @Author   TongDanyang
+               * @DateTime 2017-07-07
+               * @param    {[object]}    neworder  [支付的相关信息]
+               * @return {object}  data.results [订单及支付情况，data.results.status为0时处于免费状态，为1时则表示支付金额为0，其他情况下调用微信支付接口]
+               */
               wechat.addOrder(neworder).then(function (data) {
                 $ionicLoading.hide()
                 if (data.results && (data.results.status === 0 || data.results.status === 1)) {

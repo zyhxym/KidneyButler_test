@@ -13,9 +13,9 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
     获取url中的code，state等参数 TDY
      */ 
     var temp = $location.absUrl().split('=')
-    if (angular.isDefined(temp[1]) == true)
+    if (temp[1])
     {
-        if (angular.isDefined(temp[2]) == true)
+        if (temp[2])
         {
             var code = temp[1].split('&')[0]
             var state = temp[2].split('#')[0]
@@ -30,7 +30,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
     }
     // 获取结束
     var wechatData = ""
-    if (angular.isDefined(code) == true)
+    if (code)
     {
       /**
        * 获取微信个人信息
