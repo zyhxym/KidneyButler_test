@@ -54,7 +54,12 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     $scope.logOn={username:"",password:""};
   }
 
-
+  /**
+   * [手机号码和密码输入后点击登录:1、登录失败（账号密码不对，网络问题）；2、登录成功:2.1签过协议则跳转主页，2.2没签过则跳转协议页面]
+   * @Author   PXY
+   * @DateTime 2017-07-04
+   * @param    logOn:{username:String, password:String}  注：username手机号码
+   */
   $scope.signIn = function(logOn) {  
     $scope.logStatus='';
     if((logOn.username!="") && (logOn.password!="")){
@@ -66,6 +71,15 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         }
       else{
             Storage.set('USERNAME',logOn.username);
+            /**
+             * [登录]
+             * @Author   PXY
+             * @DateTime 2017-07-04
+             * @param    {username（手机号）:String, password:String,role:String} 注：患者登录role写死 'patient'
+             * @return  data:（1、成功登录）{results: {status:Number,userId:String,userName:String,lastlogin:Date,mesg:String,token:String,refreshToken:String}}
+             *               （2、账号密码错误）{results:Number,mesg:String}
+             *          err
+             */
             var logPromise = User.logIn({username:logOn.username,password:logOn.password,role:"patient"});
             logPromise.then(function(data){
                 if(data.results==1){
@@ -98,7 +112,24 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     Storage.set('refreshToken',data.results.refreshToken);
                     Storage.set('isSignIn',"Yes");
                     Storage.set('UID',data.results.userId);
+                    /**
+                     * [获取用户签署协议状态,agreement为0为签过协议，跳转主页；为1则没签过协议，跳转协议页面]
+                     * @Author   PXY
+                     * @DateTime 2017-07-04
+                     * @param    userId:String
+                     * @return   res:{result:{agreement: String}}
+                     *           err
+                     */
                     User.getAgree({userId:data.results.userId}).then(function(res){
+                        /**
+                         * [写入用户对应肾病守护者联盟的openid]
+                         * @Author   TongDanyang
+                         * @DateTime 2017-07-05
+                         * @param    {[interger]}   type [2时是微信病人端]
+                         * @param    {[string]}     userId [description]
+                         * @param    {[string]}     openId [微信返回的openid]
+                         * @return   {[object]}             [description]
+                         */
                         User.setMessageOpenId({type:2,userId:data.results.userId,openId:Storage.get('messageopenid')}).then(function(res){
                         },function(err){
                         })
@@ -146,16 +177,29 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     }
   }
 
-  
+  /**
+   * [点击注册,跳转获取验证码页面，传递参数register表示注册流程]
+   * @Author   PXY
+   * @DateTime 2017-07-04
+   */
   $scope.toRegister = function(){
     
     $state.go('phonevalid',{phonevalidType:'register'});
    
   }
+  /**
+   * [点击重置密码,跳转获取验证码页面，传递参数reset表示重置密码流程]
+   * @Author   PXY
+   * @DateTime 2017-07-04
+   */
   $scope.toReset = function(){
     $state.go('phonevalid',{phonevalidType:'reset'});
   } 
-  
+  /**
+   * [点击绑定微信，跳转获取验证码页面，传递参数wechat表示绑定微信流程]]
+   * @Author   TongDanyang
+   * @DateTime 2017-07-10
+   */
   $scope.bingdwechat = function () 
   {
     $ionicPopup.show({   
@@ -200,24 +244,38 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 }])
 
 .controller('AgreeCtrl', ['$stateParams','$scope','$timeout','$state','Storage','$ionicHistory','$http','Data','User','jmapi', 'Patient',function($stateParams,$scope, $timeout,$state,Storage,$ionicHistory,$http,Data,User,jmapi,Patient) {
+  /**
+   * [点击同意协议，如果是登录补签协议则更新协议状态后跳转主页；如果是注册则更新协议状态后跳转设置密码]
+   * @Author   PXY
+   * @DateTime 2017-07-04
+   */
     $scope.YesIdo = function(){
         console.log('yesido');
         if($stateParams.last=='signin'){
+          /**
+           * [更新协议状态]
+           * @Author   PXY
+           * @DateTime 2017-07-04
+           * @param    {userId:String,agreement:String} 注：agreement写'0'表示签过协议
+           * @return   data:{results:Object,msg:"success"}
+           *           err
+           */
             User.updateAgree({userId:Storage.get('UID'),agreement:"0"}).then(function(data){
                 if(data.results!=null){
                     jmapi.users(Storage.get('UID'));
-                    Patient.getPatientDetail({userId:Storage.get('UID')}).then(function(data){
-                      if (data.results != null)
-                      {
+
+                    // Patient.getPatientDetail({userId:Storage.get('UID')}).then(function(data){
+                      // if (data.results != null)
+                      // {
                         $timeout(function(){$state.go('tab.tasklist');},500);
-                      }
+                      // }
                       // else
                       // {
                       //   $state.go('userdetail',{last:'implement'});
                       // }
-                    },function(err){
-                        console.log(err);
-                    })
+                    // },function(err){
+                    //     console.log(err);
+                    // })
                 }else{
                     console.log("用户不存在!");
                 }
@@ -247,6 +305,11 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
   $scope.veritext="获取验证码";
   $scope.isable=false;
   var tempuserId = ""
+  /**
+   * [disable获取验证码按钮1分钟，并改变获取验证码按钮显示的文字]
+   * @Author   PXY
+   * @DateTime 2017-07-04
+   */
   var unablebutton = function(){      
      //验证码BUTTON效果
         $scope.isable=true;
@@ -266,8 +329,21 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         },1000);
   }
   //发送验证码
-
+  /**
+   * [发送验证码]
+   * @Author   PXY
+   * @DateTime 2017-07-04
+   * @param    phone:String
+   */
     var sendSMS = function(phone){
+      /**
+       * [发送验证码,disable按钮一分钟，并根据服务器返回提示用户]
+       * @Author   PXY
+       * @DateTime 2017-07-04
+       * @param    {mobile:String,smsType:Number}  注：写死 1
+       * @return   data:{results:Number,mesg:String} 注：results为0为成功发送
+       *           err
+       */
         var SMS = User.sendSMS({mobile:phone,smsType:1});
             SMS.then(function(data){
                 unablebutton();
@@ -295,6 +371,12 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
     var isregisted = false;
     //点击获取验证码
+    /**
+     * [点击获取验证码，如果为注册，注册过的用户不能获取验证码；如果为重置密码，没注册过的用户不能获取验证码]
+     * @Author   PXY
+     * @DateTime 2017-07-04
+     * @param    Verify:{Phone:String,Code:String} 注：Code没用到
+     */
     $scope.getcode=function(Verify){
         $scope.logStatus='';
     
@@ -311,6 +393,13 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
         //如果为注册，注册过的用户不能获取验证码；如果为重置密码，没注册过的用户不能获取验证码
         if($stateParams.phonevalidType=='register'){
+          /**
+           * [根据手机号码获取userId]
+           * @Author   PXY
+           * @DateTime 2017-07-04
+           * @param    {username:String}
+           * @return   data:{results:Number，roles:Array} 注：1为未注册；0为已注册
+           */
             User.getUserId({username:Verify.Phone}).then(function(data){
                 if(data.results == 0){
                     if (data.roles.indexOf('patient') == -1)
@@ -361,7 +450,13 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         }
     }
 
-    //判断验证码和手机号是否正确
+    /**
+     * [点击验证手机号，验证通过后如果是注册流程则跳转协议页面，如果是重置密码则跳转设置密码页面]
+     * @Author   PXY
+     * @DateTime 2017-07-04
+     * @param    {[type]}
+     * @return   {[type]}
+     */
     $scope.gotoReset = function(Verify){
 
         $scope.logStatus = '';
@@ -381,6 +476,14 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     // }
                     
                 // }else{$scope.logStatus = "验证码错误";}
+                /**
+                 * [验证手机号码]
+                 * @Author   PXY
+                 * @DateTime 2017-07-04
+                 * @param    {mobile:String,smsType:Number,smsCode:String} 注：smsType写死1
+                 * @return   data:{results:Number,mesg:String}  注：results为0代表验证成功
+                 *           err
+                 */
                 var verifyPromise =  User.verifySMS({mobile:Verify.Phone,smsType:1,smsCode:Verify.Code});
                 verifyPromise.then(function(data){
                     if(data.results==0){
@@ -392,9 +495,26 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                         else if ($stateParams.phonevalidType == 'wechat'){
                             if (isregisted == true)
                             {
+                              /**
+                               * [将unionid于手机号绑定]
+                               * @Author   TongDanyang
+                               * @DateTime 2017-07-06
+                               * @param    {[string]}    phoneNo [手机号]
+                               * @param    {[string]}    openId [微信返回的unionid]
+                               * @return   {[object]}   data.results   [反馈是否绑定成功]
+                               */
                               User.setOpenId({phoneNo:Verify.Phone,openId:Storage.get('openid')}).then(function(data){
                                   if(data.results == "success!")
                                   {
+                                    /**
+                                     * [写入用户对应肾病守护者联盟的openid]
+                                     * @Author   TongDanyang
+                                     * @DateTime 2017-07-05
+                                     * @param    {[interger]}   type [2时是微信病人端]
+                                     * @param    {[string]}     userId [description]
+                                     * @param    {[string]}     openId [微信返回的openid]
+                                     * @return   {[object]}             [description]
+                                     */
                                     User.setMessageOpenId({type:2,userId:tempuserId,openId:Storage.get('messageopenid')}).then(function(res){
                                         console.log("setopenid");
                                         $ionicPopup.show({   
@@ -455,10 +575,19 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
 //设置密码  --PXY 
 .controller('setPasswordCtrl', ['$scope','$state','$rootScope' ,'$timeout' ,'Storage','$stateParams','User','$q','$http','jmapi',function($scope,$state,$rootScope,$timeout,Storage,$stateParams,User,$q,$http,jmapi) {
-    //$scope.barwidth="width:0%";
+    /**
+     * [点击返回，返回到登录页面]
+     * @Author   PXY
+     * @DateTime 2017-07-04
+     */
     $scope.BackMain = function(){
         $state.go('signin');
     }
+    /**
+     * [根据$stateParams.phonevalidType判断是重置密码还是注册流程，改变页面显示]
+     * @Author   PXY
+     * @DateTime 2017-07-04
+     */
     var setPassState=$stateParams.phonevalidType;
     if(setPassState=='reset'){
         $scope.headerText="重置密码";
@@ -469,7 +598,12 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     }
     $scope.setPassword={newPass:"" , confirm:""};
 
-
+    /**
+     * [设置密码或重置密码，密码一致后如果是重置密码流程，则修改密码；如果是注册流程则注册、更新协议状态、注册论坛，最后跳转登录页面（微信则跳转到主页）]
+     * @Author   PXY
+     * @DateTime 2017-07-04
+     * @param    setPassword:{newPass:String,confirm:String}
+     */
     $scope.resetPassword=function(setPassword){
         $scope.logStatus='';
         if((setPassword.newPass!="") && (setPassword.confirm!="")){
@@ -484,6 +618,13 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                      if(setPassState=='register' || setPassState=='wechat'){
                       //结果分为连接超时或者注册成功
                       $rootScope.password=setPassword.newPass;
+                      /**
+                       * [注册]
+                       * @Author   PXY
+                       * @DateTime 2017-07-04
+                       * @param    {phoneNo:String,password:String,role:String} 注：写死role: 'patient'
+                       * @return   data:{results:Number,userNo:String,...} 注：results为0为注册成功,userNo为userId
+                       */
                       User.register({phoneNo:Storage.get('USERNAME'),password:setPassword.newPass,role:"patient"}).then(function(data){
                           console.log(data);
                           if(data.results==0){
@@ -493,6 +634,13 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                               
                               jmapi.users(patientId);
                               $q.all([
+                                // 注册论坛
+                                // 发送http请求，请求的地址是从论坛中抽出来的api
+                                // 参数：username->用户名->病人端用的是病人UID
+                                //     password->密码->密码和用户名一样
+                                //     password2->密码的确认->同上
+                                //     email->这里随便取得，邮箱的域名不一定有效
+                                //     regsubmit、formhash两个参数就这样填就行，forhash参数已经在论坛的代码中被注释掉了，随便填什么都行，它的作用是防止恶意注册
                                 $http({
                                     method  : 'POST',
                                     url     : 'http://patientdiscuss.haihonghospitalmanagement.com/member.php?mod=register&mobile=2&handlekey=registerform&inajax=1',
@@ -511,6 +659,14 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                                 }).success(function(data) {
                                     // console.log(data);
                                 }),
+                                /**
+                                 * [更新协议状态，在注册流程中，虽然之前同意协议但是必须注册后用户才存在，因此在注册后更新协议状态]
+                                 * @Author   PXY
+                                 * @DateTime 2017-07-04
+                                 * @param    {userId:String,agreement:String} 注：agreement写死‘0’
+                                 * @return   data:Object
+                                 *           err
+                                 */
                                 User.updateAgree({userId:patientId,agreement:"0"}).then(function(data){
 
                                 },function(err){
@@ -543,6 +699,14 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     }else if(setPassState == 'reset'){
                   //如果是重置密码
                   //结果分为连接超时或者修改成功
+                      /**
+                       * [修改密码]
+                       * @Author   PXY
+                       * @DateTime 2017-07-04
+                       * @param    {phoneNo:String，password:String}
+                       * @return   data:Object
+                       *           err
+                       */
                       var codePromise = User.changePassword({phoneNo:Storage.get('USERNAME'),password:setPassword.newPass});
                       codePromise.then(function(data){
                           if(data.results==0){
@@ -593,6 +757,11 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
       "diagnosis":null}
       
     };
+    /**
+     * [进入页面之前完成个人信息的初始化,]
+     * @Author   PXY
+     * @DateTime 2017-07-05
+     */
     $scope.$on('$ionicView.enter', function() {
         var back = $stateParams.last;
         // console.log(back);
@@ -628,7 +797,11 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
     });
 
-
+  /**
+   * [点击返回，如果上一个页面是“我的”并且当前是编辑状态，则变为不可编辑状态，否则返回上一页]
+   * @Author   PXY
+   * @DateTime 2017-07-05
+   */
   $scope.Goback = function(){
         if($stateParams.last == 'mine' && $scope.canEdit==true){
             $scope.canEdit = false;
@@ -659,14 +832,26 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     {Name:"否",Type:2}
   ]
 
-  //从字典中搜索选中的对象。
+  /**
+   * [从字典中搜索选中的对象]
+   * @Author   PXY
+   * @DateTime 2017-07-05
+   * @param    code:String/Number  [字典中的编码，比如 1 或“stage_5”]
+   * @param    array:Array [字典，数组存了对象，对象中包含名称和对应的值]
+   * @return   object/ '未填写'        [根据字典编码在字典中搜索到的对象]
+   */
   var searchObj = function(code,array){
       for (var i = 0; i < array.length; i++) {
         if(array[i].Type == code || array[i].type == code || array[i].code == code) return array[i];
       };
       return "未填写";
   }
-
+  /**
+   * [根据选择的疾病类型判断显示疾病进程还是手术时间控件（以及时间控件的名称）]
+   * @Author   PXY
+   * @DateTime 2017-07-05
+   * @param    Disease:Object {typeName:String,type:String} [疾病类型]
+   */
   $scope.getDiseaseDetail = function(Disease) {
     if (Disease.typeName == "肾移植")
     {
@@ -700,13 +885,27 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
   }
 
 
-
+  /**
+   * [点击编辑按钮，页面变为可编辑状态]
+   * @Author   PXY
+   * @DateTime 2017-07-05
+   */
   $scope.edit = function(){
         $scope.canEdit = true;
   }
 
-
+  /**
+   * [从数据库读取个人信息并完成初始化]
+   * @Author   PXY
+   * @DateTime 2017-07-05
+   */
   var initialPatient = function(){
+    /**
+     * [从数据库读取个人信息绑定数据,如果没填个人信息且上一页面是“我的”，页面不可编辑]
+     * @Author   PXY
+     * @DateTime 2017-07-05
+     * @param    {userId:String}
+     */
         Patient.getPatientDetail({userId: Storage.get('UID')}).then(function(data){
 
                 if (data.results && data.results != "没有填写个人信息"){
@@ -753,6 +952,13 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                 // if ($scope.User.lastVisit.time != null){
                 //     $scope.User.lastVisit.time = $scope.User.lastVisit.time.substr(0,10);
                 // }
+                /**
+                 * [读取最新一条体重信息，后端方法改了（读取个人信息时一并把体重传回）这函数不需要了]
+                 * @Author   PXY
+                 * @DateTime 2017-07-05
+                 * @param    {userId:String,type:String} 注：type写死'Weight'
+                 * @return   data：{results:[{data:[{time:Date,value:Number}],...}]}    [外层数组results以天为单位,里层数组data以次数为单位]
+                 */
                 VitalSign.getVitalSigns({userId:Storage.get('UID'), type: "Weight"}).then(function(data){
                     if(data.results.length){
                         var n = data.results.length - 1
@@ -767,6 +973,43 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                 },function(err){
                         console.log(err);
                 });
+                /**
+                 * [从字典表获取疾病类型]
+                 * @Author   PXY
+                 * @DateTime 2017-07-05
+                 * @param    {category：String}  注：疾病类型对应category为'patient_class'
+                 * @return   data:{
+                              "results": [
+                                            {
+                                                "_id": "58dcfa48e06bc54b27bf599c",
+                                                "category": "patient_class",
+                                                "content": [
+                                                    {
+                                                        "details": [
+                                                            {
+                                                                "invalidFlag": 0,
+                                                                "description": "5",
+                                                                "inputCode": "",
+                                                                "name": "疾病活跃期",
+                                                                "code": "stage_5"
+                                                            },
+                                                            {
+                                                                "invalidFlag": 0,
+                                                                "description": "6",
+                                                                "inputCode": "",
+                                                                "name": "稳定期",
+                                                                "code": "stage_6"
+                                                            }
+                                                        ],
+                                                        "typeName": "ckd3-4期",
+                                                        "type": "class_3"
+                                                    },...
+                                                ],
+                                                "contents": []
+                                            }
+                                      ]
+                                }
+                 */
                 Dict.getDiseaseType({category:'patient_class'}).then(function(data){
                     $scope.Diseases = data.results[0].content
                     $scope.Diseases.push($scope.Diseases[0])
@@ -941,13 +1184,27 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
 
 
-
-     var MonthInterval = function(usertime){
+    /**
+     * [计算当前时间和usertime差几个月]
+     * @Author   PXY
+     * @DateTime 2017-07-05
+     * @param    usertime:String [可解析的日期字符串]
+     * @return   Number [相差月份数，floor取整]
+     */
+    var MonthInterval = function(usertime){
         
         interval = new Date().getTime() - Date.parse(usertime);
         return(Math.floor(interval/(24*3600*1000*30)));
     }
-
+    /**
+     * [根据疾病类型、疾病进程或手术时间判断病人相应的任务模板，可考虑让后端在保存个人信息时完成]
+     * @Author   PXY
+     * @DateTime 2017-07-05
+     * @param    kidneyType：String   [疾病类型，字典表编码]
+     * @param    kidneyTime:String   [手术时间，可解析的日期字符串]
+     * @param    kidneyDetail：String [疾病进程，字典表编码]
+     * @return   SortNo:Number                [任务模板的编号]
+     */
     var distinctTask = function(kidneyType,kidneyTime,kidneyDetail){
         var sortNo = 1;
         console.log(kidneyType);
@@ -1021,6 +1278,11 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         return sortNo;
 
     }
+    /**
+     * [修改病人的个人信息]
+     * @Author   PXY
+     * @DateTime 2017-07-05
+     */
     $scope.infoSetup = function(){
         var back = $stateParams.last;
         if (back == 'signin'||back == 'implement'){
@@ -1038,10 +1300,24 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
             var patientId = Storage.get('UID');
             $scope.User.userId = patientId;
-            // console.log(patientId);
+            /**
+             * [调用后端方法修改病人的个人信息]
+             * @Author   PXY
+             * @DateTime 2017-07-05
+             * @param    userInfo:Object [属性和$scope.User一致，只是把需要选择输入的那几个字段比如性别的值从对象改为了对象中的编码]
+             * @return   data:Object  {result:String,...}
+             *           err
+             */
             Patient.newPatientDetail($scope.User).then(function(data){
 
-                // console.log(data);
+                /**
+                 * [修改病人的任务模板]
+                 * @Author   PXY
+                 * @DateTime 2017-07-05
+                 * @param    {userId:String, sortNo:Number}
+                 * @return   data:Object  {result:String,...}
+                 *           err
+                 */
                 var task = distinctTask(data.results.class,data.results.operationTime,data.results.class_info);
                 Task.insertTask({userId:patientId,sortNo:task}).then(function(data){
                     if(data.result=="插入成功"){
@@ -3703,7 +3979,11 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 }])
 
 
-//聊天 XJZ 
+/**
+ * 聊天页面
+ * @Author   xjz
+ * @DateTime 2017-07-05
+ */
 .controller('ChatCtrl',['$scope', '$state', '$rootScope', '$ionicModal', '$ionicScrollDelegate', '$ionicHistory', 'Camera', 'voice','$http','CONFIG','Patient','Storage','wechat','$location','$q','Communication','Counsels','$ionicPopup','Account','News','Doctor','payment', '$filter','$ionicLoading','arrTool','$timeout',function($scope, $state, $rootScope, $ionicModal, $ionicScrollDelegate, $ionicHistory, Camera, voice,$http,CONFIG,Patient,Storage,wechat,$location,$q,Communication,Counsels,$ionicPopup,Account,News,Doctor,payment,$filter,$ionicLoading,arrTool,$timeout) {
     $scope.input = {
         text: ''
@@ -3711,6 +3991,11 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     var path = $location.absUrl().split('#')[0]
     // $scope.msgs = [];
     $scope.scrollHandle = $ionicScrollDelegate.$getByHandle('myContentScroll');
+    /**
+     * 拉到底的动画效果
+     * @Author   xjz
+     * @DateTime 2017-07-05
+     */
     function toBottom(animate,delay){
         if(!delay) delay=100;
         $timeout(function(){
@@ -5559,7 +5844,25 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
   $scope.consultable=1;
   var chargemoney = 0;
+  /**
+   * *[根据用户点击事件进入咨询或者问诊]
+   * @Author   ZXF
+   * @DateTime 2017-07-05
+   * @DoctorId    {[string]}
+   * @docname    {[string]}
+   * @charge1    {[int]}医生设置的咨询费用
+   * @charge2    {[int]}医生设置的问诊费用
+   * @return   {[type]}
+   */
   $scope.question = function(DoctorId,docname,doctor){
+      /**
+       * *[获取用户当前咨询相关的信息，是否正在进行]
+       * @Author   ZXF
+       * @DateTime 2017-07-05
+       * @doctorId    {[string]}用户咨询医生id
+       * @patientId    {[string]}
+       * @return   {[type]}status==1 有正在进行的咨询或者问诊 直接进咨询界面
+       */
       Counsels.getStatus({doctorId:DoctorId,patientId:Storage.get('UID')})
       .then(function(data){
         //zxf 判断条件重写
@@ -5601,7 +5904,16 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
             }
           }
         }else{//没有进行中的问诊咨询 查看是否已经付过费
-          // console.log("fj;akfmasdfzjl")
+          /**
+           * *[没有正在进行的咨询，判断用户剩余count]count==999：有已付钱但尚未新建的问诊，进入咨询问卷
+           * count==3 有已付钱但尚未新建的咨询，进入咨询问卷
+           * else 判断freetime是否为零，有免费咨询次数使用免费咨询次数进入咨询问卷
+           * else 拉起微信支付
+           * @Author   ZXF
+           * @DateTime 2017-07-05
+           * @param    {[type]}
+           * @return   {[type]}
+           */
           Account.getCounts({patientId:Storage.get('UID'),doctorId:DoctorId}).then(function(data){
           console.log(data.result.freeTimes)
           if(data.result.count==999){//上次有购买问诊 但是没有新建问诊
@@ -5652,16 +5964,42 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                   // var tempresult = []
                   // var temperr = []
                   $q.all([
+                      /**
+                       * *[免费咨询次数减一]
+                       * @Author   ZXF
+                       * @DateTime 2017-07-05
+                       * @patientId    {[string]}
+                       * @return   {[type]}
+                       */
                       Account.updateFreeTime({patientId:Storage.get('UID')}).then(function(data){//免费咨询次数减一 count+3
                         console.log(data)
                       },function(err){
                         console.log(err)
                       }),
+                      /**
+                       * *[修改患者咨询问诊过程能够询问的次数]count=3表示咨询 count=999表示问诊
+                       * @Author   ZXF
+                       * @DateTime 2017-07-05
+                       * @patientId    {[string]}
+                       * @doctorId    {[string]}
+                       * @modify    {[int]}
+                       * @return   {[type]}
+                       */
                       Account.modifyCounts({patientId:Storage.get('UID'),doctorId:DoctorId,modify:3}).then(function(data){
                         console.log(data)
                       },function(err){
                         console.log(err)
                       }),
+                      /**
+                       * *患者咨询医生 给医生账户‘转账’
+                       * @Author   ZXF
+                       * @DateTime 2017-07-05
+                       * @patientId    {[string]}
+                       * @doctorId    {[string]}
+                       * @doctorName    {[string]}暂时未使用
+                       * @money    {[int]}
+                       * @return   {[type]}
+                       */
                       Expense.rechargeDoctor({patientId:Storage.get('UID'),doctorId:DoctorId,type:'咨询',doctorName:docname,money:0}).then(function(data){
                         console.log(data)
                       },function(err){
@@ -5726,6 +6064,13 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                                 // paystatus:0,
                                 // paytime:time
                   }
+                   /**
+                   * *[后台根据order下订单，生成拉起微信支付所需的参数]
+                   * @Author   ZXF
+                   * @DateTime 2017-07-05
+                   * @param    {[object]} neworder [上面一段代码定义的一个对象]
+                   * @return   {[type]}results.status===1表示医生设置的费用为0不需要拉起微信支付，status==0表示因活动免费也不进微信，else拉起微信
+                   */
                   payment.payment(neworder).then(function(data){
                     console.log(data) //data.errMsg:"chooseWXPay:ok"时支付成功
                     if (data.errMsg == "chooseWXPay:ok")
@@ -5784,7 +6129,16 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
       console.log(err)
     })
   }
-
+  /**
+   * *[用户使用问诊按钮]
+   * @Author   ZXF
+   * @DateTime 2017-07-05
+   * @DoctorId    {[type]}
+   * @docname    {[type]}
+   * @charge1    {[type]}咨询费用
+   * @charge2    {[type]}问诊费用
+   * @return   {[type]}
+   */
   $scope.consult = function(DoctorId,docname,doctor){
     Counsels.getStatus({doctorId:DoctorId,patientId:Storage.get('UID')})
     .then(function(data){
@@ -5831,6 +6185,16 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                   if (data.errMsg == "chooseWXPay:ok")
                   {
                     chargemoney = data.money
+                    /**
+                     * *[用户选择将咨询升级成问诊是调用方法，将咨询的type从1（咨询）转为3（问诊）]
+                     * @Author   ZXF
+                     * @DateTime 2017-07-05
+                     * @doctorId    {[string]}
+                     * @patientId    {[string]}
+                     * @type    {[int]}只能是1
+                     * @changeType    {[bool]}
+                     * @return   {[type]}
+                     */
                     Counsels.changeType({doctorId:DoctorId,patientId:Storage.get('UID'),type:1,changeType:"true"}).then(function(data){
                       console.log(data.result)
                       if(data.result=="修改成功"){
@@ -5845,6 +6209,15 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                               console.log(err)
                             }),
                             //plus doc answer count  patientId:doctorId:modify
+                            /**
+                             * *[修改患者咨询问诊过程能够询问的次数]count=3表示咨询 count=999表示问诊
+                             * @Author   ZXF
+                             * @DateTime 2017-07-05
+                             * @patientId    {[string]}
+                             * @doctorId    {[string]}
+                             * @modify    {[int]}
+                             * @return   {[type]}
+                             */
                             Account.modifyCounts({patientId:Storage.get('UID'),doctorId:DoctorId,modify:999}).then(function(data){
                               console.log(data)
                             },function(err){
@@ -8221,7 +8594,9 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     // .then(function(data)
     // {
     //   console.log(data)
+      // 用来登录论坛,这个对应的iframe标签是隐藏的
       $scope.navigation_login=$sce.trustAsResourceUrl("http://patientdiscuss.haihonghospitalmanagement.com/member.php?mod=logging&action=login&loginsubmit=yes&loginhash=$loginhash&mobile=2&username="+Storage.get('UID')+"&password="+Storage.get('UID'));
+      // 用来指向论坛首页
       $scope.navigation=$sce.trustAsResourceUrl("http://patientdiscuss.haihonghospitalmanagement.com/");
     // })
 
