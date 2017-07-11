@@ -1419,7 +1419,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                                         // }else{
                                             if(back == 'mine'){
                                                 $scope.canEdit = false;
-                                                // initialPatient();
+                                                initialPatient();
                                             }else if(back == 'tasklist'||$stateParams.last == 'consult'){
                                                 $ionicHistory.goBack();
                                             }
