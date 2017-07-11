@@ -60,10 +60,14 @@ angular.module('kidney.directives', ['kidney.services'])
             elem.bind('focus', function() {
                 console.log(this.style)
                 this.style.borderBottomColor = '#64DD17';
+                this.interval = setInterval(function () {
+                  document.body.scrollTop = document.body.scrollHeight
+                }, 200)
             });
             elem.bind('blur', function() {
                 this.style.borderBottomColor = '#AAA';
                 // this.setAttribute("style", "border-color: #AAA");
+                clearInterval(this.interval)
             });
         }
     }
