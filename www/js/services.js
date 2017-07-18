@@ -31,11 +31,11 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
   // socketUrl: 'http://121.43.107.106:4050/chat',
   // imgThumbUrl: 'http://121.43.107.106:8052/uploads/photos/resize',
   // imgLargeUrl: 'http://121.43.107.106:8052/uploads/photos/',
-  baseUrl: 'https://appserviceserver.haihonghospitalmanagement.com/api/v1/',
-  mediaUrl: 'https://appmediaservice.haihonghospitalmanagement.com/',
-  socketUrl: 'https://appserviceserver.haihonghospitalmanagement.com/chat',
-  imgThumbUrl: 'https://appmediaservice.haihonghospitalmanagement.com/uploads/photos/resize',
-  imgLargeUrl: 'https://appmediaservice.haihonghospitalmanagement.com/uploads/photos/',
+  baseUrl: 'http://121.196.221.44:4060/api/v1/',
+  mediaUrl: 'http://121.196.221.44:8055/',
+  socketUrl: 'http://121.196.221.44:4060/chat',
+  imgThumbUrl: 'http://121.196.221.44:8055/uploads/photos/resize',
+  imgLargeUrl: 'http://121.196.221.44:8055/uploads/photos/',
   cameraOptions: {
     cam: {
       quality: 60,
