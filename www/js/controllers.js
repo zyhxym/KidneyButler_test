@@ -6233,7 +6233,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                               fromUser:{
                                   avatarPath:CONFIG.mediaUrl+'uploads/photos/resized'+Storage.get('UID')+'_myAvatar.jpg'
                               },
-                              targetID:id,
+                              targetID:DoctorId,
                               targetName:'',
                               targetType:'single',
                               status:'send_going',
