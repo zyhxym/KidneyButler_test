@@ -33,7 +33,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
   // imgLargeUrl: 'http://121.43.107.106:8052/uploads/photos/',
   baseUrl: 'http://appserviceserver.haihonghospitalmanagement.com/api/v1/',
   mediaUrl: 'http://appmediaservice.haihonghospitalmanagement.com/',
-  socketServer: 'http://appserviceserver.haihonghospitalmanagement.com/chat',
+  socketUrl: 'http://appserviceserver.haihonghospitalmanagement.com/chat',
   imgThumbUrl: 'http://appmediaservice.haihonghospitalmanagement.com/uploads/photos/resize',
   imgLargeUrl: 'http://appmediaservice.haihonghospitalmanagement.com/uploads/photos/',
   cameraOptions: {
