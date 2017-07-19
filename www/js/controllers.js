@@ -4085,7 +4085,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                             }, function (err) {
                                 console.log(err)
                             })
-                    }, 5000);
+                    }, 1500);
                 }
             });
             socket.on('messageRes', function (data) {
