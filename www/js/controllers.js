@@ -2949,6 +2949,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     $scope.Refresh = function()
     {
         GetTasks();
+        $scope.$broadcast('scroll.refreshComplete');
     }
 
   //跳转至任务设置页面
