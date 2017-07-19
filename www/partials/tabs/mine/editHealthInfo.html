@@ -25,12 +25,12 @@
 
     <label ng-if="!canEdit" class="item item-input blue-round-input">
         <span class="input-label"><i class="icon ion-asterisk c-red" ></i>时间日期</span>
-        <input  style="text-align: right;" class="hasTick" ng-disabled="!canEdit" ng-model="health.date" dateformat type="text"  readonly="readonly" >
+        <input  style="text-align: right;" class="hasTick" ng-disabled="!canEdit" ng-model="health.date" dateformat type="text" readonly="readonly">
     </label>
 
     <ionic-datepicker ng-if="canEdit" input-obj="datepickerObject4" class="item item-input blue-round-input">
         <span class="input-label"><i class="icon ion-asterisk c-red" ></i>时间日期</span>
-        <input  style="text-align: right;" ng-model="health.date" class="hasTick" name="healthDate" required dateformat type="text"  readonly="readonly" >
+        <input  style="text-align: right;" ng-model="health.date" class="hasTick" name="healthDate" required dateformat type="text" readonly="readonly">
         <span class="tick">
               <i style="color:#6ac4f8;" ng-if="HealthForm.healthDate.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
                <i style="color:#FB6753;" ng-if="HealthForm.healthDate.$invalid" class="icon ion-alert-circled placeholder-icon"></i>
