@@ -493,6 +493,17 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                             $state.go('agreement',{last:'register'});
                         }
                         else if ($stateParams.phonevalidType == 'wechat'){
+                          if (!(Storage.get('openid'))) {
+                            $ionicPopup.show({
+                              title: '退出账号时系统记录被清除，请返回公众号重新进入肾事管家',
+                              buttons: [
+                                {
+                                  text: '確定',
+                                  type: 'button-positive'
+                                }
+                              ]
+                            })
+                          }
                             if (isregisted&&Storage.get('openid'))
                             {
                               /**
