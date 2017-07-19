@@ -493,7 +493,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                             $state.go('agreement',{last:'register'});
                         }
                         else if ($stateParams.phonevalidType == 'wechat'){
-                            if (isregisted == true)
+                            if (isregisted&&Storage.get('openid'))
                             {
                               /**
                                * [将unionid于手机号绑定]
