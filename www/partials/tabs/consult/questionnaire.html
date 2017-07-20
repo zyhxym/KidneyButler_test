@@ -89,7 +89,7 @@
 
                 <ionic-datepicker  input-obj="datepickerObject2"  class="item item-input" ng-if="showSurgicalTime">
                     <span class="input-label" style="margin-left:13px ">{{timename}}</span>
-                    <input  ng-model="BasicInfo.operationTime" class="hasTick" dateformat  type="text">
+                    <input  ng-model="BasicInfo.operationTime" class="hasTick" dateformat  type="text" readonly="readonly">
                     <span class="tick">
                         <i style="color:#6ac4f8;"  class="icon ion-checkmark-circled placeholder-icon"></i>
                     </span>
@@ -109,7 +109,7 @@
 
                 <ionic-datepicker  input-obj="datepickerObject3" class="item item-input">
                     <i class="icon ion-asterisk" style="color:red;font-size:6px"></i><span class="input-label">出生日期</span>
-                    <input  ng-model="BasicInfo.birthday" dateformat name="UserBirthday" class="hasTick" required type="text">
+                    <input  ng-model="BasicInfo.birthday" dateformat name="UserBirthday" class="hasTick" required type="text" readonly="readonly">
                     <span class="tick">
                         <i style="color:#6ac4f8;" ng-if="questionForm.UserBirthday.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
                         <i style="color:#FB6753;" ng-if="questionForm.UserBirthday.$invalid" class="icon ion-alert-circled placeholder-icon"></i>
@@ -160,7 +160,7 @@
                 <ionic-datepicker padding="true" input-obj="datepickerObject4" class="item item-input" style="border: 0;border-bottom: 1px solid #ddd;margin: 0">
                     <i class="iconfont icon-shijian" style="font-size: 24px;vertical-align: top;margin-right: 5px"></i>
                     <span class="input-label">慢性肾病首次发病时间</span>
-                    <input  ng-model="Questionare.LastDiseaseTime" dateformat  type="text">
+                    <input  ng-model="Questionare.LastDiseaseTime" dateformat  type="text" readonly="readonly">
                 </ionic-datepicker>
             
     
@@ -173,7 +173,7 @@
 
                 <ionic-datepicker input-obj="datepickerObject1" class="item item-input" style="margin:  0 10px;border-left: 0;border-right: 0;border-top: 0">
                     <span class="input-label" style="margin-left:8px ">诊断日期</span>
-                    <input  ng-model="BasicInfo.lastVisit.time" dateformat type="text">
+                    <input  ng-model="BasicInfo.lastVisit.time" dateformat type="text" readonly="readonly">
                 </ionic-datepicker>
 
                 <label class="item item-input" style="margin-bottom: 0;margin:  0 10px;border-left: 0;border-right: 0;border-top: 0" >
