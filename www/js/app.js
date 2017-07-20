@@ -318,6 +318,46 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
       });
     }, false);
   });
+  
+  // 微信分享
+    var config = ''
+    var path = $location.absUrl().split('#')[0]
+    wechat.settingConfig({ url: path }).then(function (data) {
+      // alert(data.results.timestamp)
+      config = data.results
+      config.jsApiList = [
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo',
+        'onMenuShareQZone',
+        'setBounceBackground'
+      ]
+      wx.config({
+        debug: true,
+        appId: config.appId,
+        timestamp: config.timestamp,
+        nonceStr: config.nonceStr,
+        signature: config.signature,
+        jsApiList: config.jsApiList
+      });
+      wx.ready(function () {
+        wx.onMenuShareAppMessage({
+          title: '肾事管家',
+          desc: '让每一位慢性肾病患者得到有效管理提高预期寿命',
+          link: 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ionicframework.kidneybutler', // 这里替换成下载地址，如果是要分享下载链接的话
+          imgUrl: 'https://mmbiz.qpic.cn/mmemoticon/ajNVdqHZLLA16apETUPXh9Q5GLpSic7lGuiaic0jqMt4UY8P4KHSBpEWgM7uMlbxxnVR7596b3NPjUfwg7cFbfCtA/0'
+        });
+      });
+      wx.error(function (res) {
+        alert(JSON.stringify(res));
+      });
+    }, function (err) {
+      console.log(err);
+    })
+
+  
+  
 })
 
 // --------路由, url模式设置----------------
