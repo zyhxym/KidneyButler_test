@@ -72,12 +72,12 @@
 
             <label   class="item item-input" ng-if="showSurgicalTime&&!canEdit">
                 <div class="input-label" style="margin-left:13px ">{{timename}}</div>
-                <input ng-disabled="!canEdit" class="hasTick" ng-model="User.operationTime" dateformat type="text">
+                <input ng-disabled="!canEdit" class="hasTick" ng-model="User.operationTime" dateformat type="text" readonly="readonly">
             </label>
 
             <ionic-datepicker  input-obj="datepickerObject2"  class="item item-input" ng-if="showSurgicalTime && canEdit">
                 <span class="input-label" style="margin-left:13px ">{{timename}}</span>
-                <input  ng-model="User.operationTime" class="hasTick" dateformat  type="text">
+                <input  ng-model="User.operationTime" class="hasTick" dateformat  type="text" readonly="readonly">
                 <span class="tick" ng-if="canEdit">
                     <i style="color:#6ac4f8;"  class="icon ion-checkmark-circled placeholder-icon"></i>
                 </span>
@@ -95,12 +95,12 @@
 
             <label ng-if ="!canEdit" class="item item-input">
                 <i class="icon ion-asterisk" style="color:red;font-size:8px"></i><span class="input-label">出生日期</span>
-                <input  ng-disabled="!canEdit" class="hasTick" ng-model="User.birthday" dateformat type="text">
+                <input  ng-disabled="!canEdit" class="hasTick" ng-model="User.birthday" dateformat type="text" readonly="readonly">
             </label>
 
             <ionic-datepicker  ng-if="canEdit" input-obj="datepickerObject3" class="item item-input">
                 <i class="icon ion-asterisk" style="color:red;font-size:6px"></i><span class="input-label">出生日期</span>
-                <input  ng-model="User.birthday" dateformat name="UserBirthday" class="hasTick" required type="text">
+                <input  ng-model="User.birthday" dateformat name="UserBirthday" class="hasTick" required type="text" readonly="readonly">
                 <span class="tick" ng-if="canEdit">
                     <i style="color:#6ac4f8;" ng-if="userForm.UserBirthday.$valid" class="icon ion-checkmark-circled placeholder-icon"></i>
                     <i style="color:#FB6753;" ng-if="userForm.UserBirthday.$invalid" class="icon ion-alert-circled placeholder-icon"></i>
@@ -148,13 +148,13 @@
 
             <label ng-if="!canEdit" class="item item-input">
                 <span class="input-label" style="margin-left:13px ">诊断日期</span>
-                <input  ng-disabled="!canEdit" class="hasTick" ng-model="User.lastVisit.time" dateformat type="text">
+                <input  ng-disabled="!canEdit" class="hasTick" ng-model="User.lastVisit.time" dateformat type="text" readonly="readonly">
 
             </label>
 
             <ionic-datepicker ng-if="canEdit" input-obj="datepickerObject1" class="item item-input">
                 <span class="input-label" style="margin-left:13px ">诊断日期</span>
-                <input  ng-model="User.lastVisit.time" class="hasTick" dateformat type="text">
+                <input  ng-model="User.lastVisit.time" class="hasTick" dateformat type="text" readonly="readonly">
                 <span class="tick" ng-if="canEdit">
                     <i style="color:#6ac4f8;"  class="icon ion-checkmark-circled placeholder-icon"></i>
                 </span>

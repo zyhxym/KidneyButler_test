@@ -493,53 +493,67 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                             $state.go('agreement',{last:'register'});
                         }
                         else if ($stateParams.phonevalidType == 'wechat'){
-                            if (isregisted == true)
+                            if (isregisted)
                             {
-                              /**
-                               * [将unionid于手机号绑定]
-                               * @Author   TongDanyang
-                               * @DateTime 2017-07-06
-                               * @param    {[string]}    phoneNo [手机号]
-                               * @param    {[string]}    openId [微信返回的unionid]
-                               * @return   {[object]}   data.results   [反馈是否绑定成功]
-                               */
-                              User.setOpenId({phoneNo:Verify.Phone,openId:Storage.get('openid')}).then(function(data){
-                                  if(data.results == "success!")
-                                  {
-                                    /**
-                                     * [写入用户对应肾病守护者联盟的openid]
-                                     * @Author   TongDanyang
-                                     * @DateTime 2017-07-05
-                                     * @param    {[interger]}   type [2时是微信病人端]
-                                     * @param    {[string]}     userId [description]
-                                     * @param    {[string]}     openId [微信返回的openid]
-                                     * @return   {[object]}             [description]
-                                     */
-                                    User.setMessageOpenId({type:2,userId:tempuserId,openId:Storage.get('messageopenid')}).then(function(res){
-                                        console.log("setopenid");
-                                        $ionicPopup.show({   
-                                           title: '微信账号绑定手机账号成功，是否重置密码？',
-                                           buttons: [
-                                             { 
-                                                  text: '取消',
-                                                  type: 'button'
-                                                },
-                                             {
-                                                  text: '確定',
-                                                  type: 'button-positive',
-                                                  onTap: function(e) {
-                                                      $state.go('setpassword',{phonevalidType:"reset"})
-                                                  }
-                                             },
-                                            ]
-                                        })
-                                    },function(err){
-                                        console.log("连接超时！");
-                                    })
-                                  }
-                              },function(){
-                                  $scope.logStatus = "连接超时！";
-                              })
+                              if (!(Storage.get('openid'))) {
+                                $ionicPopup.show({
+                                  title: '退出账号时系统记录被清除，请返回公众号重新进入肾事管家',
+                                  buttons: [
+                                    {
+                                      text: '確定',
+                                      type: 'button-positive'
+                                    }
+                                  ]
+                                })
+                              }
+                              else{
+
+                                /**
+                                 * [将unionid于手机号绑定]
+                                 * @Author   TongDanyang
+                                 * @DateTime 2017-07-06
+                                 * @param    {[string]}    phoneNo [手机号]
+                                 * @param    {[string]}    openId [微信返回的unionid]
+                                 * @return   {[object]}   data.results   [反馈是否绑定成功]
+                                 */
+                                User.setOpenId({phoneNo:Verify.Phone,openId:Storage.get('openid')}).then(function(data){
+                                    if(data.results == "success!")
+                                    {
+                                      /**
+                                       * [写入用户对应肾病守护者联盟的openid]
+                                       * @Author   TongDanyang
+                                       * @DateTime 2017-07-05
+                                       * @param    {[interger]}   type [2时是微信病人端]
+                                       * @param    {[string]}     userId [description]
+                                       * @param    {[string]}     openId [微信返回的openid]
+                                       * @return   {[object]}             [description]
+                                       */
+                                      User.setMessageOpenId({type:2,userId:tempuserId,openId:Storage.get('messageopenid')}).then(function(res){
+                                          console.log("setopenid");
+                                          $ionicPopup.show({   
+                                             title: '微信账号绑定手机账号成功，是否重置密码？',
+                                             buttons: [
+                                               { 
+                                                    text: '取消',
+                                                    type: 'button'
+                                                  },
+                                               {
+                                                    text: '確定',
+                                                    type: 'button-positive',
+                                                    onTap: function(e) {
+                                                        $state.go('setpassword',{phonevalidType:"reset"})
+                                                    }
+                                               },
+                                              ]
+                                          })
+                                      },function(err){
+                                          console.log("连接超时！");
+                                      })
+                                    }
+                                },function(){
+                                    $scope.logStatus = "连接超时！";
+                                })
+                              }
                             }
                             else
                             {
@@ -2948,7 +2962,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
   //页面刷新
     $scope.Refresh = function()
     {
-        $window.location.reload();
+        GetTasks();
+        $scope.$broadcast('scroll.refreshComplete');
     }
 
   //跳转至任务设置页面
@@ -4084,7 +4099,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                             }, function (err) {
                                 console.log(err)
                             })
-                    }, 5000);
+                    }, 1500);
                 }
             });
             socket.on('messageRes', function (data) {
@@ -6233,7 +6248,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                               fromUser:{
                                   avatarPath:CONFIG.mediaUrl+'uploads/photos/resized'+Storage.get('UID')+'_myAvatar.jpg'
                               },
-                              targetID:id,
+                              targetID:DoctorId,
                               targetName:'',
                               targetType:'single',
                               status:'send_going',
@@ -6244,12 +6259,12 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                               }
                           }
                           socket.emit('newUser',{user_name:Storage.get('UID'),user_id:Storage.get('UID'),client:'wechatpatient'});
-                          socket.emit('message',{msg:msgJson,to:id,role:'patient'});
+                          socket.emit('message',{msg:msgJson,to:DoctorId,role:'patient'});
                           // socket.on('messageRes',function(data){
                             // socket.off('messageRes');
                             // socket.emit('disconnect');
                             setTimeout(function(){
-                                $state.go("tab.consult-chat",{chatId:id,type:3,status:1}); 
+                                $state.go("tab.consult-chat",{chatId:DoctorId,type:3,status:1}); 
                             },500);
                           // })
                         })
