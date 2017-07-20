@@ -319,7 +319,7 @@ angular.module('kidney', ['ionic', 'kidney.services', 'kidney.controllers', 'kid
         'setBounceBackground'
       ]
       wx.config({
-        debug: false,
+        debug: true,
         appId: config.appId,
         timestamp: config.timestamp,
         nonceStr: config.nonceStr,
@@ -338,10 +338,11 @@ angular.module('kidney', ['ionic', 'kidney.services', 'kidney.controllers', 'kid
         alert(JSON.stringify(res));
       });
     }, function (err) {
-      console.log(err);
+      alert(JSON.stringify(res));
     })
 
-    
+
+
   })
 
   // --------路由, url模式设置----------------
