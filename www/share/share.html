@@ -41,12 +41,6 @@
                 }
             };
 
-            if (is_weixin()) {
-                $('.tips').show();
-            } else {
-                $('.tips').hide();
-            }
-
 
             window.alert = function (name) {
                 var iframe = document.createElement("IFRAME");
@@ -62,6 +56,7 @@
 
             $('.tips').on('touchstart', function (ev) {
                 ev.preventDefault();
+                $(this).hide();
             });
 
             console.log(output)
@@ -82,6 +77,10 @@
 
 
             $('.btn').on('touchstart', function () {
+                if (is_weixin()) {
+                    $('.tips').show();
+                    return;
+                }
                 if (output.os.name === 'Android') {
                     window.location.href = link();
                     return;
