@@ -25,7 +25,7 @@
         </div>
         <div class="bg"></div>
     </div>
-
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
     <script src="./js/zepto.min.js"></script>
     <script src="./js/useragent-base.js"></script>
     <script src="./js/ua-device.js"></script>
@@ -40,6 +40,44 @@
                     return false;
                 }
             };
+
+            var option = {
+                title: '肾事管家',
+                desc: '让每一位慢性肾病患者得到有效管理提高预期寿命',
+                link: "http://testpatient.haihonghospitalmanagement.com/share/share.html",
+                imgUrl: 'http://testpatient.haihonghospitalmanagement.com/share/logo.png'
+            };
+            $.get('http://121.43.107.106:4050/api/v1/wechat/settingConfig?url=121.43.107.106:4050&role=test', function (res) {
+                wx.config({
+                    beta: true,
+                    debug: false,
+                    appId: res.results.appId,
+                    timestamp: res.results.timestamp,
+                    nonceStr: res.results.nonceStr,
+                    signature: res.results.signature,
+                    jsApiList: [
+                        'onMenuShareTimeline',
+                        'onMenuShareAppMessage',
+                        'onMenuShareQQ',
+                        'onMenuShareWeibo',
+                        'onMenuShareQZone',
+                        'setBounceBackground'
+                    ]
+                });
+                wx.ready(function () {
+                    wx.onMenuShareTimeline(option);
+                    wx.onMenuShareQQ(option);
+                    wx.onMenuShareAppMessage({
+                        title: '肾事管家',
+                        desc: '让每一位慢性肾病患者得到有效管理提高预期寿命',
+                        link: 'http://testpatient.haihonghospitalmanagement.com/share/share.html', // 这里替换成下载地址，如果是要分享下载链接的话
+                        imgUrl: 'http://testpatient.haihonghospitalmanagement.com/share/img/logo.png'
+                    });
+                });
+                wx.error(function (res) {
+                    alert('分享失败')
+                });
+            });
 
 
             window.alert = function (name) {
