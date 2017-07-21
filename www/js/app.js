@@ -83,8 +83,8 @@ angular.module('kidney', ['ionic', 'kidney.services', 'kidney.controllers', 'kid
                     Storage.set('USERNAME', data.phoneNo);
                   }
                 }, function (err) {
-                    console.log(err)
-                  })
+                  console.log(err)
+                })
 
                 var results = [];
                 var errs = [];
@@ -306,7 +306,13 @@ angular.module('kidney', ['ionic', 'kidney.services', 'kidney.controllers', 'kid
 
     // 微信分享
     var config = ''
-    var path = $location.absUrl().split('#')[0]
+    var path = $location.absUrl().split('#')[0];
+    var option = {
+      title: '肾事管家',
+      desc: '让每一位慢性肾病患者得到有效管理提高预期寿命',
+      link: "http://testpatient.haihonghospitalmanagement.com/share/share.html",
+      imgUrl: 'http://testpatient.haihonghospitalmanagement.com/share/logo.png'
+    };
     wechat.settingConfig({ url: path }).then(function (data) {
       // alert(data.results.timestamp)
       config = data.results
@@ -319,7 +325,7 @@ angular.module('kidney', ['ionic', 'kidney.services', 'kidney.controllers', 'kid
         'setBounceBackground'
       ]
       wx.config({
-        debug: true,
+        debug: false,
         appId: config.appId,
         timestamp: config.timestamp,
         nonceStr: config.nonceStr,
@@ -327,11 +333,13 @@ angular.module('kidney', ['ionic', 'kidney.services', 'kidney.controllers', 'kid
         jsApiList: config.jsApiList
       });
       wx.ready(function () {
+        wx.onMenuShareTimeline(option);
+        wx.onMenuShareQQ(option);
         wx.onMenuShareAppMessage({
           title: '肾事管家',
           desc: '让每一位慢性肾病患者得到有效管理提高预期寿命',
-          link: 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ionicframework.kidneybutler', // 这里替换成下载地址，如果是要分享下载链接的话
-          imgUrl: 'https://mmbiz.qpic.cn/mmemoticon/ajNVdqHZLLA16apETUPXh9Q5GLpSic7lGuiaic0jqMt4UY8P4KHSBpEWgM7uMlbxxnVR7596b3NPjUfwg7cFbfCtA/0'
+          link: 'http://testpatient.haihonghospitalmanagement.com/share/share.html', // 这里替换成下载地址，如果是要分享下载链接的话
+          imgUrl: 'http://testpatient.haihonghospitalmanagement.com/share/logo.png'
         });
       });
       wx.error(function (res) {
