@@ -49,6 +49,8 @@
 
             // 获取签名的参数
             var path = GetQueryString('path');
+            var otherInfo = window.location.href.split('path='+path)[1];
+            fullPath = path + otherInfo;
 
             var option = {
                 title: '肾事管家',
@@ -56,7 +58,7 @@
                 link: "http://testpatient.haihonghospitalmanagement.com/share/share.html",
                 imgUrl: 'http://testpatient.haihonghospitalmanagement.com/share/logo.png'
             };
-            $.get('http://121.43.107.106:4050/api/v1/wechat/settingConfig?' + encodeURIComponent(path) + '&role=patient', function (res) {
+            $.get('http://121.43.107.106:4050/api/v1/wechat/settingConfig?' + encodeURIComponent(fullPath.slpit('#')[0]) + '&role=patient', function (res) {
                 wx.config({
                     beta: true,
                     debug: false,
