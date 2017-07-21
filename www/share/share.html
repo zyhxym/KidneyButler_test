@@ -58,7 +58,7 @@
                 link: "http://testpatient.haihonghospitalmanagement.com/share/share.html",
                 imgUrl: 'http://testpatient.haihonghospitalmanagement.com/share/logo.png'
             };
-            $.get('http://121.43.107.106:4050/api/v1/wechat/settingConfig?' + encodeURIComponent(fullPath.slpit('#')[0]) + '&role=patient', function (res) {
+            $.get('http://121.43.107.106:4050/api/v1/wechat/settingConfig?' + encodeURIComponent(fullPath) + '&role=patient', function (res) {
                 wx.config({
                     beta: true,
                     debug: false,
