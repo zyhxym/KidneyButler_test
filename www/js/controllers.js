@@ -1299,6 +1299,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
      */
     $scope.infoSetup = function(){
         var back = $stateParams.last;
+        var patientId = Storage.get('UID');
+        $scope.User.userId = patientId;
         if (back == 'signin'||back == 'implement'){
           // alert('register')
             $scope.User.gender = $scope.User.gender.Type;
@@ -1312,8 +1314,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
             }
             $scope.User.class = $scope.User.class.type;
 
-            var patientId = Storage.get('UID');
-            $scope.User.userId = patientId;
+            
             /**
              * [调用后端方法修改病人的个人信息]
              * @Author   PXY
