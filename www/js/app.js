@@ -338,7 +338,7 @@ angular.module('kidney', ['ionic', 'kidney.services', 'kidney.controllers', 'kid
         wx.onMenuShareAppMessage({
           title: '肾事管家',
           desc: '让每一位慢性肾病患者得到有效管理提高预期寿命',
-          link: 'http://testpatient.haihonghospitalmanagement.com/share/share.html', // 这里替换成下载地址，如果是要分享下载链接的话
+          link: 'http://testpatient.haihonghospitalmanagement.com/share/share.html?path=' + path, // 这里替换成下载地址，如果是要分享下载链接的话
           imgUrl: 'http://testpatient.haihonghospitalmanagement.com/share/img/logo.png'
         });
       });
