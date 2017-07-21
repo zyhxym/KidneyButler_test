@@ -306,7 +306,7 @@ angular.module('kidney', ['ionic', 'kidney.services', 'kidney.controllers', 'kid
 
     // 微信分享
     var config = ''
-    var path = $location.absUrl().split('#')[0];
+    var path = encodeURIComponent($location.absUrl().split('#')[0]);
     var option = {
       title: '肾事管家',
       desc: '让每一位慢性肾病患者得到有效管理提高预期寿命',
