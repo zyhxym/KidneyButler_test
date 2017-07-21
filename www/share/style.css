@@ -59,3 +59,20 @@ p.top{
     background-size: cover;
     bottom: 0;
 }
+.tips{
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 99;
+}
+.tips img{
+   width: 50%;
+   position: absolute;
+   top: 30px;
+   right: 0;
+   left: 0;
+   margin: auto;
+}
