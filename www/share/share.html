@@ -10,6 +10,9 @@
 </head>
 
 <body>
+    <div class="tips">
+        <img src="./img/tips.png" alt="">
+    </div>
     <div class="main">
         <div class="logo">
             <img src="./img/logo@2x.png" alt="">
@@ -28,6 +31,23 @@
     <script src="./js/ua-device.js"></script>
     <script>
         $(function () {
+            //判断是否为微信浏览器
+            function is_weixin() {
+                var ua = navigator.userAgent.toLowerCase();
+                if (ua.match(/MicroMessenger/i) == "micromessenger") {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
+            if (is_weixin()) {
+                $('.tips').show();
+            } else {
+                $('.tips').hide();
+            }
+
+
             window.alert = function (name) {
                 var iframe = document.createElement("IFRAME");
                 iframe.style.display = "none";
@@ -40,15 +60,39 @@
             var input = window.navigator.userAgent,
                 output = uaDevice(input);
 
+            $('.tips').on('touchstart', function (ev) {
+                ev.preventDefault();
+            });
+
+            console.log(output)
+
+            // todo 根据不同的类型手机，跳转到不同的应用市场,目前就分安卓和ios
+            function link() {
+                var linkUrl = '';
+                if (output.os.name === 'Android') {
+                    linkUrl = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ionicframework.kidneybutler';
+                    // if (output.device.manufacturer === 'Xiaomi') {
+                    //     linkUrl = 'http://app.mi.com/details?id=com.ionicframework.kidney879540';
+                    // } else {
+                    //     linkUrl = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ionicframework.kidneybutler';
+                    // }
+                }
+                return linkUrl;
+            }
+
+
             $('.btn').on('touchstart', function () {
-                // todo 根据不同的类型手机，跳转到不同的应用市场,目前就分安卓和ios
+                if (output.os.name === 'Android') {
+                    window.location.href = link();
+                    return;
+                }
                 if (output.device.manufacturer === 'Apple') {
                     alert('敬请期待');
                     return;
-                } else {
-                    window.location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.ionicframework.kidneybutler';
                 }
             });
+
+
         });
     </script>
 </body>
