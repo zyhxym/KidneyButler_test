@@ -7,7 +7,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
   // alert($location.absUrl())
   var temp = $location.absUrl().split('=')
   // alert(temp)
-  // var code = temp[1].split('#')[0]
+  var code = temp[1].split('#')[0]
   // alert(code)
   // if (code != null )
   // {
