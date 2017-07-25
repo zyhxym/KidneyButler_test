@@ -750,100 +750,80 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
 
 //个人信息--PXY
-.controller('userdetailCtrl',['$http','$stateParams','$scope','$state','$ionicHistory','$timeout' ,'Storage', '$ionicPopup','$ionicLoading','$ionicPopover','Dict','Patient', 'VitalSign','$filter','Task','User','jmapi',function($http,$stateParams,$scope,$state,$ionicHistory,$timeout,Storage, $ionicPopup,$ionicLoading, $ionicPopover,Dict,Patient, VitalSign,$filter,Task,User,jmapi){
-    $scope.User = 
-    {
-      "userId": null,
-      "name": null,
-      "gender": null,
-      "bloodType": null,
-      "hypertension": null,
-      "class": null,
-      "class_info": null,
-      "height": null,
-      "weight": null,
-      "birthday": null,
-      "IDNo": null,
-      "allergic":null,
-      "operationTime":null,
-      "lastVisit":{"time":null,
-      "hospital":null,
-      "diagnosis":null}
-      
-    };
-    /**
-     * [进入页面之前完成个人信息的初始化,]
-     * @Author   PXY
-     * @DateTime 2017-07-05
-     */
-    $scope.$on('$ionicView.enter', function() {
-        var back = $stateParams.last;
-        // console.log(back);
-        if(back=='mine'||back=='tasklist'){
-            $scope.CanBack = true;
-        }
-        else{
-            $scope.CanBack = false;}
-
-        $scope.showProgress = false;
-        $scope.showSurgicalTime = false;
-        $scope.Diseases = "";
-        $scope.DiseaseDetails = "";
-        $scope.timename = "";
-        if(back == 'register'||back=='implement'){
-            $scope.canEdit = true;
-            Dict.getDiseaseType({category:'patient_class'}).then(function(data){
-                $scope.Diseases = data.results[0].content
-                $scope.Diseases.push($scope.Diseases[0])
-                $scope.Diseases.shift()
-                },function(err){
-                console.log(err);
-              });
-        }else if(back == 'mine'){
-            $scope.canEdit = false;
-        // patientId = Storage.get('UID');
-        // var patientId = "U201702080016"
-            initialPatient();
-        }else if(back == 'tasklist'){
-            $scope.canEdit = true;
-            initialPatient();
-        }
-
-    });
-
-  /**
-   * [点击返回，如果上一个页面是“我的”并且当前是编辑状态，则变为不可编辑状态，否则返回上一页]
-   * @Author   PXY
-   * @DateTime 2017-07-05
-   */
-  $scope.Goback = function(){
-        if($stateParams.last == 'mine' && $scope.canEdit==true){
-            $scope.canEdit = false;
-        }else{
-            $ionicHistory.goBack();
-        }
-
+.controller('userdetailCtrl', ['$http', '$stateParams', '$scope', '$state', '$ionicHistory', '$timeout', 'Storage', '$ionicPopup', '$ionicLoading', '$ionicPopover', 'Dict', 'Patient', 'VitalSign', '$filter', 'Task', 'User', 'mySocket', function ($http, $stateParams, $scope, $state, $ionicHistory, $timeout, Storage, $ionicPopup, $ionicLoading, $ionicPopover, Dict, Patient, VitalSign, $filter, Task, User, mySocket) {
+  // 页面绑定数据初始化
+  $scope.User =
+  {
+    userId: null,
+    name: null,
+    gender: null,
+    bloodType: null,
+    hypertension: null,
+    class: null,
+    class_info: null,
+    height: null,
+    weight: null,
+    birthday: null,
+    IDNo: null,
+    allergic: null,
+    operationTime: null,
+    lastVisit: {
+      time: null,
+      hospital: null,
+      diagnosis: null
     }
+
+  }
+  /**
+  * [进入页面之前完成个人信息的初始化,]
+  * @Author   PXY
+  * @DateTime 2017-07-05
+  */
+  $scope.$on('$ionicView.beforeEnter', function () {
+    // showProgress为真显示疾病进程（自由文本）
+    $scope.showProgress = false
+    // showSurgicalTime为真显示手术时间（时间控件）
+    $scope.showSurgicalTime = false
+    // Diseases为疾病类型
+    $scope.Diseases = ''
+    // DiseaseDetails为疾病进程
+    $scope.DiseaseDetails = ''
+    // timename为手术时间（时间控件）的名称
+    $scope.timename = ''
+    initialPatient()
+  })
+  /**
+  * [点击返回，如果上一个页面是“我的”并且当前是编辑状态，则变为不可编辑状态，否则返回上一页]
+  * @Author   PXY
+  * @DateTime 2017-07-05
+  */
+  $scope.Goback = function () {
+    if ($stateParams.last == 'mine' && $scope.canEdit == true) {
+      $scope.canEdit = false
+    } else {
+      $ionicHistory.goBack()
+    }
+  }
 
   $scope.Genders =
   [
-    {Name:"男",Type:1},
-    {Name:"女",Type:2}
+      {Name: '男', Type: 1},
+      {Name: '女', Type: 2}
   ]
 
   $scope.BloodTypes =
   [
-    {Name:"A型",Type:1},
-    {Name:"B型",Type:2},
-    {Name:"AB型",Type:3},
-    {Name:"O型",Type:4},
-    {Name:"不确定",Type:5}
+      {Name: 'A型', Type: 1},
+      {Name: 'B型', Type: 2},
+      {Name: 'AB型', Type: 3},
+      {Name: 'O型', Type: 4},
+      {Name: '不确定', Type: 5}
   ]
 
   $scope.Hypers =
   [
-    {Name:"是",Type:1},
-    {Name:"否",Type:2}
+      {Name: '是', Type: 1},
+      {Name: '否', Type: 2}
   ]
 
   /**
@@ -854,11 +834,11 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
    * @param    array:Array [字典，数组存了对象，对象中包含名称和对应的值]
    * @return   object/ '未填写'        [根据字典编码在字典中搜索到的对象]
    */
-  var searchObj = function(code,array){
-      for (var i = 0; i < array.length; i++) {
-        if(array[i].Type == code || array[i].type == code || array[i].code == code) return array[i];
-      };
-      return "未填写";
+  var searchObj = function (code, array) {
+    for (var i = 0; i < array.length; i++) {
+      if (array[i].Type == code || array[i].type == code || array[i].code == code) return array[i]
+    };
+    return '未填写'
   }
   /**
    * [根据选择的疾病类型判断显示疾病进程还是手术时间控件（以及时间控件的名称）]
@@ -866,603 +846,451 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
    * @DateTime 2017-07-05
    * @param    Disease:Object {typeName:String,type:String} [疾病类型]
    */
-  $scope.getDiseaseDetail = function(Disease) {
-    if (Disease.typeName == "肾移植")
-    {
+  $scope.getDiseaseDetail = function (Disease) {
+    if (Disease.typeName == '肾移植') {
       $scope.showProgress = false
       $scope.showSurgicalTime = true
-      $scope.timename = "手术日期"
-    }
-    else if (Disease.typeName == "血透")
-    {
+      $scope.timename = '手术日期'
+    } else if (Disease.typeName == '血透') {
       $scope.showProgress = false
       $scope.showSurgicalTime = true
-      $scope.timename = "插管日期"
-    }
-    else if (Disease.typeName == "腹透")
-    {
+      $scope.timename = '插管日期'
+    } else if (Disease.typeName == '腹透') {
       $scope.showProgress = false
       $scope.showSurgicalTime = true
-      $scope.timename = "开始日期"
-    }
-    else if (Disease.typeName == "ckd5期未透析")
-    {
+      $scope.timename = '开始日期'
+    } else if (Disease.typeName == 'ckd5期未透析') {
       $scope.showProgress = false
       $scope.showSurgicalTime = false
-    }
-    else
-    {
+    } else {
       $scope.showProgress = true
       $scope.showSurgicalTime = false
       $scope.DiseaseDetails = Disease.details
     }
   }
 
-
   /**
    * [点击编辑按钮，页面变为可编辑状态]
    * @Author   PXY
    * @DateTime 2017-07-05
    */
-  $scope.edit = function(){
-        $scope.canEdit = true;
+  $scope.edit = function () {
+    $scope.canEdit = true
   }
-
   /**
    * [从数据库读取个人信息并完成初始化]
    * @Author   PXY
    * @DateTime 2017-07-05
    */
-  var initialPatient = function(){
+  var initialPatient = function () {
     /**
      * [从数据库读取个人信息绑定数据,如果没填个人信息且上一页面是“我的”，页面不可编辑]
      * @Author   PXY
      * @DateTime 2017-07-05
      * @param    {userId:String}
      */
-        Patient.getPatientDetail({userId: Storage.get('UID')}).then(function(data){
+    Patient.getPatientDetail({userId: Storage.get('UID')}).then(function (data) {
+      if (data.results && data.results != '没有填写个人信息') {
+        if ($stateParams.last == 'mine') {
+          $scope.canEdit = false
+        }
+        $scope.User = data.results
+        // 避免最近就诊信息没填，上一步赋值造成lastVist未定义
+        if (!data.results.lastVisit) {
+          $scope.User.lastVisit = {time: null, hospital: null, diagnosis: null}
+        }
 
-                if (data.results && data.results != "没有填写个人信息"){
-                    if($stateParams.last =='mine'){
-                        $scope.canEdit = false;
-                    }
-                    console.log('执行查询');
-                    console.log(data.results);
-                    $scope.User =data.results;
-
-                    // $scope.User.userId = data.results.userId
-                    // $scope.User.name = data.results.name
-                    // $scope.User.gender = data.results.gender
-                    // $scope.User.bloodType = data.results.bloodType
-                    // $scope.User.hypertension = data.results.hypertension
-                    // $scope.User.class = data.results.class
-                    // $scope.User.class_info = data.results.class_info
-                    // $scope.User.height = data.results.height
-                    // $scope.User.birthday = data.results.birthday
-                    // $scope.User.IDNo = data.results.IDNo
-                    // $scope.User.allergic = data.results.allergic||"无"
-
-                    // $scope.User.operationTime = data.results.operationTime
-                    // console.log($scope.User.lastVisit.time);
-                    // $scope.User.lastVisit= data.results.lastVisit
-                    // $scope.User.lastVisit.hospital = data.results.lastVisit.hospital
-                    // $scope.User.lastVisit.diagnosis = data.results.lastVisit.diagnosis
-                }
-                if ($scope.User.gender != null){
-                    $scope.User.gender = searchObj($scope.User.gender,$scope.Genders)
-                }
-                if ($scope.User.bloodType != null){
-                    $scope.User.bloodType = searchObj($scope.User.bloodType,$scope.BloodTypes)
-                }
-                if ($scope.User.hypertension != null){
-                    $scope.User.hypertension = searchObj($scope.User.hypertension,$scope.Hypers)
-                }
-                // if ($scope.User.birthday != null){
-                //     $scope.User.birthday = $scope.User.birthday.substr(0,10)
-                // }
-                // if ($scope.User.operationTime != null){
-                //     $scope.User.operationTime = $scope.User.operationTime.substr(0,10)
-                // }
-                // if ($scope.User.lastVisit.time != null){
-                //     $scope.User.lastVisit.time = $scope.User.lastVisit.time.substr(0,10);
-                // }
-                /**
-                 * [读取最新一条体重信息，后端方法改了（读取个人信息时一并把体重传回）这函数不需要了]
-                 * @Author   PXY
-                 * @DateTime 2017-07-05
-                 * @param    {userId:String,type:String} 注：type写死'Weight'
-                 * @return   data：{results:[{data:[{time:Date,value:Number}],...}]}    [外层数组results以天为单位,里层数组data以次数为单位]
-                 */
-                VitalSign.getVitalSigns({userId:Storage.get('UID'), type: "Weight"}).then(function(data){
-                    if(data.results.length){
-                        var n = data.results.length - 1
-                        var m = data.results[n].data.length - 1
-                        if(data.results[n].data[m]){
-                            $scope.User.weight = data.results[n].data[m] ? data.results[n].data[m].value:"";
-                            // console.log($scope.BasicInfo)
-                        }
-                    }
-                    
-                    
-                },function(err){
-                        console.log(err);
-                });
-                /**
-                 * [从字典表获取疾病类型]
-                 * @Author   PXY
-                 * @DateTime 2017-07-05
-                 * @param    {category：String}  注：疾病类型对应category为'patient_class'
-                 * @return   data:{
-                              "results": [
-                                            {
-                                                "_id": "58dcfa48e06bc54b27bf599c",
-                                                "category": "patient_class",
-                                                "content": [
-                                                    {
-                                                        "details": [
-                                                            {
-                                                                "invalidFlag": 0,
-                                                                "description": "5",
-                                                                "inputCode": "",
-                                                                "name": "疾病活跃期",
-                                                                "code": "stage_5"
-                                                            },
-                                                            {
-                                                                "invalidFlag": 0,
-                                                                "description": "6",
-                                                                "inputCode": "",
-                                                                "name": "稳定期",
-                                                                "code": "stage_6"
-                                                            }
-                                                        ],
-                                                        "typeName": "ckd3-4期",
-                                                        "type": "class_3"
-                                                    },...
-                                                ],
-                                                "contents": []
-                                            }
-                                      ]
-                                }
-                 */
-                Dict.getDiseaseType({category:'patient_class'}).then(function(data){
-                    $scope.Diseases = data.results[0].content
-                    $scope.Diseases.push($scope.Diseases[0])
-                    $scope.Diseases.shift()
-                    if ($scope.User.class != null){
-                        $scope.User.class = searchObj($scope.User.class,$scope.Diseases)
-                        if ($scope.User.class.typeName == "血透"){
-                            $scope.showProgress = false
-                            $scope.showSurgicalTime = true
-                            $scope.timename = "插管日期"
-                        }
-                        else if ($scope.User.class.typeName == "肾移植"){
-                            $scope.showProgress = false
-                            $scope.showSurgicalTime = true
-                            $scope.timename = "手术日期"
-                        }
-                        else if ($scope.User.class.typeName == "腹透"){
-                            $scope.showProgress = false
-                            $scope.showSurgicalTime = true
-                            $scope.timename = "开始日期"
-                        }
-                        else if ($scope.User.class.typeName == "ckd5期未透析"){
-                            $scope.showProgress = false
-                            $scope.showSurgicalTime = false
-                        }
-                        else{
-                            $scope.showProgress = true
-                            $scope.showSurgicalTime = false
-                            $scope.DiseaseDetails = $scope.User.class.details
-                            $scope.User.class_info = searchObj($scope.User.class_info[0],$scope.DiseaseDetails)              
-                        }
-                    }
-                        // console.log($scope.Diseases)
-                },function(err){
-                    console.log(err);
-                });
-                console.log($scope.User)
-            },function(err){
-                console.log(err);
-          });
-    }    
-
-  
-   
- 
-
+        if ($scope.User.gender != null) {
+          $scope.User.gender = searchObj($scope.User.gender, $scope.Genders)
+        }
+        if ($scope.User.bloodType != null) {
+          $scope.User.bloodType = searchObj($scope.User.bloodType, $scope.BloodTypes)
+        }
+        if ($scope.User.hypertension != null) {
+          $scope.User.hypertension = searchObj($scope.User.hypertension, $scope.Hypers)
+        }
+        /**
+         * [读取最新一条体重信息，后端方法改了（读取个人信息时一并把体重传回）这函数不需要了]
+         * @Author   PXY
+         * @DateTime 2017-07-05
+         * @param    {userId:String,type:String} 注：type写死'Weight'
+         * @return   data：{results:[{data:[{time:Date,value:Number}],...}]}    [外层数组results以天为单位,里层数组data以次数为单位]
+         */
+        VitalSign.getVitalSigns({userId: Storage.get('UID'), type: 'Weight'}).then(function (data) {
+          if (data.results.length) {
+            var n = data.results.length - 1
+            var m = data.results[n].data.length - 1
+            $scope.User.weight = data.results[n].data[m] ? data.results[n].data[m].value : ''
+                              // console.log($scope.BasicInfo)
+          }
+        }, function (err) {
+          console.log(err)
+        })
+      } else {
+        $scope.canEdit = true
+      }
+      /**
+       * [从字典表获取疾病类型]
+       * @Author   PXY
+       * @DateTime 2017-07-05
+       * @param    {category：String}  注：疾病类型对应category为'patient_class'
+       * @return   data:{
+                    "results": [
+                                  {
+                                      "_id": "58dcfa48e06bc54b27bf599c",
+                                      "category": "patient_class",
+                                      "content": [
+                                          {
+                                              "details": [
+                                                  {
+                                                      "invalidFlag": 0,
+                                                      "description": "5",
+                                                      "inputCode": "",
+                                                      "name": "疾病活跃期",
+                                                      "code": "stage_5"
+                                                  },
+                                                  {
+                                                      "invalidFlag": 0,
+                                                      "description": "6",
+                                                      "inputCode": "",
+                                                      "name": "稳定期",
+                                                      "code": "stage_6"
+                                                  }
+                                              ],
+                                              "typeName": "ckd3-4期",
+                                              "type": "class_3"
+                                          },...
+                                      ],
+                                      "contents": []
+                                  }
+                            ]
+                      }
+       */
+      Dict.getDiseaseType({category: 'patient_class'}).then(function (data) {
+        // push和shift是为了肾移植排在前面
+        $scope.Diseases = data.results[0].content
+        $scope.Diseases.push($scope.Diseases[0])
+        $scope.Diseases.shift()
+        if ($scope.User.class != null) {
+                          // console.log($scope.User.class);
+                          // console.log($scope.Diseases);
+          $scope.User.class = searchObj($scope.User.class, $scope.Diseases)
+          if ($scope.User.class.typeName == '血透') {
+            $scope.showProgress = false
+            $scope.showSurgicalTime = true
+            $scope.timename = '插管日期'
+          } else if ($scope.User.class.typeName == '肾移植') {
+            $scope.showProgress = false
+            $scope.showSurgicalTime = true
+            $scope.timename = '手术日期'
+          } else if ($scope.User.class.typeName == '腹透') {
+            $scope.showProgress = false
+            $scope.showSurgicalTime = true
+            $scope.timename = '开始日期'
+          } else if ($scope.User.class.typeName == 'ckd5期未透析') {
+            $scope.showProgress = false
+            $scope.showSurgicalTime = false
+          } else {
+            $scope.showProgress = true
+            $scope.showSurgicalTime = false
+            $scope.DiseaseDetails = $scope.User.class.details
+            console.log($scope.User.class)
+            $scope.User.class_info = searchObj($scope.User.class_info[0], $scope.DiseaseDetails)
+          }
+        }
+                          // console.log($scope.Diseases)
+      }, function (err) {
+        console.log(err)
+      })
+            // console.log($scope.User)
+    }, function (err) {
+      console.log(err)
+    })
+  }
+  // 可以考虑封装一下，日期设置太多了
   // --------datepicker设置----------------
-  var  monthList=["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"];
-  var weekDaysList=["日","一","二","三","四","五","六"];
-  
+  var monthList = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+  var weekDaysList = ['日', '一', '二', '三', '四', '五', '六']
+
   // --------诊断日期----------------
   var DiagnosisdatePickerCallback = function (val) {
-    if (typeof(val) === 'undefined') {
-      console.log('No date selected');
+    if (typeof (val) === 'undefined') {
+      console.log('No date selected')
     } else {
-      $scope.datepickerObject1.inputDate=val;
-      var dd=val.getDate();
-      var mm=val.getMonth()+1;
-      var yyyy=val.getFullYear();
-      var d=dd<10?('0'+String(dd)):String(dd);
-      var m=mm<10?('0'+String(mm)):String(mm);
-      //日期的存储格式和显示格式不一致
-      $scope.User.lastVisit.time=yyyy+'-'+m+'-'+d;
+      $scope.datepickerObject1.inputDate = val
+      var dd = val.getDate()
+      var mm = val.getMonth() + 1
+      var yyyy = val.getFullYear()
+      var d = dd < 10 ? ('0' + String(dd)) : String(dd)
+      var m = mm < 10 ? ('0' + String(mm)) : String(mm)
+          // 日期的存储格式和显示格式不一致
+      $scope.User.lastVisit.time = yyyy + '-' + m + '-' + d
     }
-  };
-  
+  }
+
   $scope.datepickerObject1 = {
-    titleLabel: '诊断日期',  //Optional
-    todayLabel: '今天',  //Optional
-    closeLabel: '取消',  //Optional
-    setLabel: '设置',  //Optional
-    setButtonType : 'button-assertive',  //Optional
-    todayButtonType : 'button-assertive',  //Optional
-    closeButtonType : 'button-assertive',  //Optional
-    inputDate: new Date(),    //Optional
-    mondayFirst: false,    //Optional
-    //disabledDates: disabledDates, //Optional
-    weekDaysList: weekDaysList,   //Optional
-    monthList: monthList, //Optional
-    templateType: 'popup', //Optional
-    showTodayButton: 'false', //Optional
-    modalHeaderColor: 'bar-positive', //Optional
-    modalFooterColor: 'bar-positive', //Optional
-    from: new Date(1900, 1, 1),   //Optional
-    to: new Date(),    //Optional
-    callback: function (val) {    //Mandatory
-      DiagnosisdatePickerCallback(val);
+    titleLabel: '诊断日期',  // Optional
+    todayLabel: '今天',  // Optional
+    closeLabel: '取消',  // Optional
+    setLabel: '设置',  // Optional
+    setButtonType: 'button-assertive',  // Optional
+    todayButtonType: 'button-assertive',  // Optional
+    closeButtonType: 'button-assertive',  // Optional
+    inputDate: new Date(),    // Optional
+    mondayFirst: false,    // Optional
+        // disabledDates: disabledDates, //Optional
+    weekDaysList: weekDaysList,   // Optional
+    monthList: monthList, // Optional
+    templateType: 'popup', // Optional
+    showTodayButton: 'false', // Optional
+    modalHeaderColor: 'bar-positive', // Optional
+    modalFooterColor: 'bar-positive', // Optional
+    from: new Date(1900, 1, 1),   // Optional
+    to: new Date(),    // Optional
+    callback: function (val) {    // Mandatory
+      DiagnosisdatePickerCallback(val)
     }
-  };  
+  }
   // --------手术日期----------------
   var OperationdatePickerCallback = function (val) {
-    if (typeof(val) === 'undefined') {
-      console.log('No date selected');
+    if (typeof (val) === 'undefined') {
+      console.log('No date selected')
     } else {
-      $scope.datepickerObject2.inputDate=val;
-      var dd=val.getDate();
-      var mm=val.getMonth()+1;
-      var yyyy=val.getFullYear();
-      var d=dd<10?('0'+String(dd)):String(dd);
-      var m=mm<10?('0'+String(mm)):String(mm);
-      //日期的存储格式和显示格式不一致
-      $scope.User.operationTime=yyyy+'-'+m+'-'+d;
+      $scope.datepickerObject2.inputDate = val
+      var dd = val.getDate()
+      var mm = val.getMonth() + 1
+      var yyyy = val.getFullYear()
+      var d = dd < 10 ? ('0' + String(dd)) : String(dd)
+      var m = mm < 10 ? ('0' + String(mm)) : String(mm)
+      // 日期的存储格式和显示格式不一致
+      $scope.User.operationTime = yyyy + '-' + m + '-' + d
     }
-  };
+  }
   $scope.datepickerObject2 = {
-    titleLabel: '手术日期',  //Optional
-    todayLabel: '今天',  //Optional
-    closeLabel: '取消',  //Optional
-    setLabel: '设置',  //Optional
-    setButtonType : 'button-assertive',  //Optional
-    todayButtonType : 'button-assertive',  //Optional
-    closeButtonType : 'button-assertive',  //Optional
-    mondayFirst: false,    //Optional
-    //disabledDates: disabledDates, //Optional
-    weekDaysList: weekDaysList,   //Optional
-    monthList: monthList, //Optional
-    templateType: 'popup', //Optional
-    showTodayButton: 'false', //Optional
-    modalHeaderColor: 'bar-positive', //Optional
-    modalFooterColor: 'bar-positive', //Optional
-    from: new Date(1900, 1, 1),   //Optional
-    to: new Date(),    //Optional
-    callback: function (val) {    //Mandatory
-      OperationdatePickerCallback(val);
+    titleLabel: '手术日期',  // Optional
+    todayLabel: '今天',  // Optional
+    closeLabel: '取消',  // Optional
+    setLabel: '设置',  // Optional
+    setButtonType: 'button-assertive',  // Optional
+    todayButtonType: 'button-assertive',  // Optional
+    closeButtonType: 'button-assertive',  // Optional
+    mondayFirst: false,    // Optional
+        // disabledDates: disabledDates, //Optional
+    weekDaysList: weekDaysList,   // Optional
+    monthList: monthList, // Optional
+    templateType: 'popup', // Optional
+    showTodayButton: 'false', // Optional
+    modalHeaderColor: 'bar-positive', // Optional
+    modalFooterColor: 'bar-positive', // Optional
+    from: new Date(1900, 1, 1),   // Optional
+    to: new Date(),    // Optional
+    callback: function (val) {    // Mandatory
+      OperationdatePickerCallback(val)
     }
-  };  
+  }
   // --------出生日期----------------
   var BirthdatePickerCallback = function (val) {
-    if (typeof(val) === 'undefined') {
-      console.log('No date selected');
+    if (typeof (val) === 'undefined') {
+      console.log('No date selected')
     } else {
-      $scope.datepickerObject3.inputDate=val;
-      var dd=val.getDate();
-      var mm=val.getMonth()+1;
-      var yyyy=val.getFullYear();
-      var d=dd<10?('0'+String(dd)):String(dd);
-      var m=mm<10?('0'+String(mm)):String(mm);
-      //日期的存储格式和显示格式不一致
-      $scope.User.birthday=yyyy+'-'+m+'-'+d;
+      $scope.datepickerObject3.inputDate = val
+      var dd = val.getDate()
+      var mm = val.getMonth() + 1
+      var yyyy = val.getFullYear()
+      var d = dd < 10 ? ('0' + String(dd)) : String(dd)
+      var m = mm < 10 ? ('0' + String(mm)) : String(mm)
+          // 日期的存储格式和显示格式不一致
+      $scope.User.birthday = yyyy + '-' + m + '-' + d
     }
-  };
+  }
   $scope.datepickerObject3 = {
-    titleLabel: '出生日期',  //Optional
-    todayLabel: '今天',  //Optional
-    closeLabel: '取消',  //Optional
-    setLabel: '设置',  //Optional
-    setButtonType : 'button-assertive',  //Optional
-    todayButtonType : 'button-assertive',  //Optional
-    closeButtonType : 'button-assertive',  //Optional
-    mondayFirst: false,    //Optional
-    //disabledDates: disabledDates, //Optional
-    weekDaysList: weekDaysList,   //Optional
-    monthList: monthList, //Optional
-    templateType: 'popup', //Optional
-    showTodayButton: 'false', //Optional
-    modalHeaderColor: 'bar-positive', //Optional
-    modalFooterColor: 'bar-positive', //Optional
-    from: new Date(1900, 1, 1),   //Optional
-    to: new Date(),    //Optional
-    callback: function (val) {    //Mandatory
-      BirthdatePickerCallback(val);
+    titleLabel: '出生日期',  // Optional
+    todayLabel: '今天',  // Optional
+    closeLabel: '取消',  // Optional
+    setLabel: '设置',  // Optional
+    setButtonType: 'button-assertive',  // Optional
+    todayButtonType: 'button-assertive',  // Optional
+    closeButtonType: 'button-assertive',  // Optional
+    mondayFirst: false,    // Optional
+      // disabledDates: disabledDates, //Optional
+    weekDaysList: weekDaysList,   // Optional
+    monthList: monthList, // Optional
+    templateType: 'popup', // Optional
+    showTodayButton: 'false', // Optional
+    modalHeaderColor: 'bar-positive', // Optional
+    modalFooterColor: 'bar-positive', // Optional
+    from: new Date(1900, 1, 1),   // Optional
+    to: new Date(),    // Optional
+    callback: function (val) {    // Mandatory
+      BirthdatePickerCallback(val)
     }
-  };  
+  }
   // --------datepicker设置结束----------------
 
-
-   //////////////////////////////////////////////////////////////////////////
-      // $scope.change = function(d)
-      // {
-      //   console.log(d);
-      // }
-
-
-
-    /**
-     * [计算当前时间和usertime差几个月]
-     * @Author   PXY
-     * @DateTime 2017-07-05
-     * @param    usertime:String [可解析的日期字符串]
-     * @return   Number [相差月份数，floor取整]
-     */
-    var MonthInterval = function(usertime){
-        
-        interval = new Date().getTime() - Date.parse(usertime);
-        return(Math.floor(interval/(24*3600*1000*30)));
+  /**
+   * [计算当前时间和usertime差几个月]
+   * @Author   PXY
+   * @DateTime 2017-07-05
+   * @param    usertime:String [可解析的日期字符串]
+   * @return   Number [相差月份数，floor取整]
+   */
+  var MonthInterval = function (usertime) {
+    interval = new Date().getTime() - Date.parse(usertime)
+    return (Math.floor(interval / (24 * 3600 * 1000 * 30)))
+  }
+  /**
+   * [根据疾病类型、疾病进程或手术时间判断病人相应的任务模板，可考虑让后端在保存个人信息时完成]
+   * @Author   PXY
+   * @DateTime 2017-07-05
+   * @param    kidneyType：String   [疾病类型，字典表编码]
+   * @param    kidneyTime:String   [手术时间，可解析的日期字符串]
+   * @param    kidneyDetail：String [疾病进程，字典表编码]
+   * @return   SortNo:Number                [任务模板的编号]
+   */
+  var distinctTask = function (kidneyType, kidneyTime, kidneyDetail) {
+    var sortNo = 1
+    if (kidneyDetail) {
+      var kidneyDetail = kidneyDetail[0]
     }
-    /**
-     * [根据疾病类型、疾病进程或手术时间判断病人相应的任务模板，可考虑让后端在保存个人信息时完成]
-     * @Author   PXY
-     * @DateTime 2017-07-05
-     * @param    kidneyType：String   [疾病类型，字典表编码]
-     * @param    kidneyTime:String   [手术时间，可解析的日期字符串]
-     * @param    kidneyDetail：String [疾病进程，字典表编码]
-     * @return   SortNo:Number                [任务模板的编号]
-     */
-    var distinctTask = function(kidneyType,kidneyTime,kidneyDetail){
-        var sortNo = 1;
-        console.log(kidneyType);
-        console.log(kidneyDetail);
-        // if(kidneyTime){
-        //     kidneyTime = kidneyTime.substr(0,10);
-        // }
-        if(kidneyDetail){
-            var kidneyDetail = kidneyDetail[0];
+    switch (kidneyType) {
+      case 'class_1':
+                // 肾移植
+        if (kidneyTime != undefined && kidneyTime != null && kidneyTime != '') {
+          var month = MonthInterval(kidneyTime)
+          console.log('month' + month)
+          if (month >= 0 && month < 3) {
+            sortNo = 1// 0-3月
+          } else if (month >= 3 && month < 6) {
+            sortNo = 2 // 3-6个月
+          } else if (month >= 6 && month < 36) {
+            sortNo = 3 // 6个月到3年
+          } else if (month >= 36) {
+            sortNo = 4// 对应肾移植大于3年
+          }
+        } else {
+          sortNo = 4
         }
-        switch(kidneyType)
-        {
-            case "class_1":
-                //肾移植
-                if(kidneyTime!=undefined && kidneyTime!=null && kidneyTime!=""){
-                    var month = MonthInterval(kidneyTime);
-                    console.log("month"+month);
-                    if(month>=0 && month<3){
-                        sortNo = 1;//0-3月
-                    }else if(month>=3 && month<6){
-                        sortNo = 2; //3-6个月
-                    }else if(month>=6 && month<36){
-                        sortNo = 3; //6个月到3年
-                    }else if(month>=36){
-                        sortNo = 4;//对应肾移植大于3年
-                    }
-
-                }
-                else{
-                    sortNo = 4;
-                }
-                break;
-            case "class_2": case "class_3"://慢性1-4期
-                if(kidneyDetail!=undefined && kidneyDetail!=null && kidneyDetail!=""){
-                    if(kidneyDetail=="stage_5"){//"疾病活跃期"
-                        sortNo = 5;
-                    }else if(kidneyDetail=="stage_6"){//"稳定期
-                        sortNo = 6;
-                    }else if(kidneyDetail == "stage_7"){//>3年
-                        sortNo = 7;
-
-                    }
-                }
-                else{
-                    sortNo = 6;
-                }
-                break;
-                
-            case "class_4"://慢性5期
-                sortNo = 8;
-                break;
-            case "class_5"://血透
-                sortNo = 9;
-                break;
-
-            case "class_6"://腹透
-                if(kidneyTime!=undefined && kidneyTime!=null && kidneyTime!=""){
-                    var month = MonthInterval(kidneyTime);
-                    console.log("month"+month);
-                    if(month<6){
-                        sortNo = 10;
-                    }
-                    else{
-                        sortNo = 11;
-                    }
-                }
-                break;
-
-
+        break
+      case 'class_2': case 'class_3':// 慢性1-4期
+        if (kidneyDetail != undefined && kidneyDetail != null && kidneyDetail != '') {
+          if (kidneyDetail == 'stage_5') { // "疾病活跃期"
+            sortNo = 5
+          } else if (kidneyDetail == 'stage_6') { // "稳定期
+            sortNo = 6
+          } else if (kidneyDetail == 'stage_7') { // >3年
+            sortNo = 7
+          }
+        } else {
+          sortNo = 6
         }
-        return sortNo;
+        break
 
+      case 'class_4':// 慢性5期
+        sortNo = 8
+        break
+      case 'class_5':// 血透
+        sortNo = 9
+        break
+
+      case 'class_6':// 腹透
+        if (kidneyTime != undefined && kidneyTime != null && kidneyTime != '') {
+          var month = MonthInterval(kidneyTime)
+          console.log('month' + month)
+          if (month < 6) {
+            sortNo = 10
+          } else {
+            sortNo = 11
+          }
+        }
+        break
     }
+    return sortNo
+  }
+  /**
+   * [修改病人的个人信息]
+   * @Author   PXY
+   * @DateTime 2017-07-05
+   */
+  var editPatientInfo = function () {
+    // 非引用赋值，避免保存时更改了选择输入select的值时对应项显示空白
+    var userInfo = $.extend(true, {}, $scope.User)
+    userInfo.gender = userInfo.gender.Type
+    userInfo.bloodType = userInfo.bloodType.Type
+    userInfo.hypertension = userInfo.hypertension.Type
+    if (userInfo.class.typeName == 'ckd5期未透析') {
+      userInfo.class_info == null
+    } else if (userInfo.class_info != null) {
+      userInfo.class_info = userInfo.class_info.code
+    }
+    userInfo.class = userInfo.class.type
+        // console.log($scope.User);
+        // console.log(userInfo);
+    var patientId = Storage.get('UID')
+    userInfo.userId = patientId
     /**
-     * [修改病人的个人信息]
+     * [调用后端方法修改病人的个人信息]
      * @Author   PXY
      * @DateTime 2017-07-05
+     * @param    userInfo:Object [属性和$scope.User一致，只是把需要选择输入的那几个字段比如性别的值从对象改为了对象中的编码]
+     * @return   data:Object  {result:String,...}
+     *           err
      */
-    $scope.infoSetup = function(){
-        var back = $stateParams.last;
-        var patientId = Storage.get('UID');
-        $scope.User.userId = patientId;
-        if (back == 'signin'||back == 'implement'){
-          // alert('register')
-            $scope.User.gender = $scope.User.gender.Type;
-            $scope.User.bloodType = $scope.User.bloodType.Type;
-            $scope.User.hypertension = $scope.User.hypertension.Type;
-            if ($scope.User.class.typeName == "ckd5期未透析"){
-                $scope.User.class_info == null;
+    Patient.editPatientDetail(userInfo).then(function (data) {
+      if (data.result == '修改成功') {
+        console.log(data.results)
+        var task = distinctTask(data.results.class, data.results.operationTime, data.results.class_info)
+        /**
+         * [修改病人的任务模板]
+         * @Author   PXY
+         * @DateTime 2017-07-05
+         * @param    {userId:String, sortNo:Number}
+         * @return   data:Object  {result:String,...}
+         *           err
+         */
+        Task.insertTask({userId: patientId, sortNo: task}).then(function (data) {
+          if (data.result == '插入成功') {
+            if ($stateParams.last == 'mine') {
+              $scope.canEdit = false
+                            // initialPatient();
+            } else if ($stateParams.last == 'tasklist' || $stateParams.last == 'consult') {
+                            // console.log('goBack1');
+              $ionicHistory.goBack()
             }
-            else if ($scope.User.class_info != null){
-                $scope.User.class_info = $scope.User.class_info.code;
-            }
-            $scope.User.class = $scope.User.class.type;
-
-            
-            /**
-             * [调用后端方法修改病人的个人信息]
-             * @Author   PXY
-             * @DateTime 2017-07-05
-             * @param    userInfo:Object [属性和$scope.User一致，只是把需要选择输入的那几个字段比如性别的值从对象改为了对象中的编码]
-             * @return   data:Object  {result:String,...}
-             *           err
-             */
-            Patient.newPatientDetail($scope.User).then(function(data){
-
-                /**
-                 * [修改病人的任务模板]
-                 * @Author   PXY
-                 * @DateTime 2017-07-05
-                 * @param    {userId:String, sortNo:Number}
-                 * @return   data:Object  {result:String,...}
-                 *           err
-                 */
-                var task = distinctTask(data.results.class,data.results.operationTime,data.results.class_info);
-                Task.insertTask({userId:patientId,sortNo:task}).then(function(data){
-                    if(data.result=="插入成功"){
-                        // if($scope.User.weight){
-                        //     var now = new Date()
-                        //     now =  $filter("date")(now, "yyyy-MM-dd HH:mm:ss")
-                        //     VitalSign.insertVitalSign({patientId:patientId, type: "Weight",code: "Weight_1", date:now.substr(0,10),datatime:now,datavalue:$scope.User.weight,unit:"kg"}).then(function(data){
-                        //         // $scope.User.weight = data.results;
-                        //         // console.log($scope.User);
-                        //         $state.go('tab.tasklist');
-                        //     },function(err){
-                        //         $ionicLoading.show({
-                        //         template: '注册失败',
-                        //         duration:1000
-                        //         });
-                        //     });
-                        // }else{
-                        //     $state.go('tab.tasklist');
                         // }
-                        $state.go('tab.tasklist');
-                    }
-                    else
-                    {
-                      $ionicLoading.show({
-                        template: '任务插入失败！',
-                        duration:1000
-                      });
-                    }
-                },function(err){
-                    $ionicLoading.show({
-                        template: '注册失败',
-                        duration:1000
-                    });
-                    // console.log("插入任务" + err);
-                });
-            },function(err){
-                $ionicLoading.show({
-                    template: '注册失败',
-                    duration:1000
-                });
-                console.log(err);
-            });
-            
-            
-        }else{//非注册用户
-            $ionicPopup.show({
-                template: '肾病类型及高血压等诊断信息的修改会影响肾病管理方案，建议在医生指导下修改，请谨慎！',
-                title: '保存确认',
-                      //subTitle: '2',
-                scope: $scope,
-                buttons: [
-                { 
-                    text: '取消',
-                    type: 'button-small',
-                    onTap: function(e){}
-                },
-                {
-                    text: '确定',
-                    type: 'button-small button-positive ',
-                    onTap: function(e) {
-                        $scope.User.gender = $scope.User.gender.Type
-                        $scope.User.bloodType = $scope.User.bloodType.Type
-                        $scope.User.hypertension = $scope.User.hypertension.Type
-                        if ($scope.User.class == "ckd5期未透析"){
-                            $scope.User.class_info == null
-                        }
-                        else if ($scope.User.class_info != null){
-                            $scope.User.class_info = $scope.User.class_info.code;
-                                  // $scope.User.class_info = $scope.User.class_info.name;
-
-                        }
-                        $scope.User.class = $scope.User.class.type;
-                              // $scope.User.class = $scope.User.class.typeName;
-                              // console.log($scope.User);
-                        Patient.editPatientDetail($scope.User).then(function(data){
-                            if(data.result=="修改成功"){
-                                console.log(data.results);
-                                var patientId = Storage.get('UID');
-                                var task = distinctTask(data.results.class,data.results.operationTime,data.results.class_info);
-                                Task.insertTask({userId:patientId,sortNo:task}).then(function(data){
-                                    // if(data.result=="插入成功"){
-                                        // if($scope.User.weight){
-                                        //     var now = new Date()
-                                        //     now =  $filter("date")(now, "yyyy-MM-dd HH:mm:ss");
-                                        //     VitalSign.insertVitalSign({patientId:patientId, type: "Weight",code: "Weight_1", date:now.substr(0,10),datatime:now,datavalue:$scope.User.weight,unit:"kg"}).then(
-                                        //         function(data){
-                                        //             // $scope.User.weight = data.results;
-                                        //             if(back == 'mine'){
-                                        //                 $scope.canEdit = false;
-                                        //                 initialPatient();
-                                        //             }else if(back == 'tasklist'){
-                                        //                 $state.go('tab.tasklist');
-                                        //             }
-                                                
-                                        //         },function(err){
-                                        //             console.log(err);
-                                        //         }
-                                        //     );
-                                        // }else{
-                                            if(back == 'mine'){
-                                                $scope.canEdit = false;
-                                                initialPatient();
-                                            }else if(back == 'tasklist'||$stateParams.last == 'consult'){
-                                                $ionicHistory.goBack();
-                                            }
-                                        // }
-                                    // }
-                                },function(err){
-                                    console.log("err" + err);
-                                });
-                            }
-
-                        },function(err){
-                            console.log(err);
-                        });
-
-                    }
-                }
-                ]
-            });
-                    
-
+          }
+        }, function (err) {
+          console.log('err' + err)
+        })
+      }
+    }, function (err) {
+      console.log(err)
+    })
+  }
+  /**
+   * [点击保存个人信息，弹窗提示用户并在其点击确定后修改个人信息]
+   * @Author   PXY
+   * @DateTime 2017-07-05
+   */
+  $scope.infoSetup = function () {
+    $ionicPopup.show({
+      template: '肾病类型及高血压等诊断信息的修改会影响肾病管理方案，建议在医生指导下修改，请谨慎！',
+      title: '保存确认',
+                      // subTitle: '2',
+      scope: $scope,
+      buttons: [
+        {
+          text: '取消',
+          type: 'button-small',
+          onTap: function (e) {}
+        },
+        {
+          text: '确定',
+          type: 'button-small button-positive ',
+          onTap: function (e) { editPatientInfo() }
         }
-
-    
-
-    }
-
-
-  
+      ]
+    })
+  }
 }])
 
 //主页面--PXY
@@ -3639,7 +3467,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     text: '确定',
                     type: 'button-small button-positive ',
                     onTap: function(e) {
-                      $state.go('userdetail',{last:'implement'});
+                      $state.go('userdetail',{last:'consult'});
                     }
                 }
                 ]
