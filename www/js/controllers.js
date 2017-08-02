@@ -112,7 +112,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     Storage.set('refreshToken',data.results.refreshToken);
                     Storage.set('isSignIn',"Yes");
                     Storage.set('UID',data.results.userId);
-                    socket = io.connect(CONFIG.socketUrl);
+                    // socket = io.connect(CONFIG.socketUrl);
                     /**
                      * [获取用户签署协议状态,agreement为0为签过协议，跳转主页；为1则没签过协议，跳转协议页面]
                      * @Author   PXY
@@ -3405,8 +3405,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                      Storage.set("USERNAME",USERNAME);
                      //$timeout(function () {
                     Storage.clear();
-                    socket.emit('disconnect');
-                    socket.disconnect();
+                    // socket.emit('disconnect');
+                    // socket.disconnect();
                      $ionicHistory.clearCache();
                      $ionicHistory.clearHistory();
                      $scope.navigation_login=$sce.trustAsResourceUrl("http://patientdiscuss.haihonghospitalmanagement.com/member.php?mod=logging&action=logout&formhash=xxxxxx");

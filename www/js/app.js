@@ -98,7 +98,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                   var errs = [];
 
                    // 根据state的进行不同的操作，包含insurance时跳转到保险页面，有params时进入具体的交流页面，其他进行登录的后续操作
-                  if (state == 'testpatientinsurance')
+                  if (state.indexOf('insurance') !== -1)
                   {
                     $state.go('insurance')
                   }
