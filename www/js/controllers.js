@@ -7147,7 +7147,22 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 // 肾病保险主页面--TDY
 .controller('insuranceCtrl', ['$scope', '$state', '$ionicHistory', 'insurance', 'Storage', '$filter', '$ionicPopup', function ($scope, $state, $ionicHistory, insurance, Storage, $filter, $ionicPopup) {
   var show = false
+  $scope.back = true;
+  var temp = $location.absUrl().split('=')
+  if (angular.isDefined(temp[1]) == true)
+  {
+      if (angular.isDefined(temp[2]) == true)
+      {
+          var code = temp[1].split('&')[0]
+          var state = temp[2].split('#')[0]
 
+      }
+  }
+
+  if (state.indexOf('insurance') !== -1)
+  {
+    $scope.back = false;
+  }
   /**
    * [点击后显示菜单]
    * @Author   TongDanyang
