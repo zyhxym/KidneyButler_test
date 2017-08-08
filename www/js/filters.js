@@ -29,3 +29,14 @@ angular.module('kidney.filters', [])
     return ret
   }
 }])
+.filter('changeimgip', [function () {
+  return function (url) {
+    if (url) {
+      if (url.indexOf('https' !== -1)) {
+        url = url.replace(/https/, 'http')
+      }
+    }
+
+    return url
+  }
+}])

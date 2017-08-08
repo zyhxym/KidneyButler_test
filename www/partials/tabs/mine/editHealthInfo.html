@@ -45,7 +45,7 @@
 
     <ion-item class="row row-wrap" style="border:none; text-align:center; height:100%;margin-top:10px" >
         <div  class="col col-33" ng-repeat="filepath in health.imgurl track by $index">
-          <img ng-src="{{filepath}}"  name="Photo" ng-click="showoriginal(filepath)"  style="height:90%; width:90%"  /><i ng-if="canEdit" class="icon ion-close-circled" style="width: 5%;float: right;" ng-click="deleteimg($index)"></i>
+          <img ng-src="{{filepath|changeimgip}}"  name="Photo" ng-click="showoriginal(filepath)"  style="height:90%; width:90%"  /><i ng-if="canEdit" class="icon ion-close-circled" style="width: 5%;float: right;" ng-click="deleteimg($index)"></i>
         </div>
     </ion-item>
     <div style="text-align: center;" ng-if="canEdit">

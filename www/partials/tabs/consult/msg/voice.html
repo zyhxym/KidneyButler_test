@@ -3,7 +3,7 @@
 	<!-- <my-time></my-time> -->
 	<div ng-if="msg.diff" class="msg-time"><span>{{msg.time | msgdate}}</span></div>
 	<!-- avatar -->
-	<img class="avatar" ng-src="{{photourls[msg.fromID] || 'img/DefaultAvatar.jpg'}}" ng-click="emitEvent('profile',msg)"/>
+	<img class="avatar" ng-src="{{(photourls[msg.fromID]|changeimgip) || 'img/DefaultAvatar.jpg'}}" ng-click="emitEvent('profile',msg)"/>
 	<!-- chat bubble -->
 	<div class="msg-body " ng-click="emitEvent('voice',msg.content)"  on-hold="emitEvent('holdmsg',msg.createTimeInMillis,$event,'voice')">
 		<!-- text content -->

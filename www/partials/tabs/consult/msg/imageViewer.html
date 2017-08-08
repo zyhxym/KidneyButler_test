@@ -6,7 +6,7 @@
       zooming="true" min-zoom="{{zoomMin}}" style="width: 100%; height: 100%"
       delegate-handle="imgScrollHandle">
       <div class="picBox"  ng-dblclick="switchZoomLevel()">
-			  <span></span><img id="bigPic" ng-src="{{imageUrl}}"/>
+			  <span></span><img id="bigPic" ng-src="{{imageUrl|changeimgip}}"/>
 			</div>
     </ion-scroll>
 </div>

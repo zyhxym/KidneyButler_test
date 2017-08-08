@@ -6,16 +6,17 @@
 angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.directives','kidney.filters','ngCordova','ngFileUpload','angular-jwt'])
 
 .run(function($ionicPlatform, $state, Storage, $location, $ionicHistory, $ionicPopup,$rootScope,JM,$location,wechat,User,Patient,$q,$window,CONFIG) {
+  // console.log(9)
   $ionicPlatform.ready(function() {
+    // console.log(11)
     socket = io.connect(CONFIG.socketUrl);
-
-    /*
-    获取url中的code，state等参数 TDY
-     */ 
+    
+    // console.log(14)
     var temp = $location.absUrl().split('=')
-    if (temp[1])
+    // alert(temp)
+    if (angular.isDefined(temp[1]) == true)
     {
-        if (temp[2])
+        if (angular.isDefined(temp[2]) == true)
         {
             var code = temp[1].split('&')[0]
             var state = temp[2].split('#')[0]
@@ -28,209 +29,179 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
             Storage.set('code',code)
         }
     }
-    // 获取结束
+    // console.log(state)
     var wechatData = ""
-    if (code)
+    if (angular.isDefined(code) == true)
     {
-      /**
-       * 获取微信个人信息
-       * @Author   TongDanyang
-       * @DateTime 2017-07-04
-       * @param    {[String]}    code  [通过微信服务器获取的code，只能使用一次]
-       * @return   {[results]}            [微信的个人信息]
-       */
-      wechat.getUserInfo({code:code}).then(function(data){ 
+        wechat.getUserInfo({code:code}).then(function(data){ 
           // alert(1)
-        wechatData = data.results
-        // console.log(wechatData)
-        if (wechatData.unionid){
-          Storage.set('openid',wechatData.unionid)
-        }
-        if (wechatData.headimgurl){
-          Storage.set('wechathead',wechatData.headimgurl)
-        }
-        if (wechatData.openid){
-          Storage.set('messageopenid',wechatData.openid)
-        }
-        if (wechatData.unionid&&wechatData.openid)
-        {
-          /**
-           * 使用获取到的unionid进行登录
-           * @Author   TongDanyang
-           * @DateTime 2017-07-04
-           * @param    {[String]}   username [description]
-           * @param    {[String]}   password [description]
-           * @param    {[String]}   role [description]
-           * @return   {[type]}                  [description]
-           */
-          User.logIn({username:Storage.get('openid'),password:Storage.get('openid'),role:"patient"}).then(function(data){
-            // console.log(data)
-            if(data.results.mesg=="login success!"){
+          wechatData = data.results
+          // console.log(wechatData)
+          if (wechatData.unionid){
+            Storage.set('openid',wechatData.unionid)
+          }
+          if (wechatData.headimgurl){
+            Storage.set('wechathead',wechatData.headimgurl)
+          }
+          if (wechatData.openid){
+            Storage.set('messageopenid',wechatData.openid)
+          }
+          if (wechatData.unionid&&wechatData.openid)
+          {
+            // User.getUserIDbyOpenId({openId:wechatData.openid}).then(function(data)
+            // {
+            //     var tempuserId = data.UserId
+            //     if (angular.isDefined(data.phoneNo) == true)
+            //     {
+            //         var tempresult = []
+            //         var temperr = []
+            //         $q.all([
+            //             User.setOpenId({phoneNo:data.phoneNo,openId:Storage.get('openid')}).then(function(res){
+            //                 console.log("替换openid");
+            //             },function(err){
+            //                 temperr.push(err)
+            //             }),
+            //             User.setMessageOpenId({type:2,userId:data.UserId,openId:wechatData.openid}).then(function(res){
+            //                 console.log("setopenid");
+            //             },function(err){
+            //                 temperr.push(err)
+            //             })
+            //         ]).then(function(){
+            //           // console.log(temperr)
+            //           $state.go('signin')
+            //         })
+            //     }
+            //     else
+            //     {
+                  User.logIn({username:Storage.get('openid'),password:Storage.get('openid'),role:"patient"}).then(function(data){
+                    // console.log(data)
+                      if(data.results.mesg=="login success!"){
 
-                  // $scope.logStatus = "登录成功！";
-                  $ionicHistory.clearCache();
-                  $ionicHistory.clearHistory();
+                          // $scope.logStatus = "登录成功！";
+                          $ionicHistory.clearCache();
+                          $ionicHistory.clearHistory();
 
-                  Storage.set('TOKEN',data.results.token);//token作用目前还不明确
-                  Storage.set('refreshToken',data.results.refreshToken);
-                  Storage.set('isSignIn',"Yes");
-                  Storage.set('UID',data.results.userId);
+                          Storage.set('TOKEN',data.results.token);//token作用目前还不明确
+                          Storage.set('refreshToken',data.results.refreshToken);
+                          Storage.set('isSignIn',"Yes");
+                          Storage.set('UID',data.results.userId);
 
-                  /**
-                   * [获取手机号码]
-                   * @Author   TongDanyang
-                   * @DateTime 2017-07-07
-                   * @param    {[string]}    username [微信返回的unionid]
-                   * @return   {[object]}    data.phoneNo [用户的手机号码]
-                   */
-                  User.getUserId({username:Storage.get('openid')}).then(function(data)
-                  {
-                    if (angular.isDefined(data.phoneNo) == true)
-                    {
-                      Storage.set('USERNAME',data.phoneNo);
-                    }
-                  },function(err)
-                  {
-                      console.log(err)
-                  })  
-                  
-                  var results = [];
-                  var errs = [];
-
-                   // 根据state的进行不同的操作，包含insurance时跳转到保险页面，有params时进入具体的交流页面，其他进行登录的后续操作
-                  if (state.indexOf('insurance') !== -1)
-                  {
-                    $state.go('insurance')
-                  }
-                  else if(params.length > 1 && params[0]=='patient'){
-                    if(params[1]=='11') 
-                    {
-                      $state.go('tab.consult-chat',{chatId:params[3]});
-                    }
-                    else
-                    {
-                      $state.go('signin')
-                    }
-                  }else{
-                      $q.all([
-                        /**
-                         * [根据用户ID获取协议状态]
-                         * @Author   TongDanyang
-                         * @DateTime 2017-07-05
-                         * @param    {[string]}   userId [用户ID]
-                         * @return   {[Object]}   res.results.agreement [agreement是0表示已签署跳转到首页;否则是未签署跳转到签署协议页]
-                         */
-                        User.getAgree({ userId: data.results.userId }).then(function(res) {
-                          results.push(res)
-                        }, function(err) {
-                          errs.push(err)
-                        }),
-                        /**
-                         * [写入用户对应肾病守护者联盟的openid]
-                         * @Author   TongDanyang
-                         * @DateTime 2017-07-05
-                         * @param    {[interger]}   type [2时是微信病人端]
-                         * @param    {[string]}     userId [description]
-                         * @param    {[string]}     openId [微信返回的openid]
-                         * @return   {[object]}             [description]
-                         */
-                        User.setMessageOpenId({ type: 2, userId: Storage.get("UID"), openId: Storage.get('messageopenid') }).then(function(res) {
-                            // results.push(res)
-                        }, function(err) {
-                          errs.push(err)
-                        }),
-                        /**
-                         * [获取病人个人信息，如果没有头像则将微信头像作为其默认头像]
-                         * @Author   TongDanyang
-                         * @DateTime 2017-07-05
-                         * @param    {[string]}    userId [description]
-                         * @return   {[type]}             [description]
-                         */
-                        Patient.getPatientDetail({ userId: Storage.get('UID') }).then(function(res) {
-                          results.push(res)
-                        }, function(err) {
-                          errs.push(err)
-                        })
-                      ]).then(function() {
-                          console.log(results)
-                          var a, b;
-                          for (var i in results) {
-                              if (results[i].results.agreement != undefined) {
-                                  a = i;
-                              } else {
-                                  b = i;
+                          User.getUserId({username:Storage.get('openid')}).then(function(data)
+                          {
+                              if (angular.isDefined(data.phoneNo) == true)
+                              {
+                                  Storage.set('USERNAME',data.phoneNo);
                               }
+                          },function(err)
+                          {
+                              console.log(err)
+                          })  
+                          
+                          var results = [];
+                          var errs = [];
+
+                          if (state.indexOf('insurance') !== -1)
+                          {
+                              $state.go('insurance')
                           }
-                          if (results[a].results.agreement == "0") {
-                              if (results[b].results != null) {
-                                  if (results[b].results.photoUrl == undefined || results[b].results.photoUrl == "") {
-                                    /**
-                                     * [将微信头像的地址存到病人个人信息中]
-                                     * @Author   TongDanyang
-                                     * @DateTime 2017-07-05
-                                     * @param    {[string]}    userId [description]
-                                     * @param    {[string]}    photoUrl [description]
-                                     * @return   {[type]}             [description]
-                                     */
-                                      Patient.editPatientDetail({ userId: Storage.get("UID"), photoUrl: wechatData.headimgurl }).then(function(r) {
-                                          $state.go('tab.tasklist');
-                                      },function(err){
-                                        $state.go('tab.tasklist');
-                                      })
-                                  }else {
-                                      $state.go('tab.tasklist');
-                                  }
+                          else if(params.length > 1 && params[0]=='patient'){
+                              if(params[1]=='11') 
+                              {
+                                $state.go('tab.consult-chat',{chatId:params[3]});
                               }
                               else
                               {
-                                $state.go('tab.tasklist');
+                                $state.go('signin')
                               }
-                              // else {
-                              //     $state.go('userdetail', { last: 'implement' });
-                              // }
-                          } else {
-                              $state.go('agreement', { last: 'signin' });
+                          }else{
+                              $q.all([
+                                  User.getAgree({ userId: data.results.userId }).then(function(res) {
+                                      results.push(res)
+                                  }, function(err) {
+                                      errs.push(err)
+                                  }),
+                                  User.setMessageOpenId({ type: 2, userId: Storage.get("UID"), openId: Storage.get('messageopenid') }).then(function(res) {
+                                      // results.push(res)
+                                  }, function(err) {
+                                      errs.push(err)
+                                  }),
+                                  Patient.getPatientDetail({ userId: Storage.get('UID') }).then(function(res) {
+                                      results.push(res)
+                                  }, function(err) {
+                                      errs.push(err)
+                                  })
+                              ]).then(function() {
+                                  console.log(results)
+                                  var a, b;
+                                  for (var i in results) {
+                                      if (results[i].results.agreement) {
+                                          a = i;
+                                      } else {
+                                          b = i;
+                                      }
+                                  }
+                                  if (results[a].results.agreement == "0") {
+                                      if (results[b].results) {
+                                          if (results[b].results.photoUrl == undefined || results[b].results.photoUrl == "") {
+                                              Patient.editPatientDetail({ userId: Storage.get("UID"), photoUrl: wechatData.headimgurl }).then(function(r) {
+                                                  $state.go('tab.tasklist');
+                                              },function(err){
+                                                $state.go('tab.tasklist');
+                                              })
+                                          }else {
+                                              $state.go('tab.tasklist');
+                                          }
+                                      }
+                                      else
+                                      {
+                                        $state.go('tab.tasklist');
+                                      }
+                                      // else {
+                                      //     $state.go('userdetail', { last: 'implement' });
+                                      // }
+                                  } else {
+                                      $state.go('agreement', { last: 'signin' });
+                                  }
+                              });
                           }
-                      });
-                  }
-              }
-              else
-              {
-                $state.go('signin');
-              }
+                      }
+                      else
+                      {
+                        $state.go('signin');
+                      }
 
-          },function(err){
-            if(err.results==null && err.status==0){
-                $scope.logStatus = "网络错误！";
-                $state.go('signin');
-                return;
-            }
-            if(err.status==404){
-                $scope.logStatus = "连接服务器失败！";
-                $state.go('signin')
-                return;
-            }
-            $state.go('signin')
-          });
+                  },function(err){
+                      if(err.results==null && err.status==0){
+                          $scope.logStatus = "网络错误！";
+                          $state.go('signin');
+                          return;
+                      }
+                      if(err.status==404){
+                          $scope.logStatus = "连接服务器失败！";
+                          $state.go('signin')
+                          return;
+                      }
+                      $state.go('signin')
+                  });
                 // }
             // },function(err)
             // {
             //     console.log(err)
             // })
 
-        }
-        else
-        {
-          $state.go('signin');
-        }
+          }
+          else
+          {
+            $state.go('signin');
+          }
           // alert(wechatData.openid)
           // alert(wechatData.nickname)
           
-      },function(err){
-          console.log(err)
-          $state.go('signin')
-          // alert(2);
-      });
+        },function(err){
+            console.log(err)
+            $state.go('signin')
+            // alert(2);
+        });
     }
     else
     {
@@ -710,9 +681,6 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
 
         var isExpired = true;
         try {
-          /*
-           * 由于jwt自带的过期判断方法与服务器端使用的加密方法不匹配，使用jwthelper解码的方法对token进行解码后自行判断token是否过期
-           */
             // isExpired = jwtHelper.isTokenExpired(token);
             var temp = jwtHelper.decodeToken(token);
             if (temp.exp === "undefined")
@@ -742,13 +710,6 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
             // This is a promise of a JWT token
              // console.log(token);
             if (refreshToken && refreshToken.length >= 16) {  // refreshToken字符串长度应该大于16, 小于即为非法
-                /**
-                 * [刷新token]
-                 * @Author   TongDanyang
-                 * @DateTime 2017-07-05
-                 * @param    {[string]}  refreshToken [description]
-                 * @return   {[object]}  data.results  [新的token信息]
-                 */
                 return $http({
                     url: CONFIG.baseUrl + 'token/refresh?refresh_token=' + refreshToken,
                     // This makes it so that this request doesn't send the JWT

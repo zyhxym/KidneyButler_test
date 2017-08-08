@@ -16,7 +16,7 @@
 
         <div class="item item-avatar">
             <img ng-src="img\{{varyMes.avatar}}" ng-if="notInsurance">
-            <img ng-src="{{message.docPhoto || 'img/DefaultAvatar.jpg'}}" ng-if="!notInsurance">
+            <img ng-src="{{(message.docPhoto|changeimgip) || 'img/DefaultAvatar.jpg'}}" ng-if="!notInsurance">
             <h2 ng-if="notInsurance">{{message.title}}</h2>
             <h2 ng-if="!notInsurance">{{message.docName}}</h2>
 
