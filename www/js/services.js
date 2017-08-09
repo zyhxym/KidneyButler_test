@@ -2754,7 +2754,10 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
           'userId': Storage.get('UID'),
           'role': 'patient',
           'userProxy': window.navigator.userAgent,
-          'webState': navigator.onLine + '~~' + navigator.connection,
+          'webState': {
+            'onLine': navigator.onLine,
+            'connection': navigator.connection
+          },
           'errStack': err
         }
       }).then(function successCallback (response) {
@@ -2791,8 +2794,14 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
         'userId': Storage.get('UID'),
         'role': 'patient',
         'userProxy': window.navigator.userAgent,
-        'webState': navigator.onLine + '~~' + navigator.connection,
-        'errStack': exception + '~~' + cause
+        'webState': {
+          'onLine': navigator.onLine,
+          'connection': navigator.connection
+        },
+        'errStack': {
+          'exception': exception,
+          'cause': cause
+        }
       }
     }).then(function successCallback (response) {
       // console.log(response)
