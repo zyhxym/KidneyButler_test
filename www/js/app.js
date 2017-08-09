@@ -663,108 +663,108 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
 })   
 
 // $httpProvider.interceptors提供http request及response的预处理
-.config(['$httpProvider', 'jwtOptionsProvider', function ($httpProvider, jwtOptionsProvider) {
-    // 下面的getter可以注入各种服务, service, factory, value, constant, provider等, constant, provider可以直接在.config中注入, 但是前3者不行
-    jwtOptionsProvider.config({
-      whiteListedDomains: ['121.196.221.44','121.43.107.106', 'testpatient.haihonghospitalmanagement.com', 'testdoctor.haihonghospitalmanagement.com','patient.haihonghospitalmanagement.com','doctor.haihonghospitalmanagement.com','localhost'],
-      tokenGetter: ['options', 'jwtHelper', '$http', 'CONFIG', 'Storage', '$state', '$ionicPopup',function(options, jwtHelper, $http, CONFIG, Storage,$state,$ionicPopup) {
-         // console.log(config);
-        // console.log(CONFIG.baseUrl);
+// .config(['$httpProvider', 'jwtOptionsProvider', function ($httpProvider, jwtOptionsProvider) {
+//     // 下面的getter可以注入各种服务, service, factory, value, constant, provider等, constant, provider可以直接在.config中注入, 但是前3者不行
+//     jwtOptionsProvider.config({
+//       whiteListedDomains: ['121.196.221.44','121.43.107.106', 'testpatient.haihonghospitalmanagement.com', 'testdoctor.haihonghospitalmanagement.com','patient.haihonghospitalmanagement.com','doctor.haihonghospitalmanagement.com','localhost'],
+//       tokenGetter: ['options', 'jwtHelper', '$http', 'CONFIG', 'Storage', '$state', '$ionicPopup',function(options, jwtHelper, $http, CONFIG, Storage,$state,$ionicPopup) {
+//          // console.log(config);
+//         // console.log(CONFIG.baseUrl);
 
-        // var token = sessionStorage.getItem('token');
-        var token = Storage.get('TOKEN');
-        // var refreshToken = sessionStorage.getItem('refreshToken');
-        var refreshToken = Storage.get('refreshToken');
-        if (!token && !refreshToken) {
-            return null;
-        }
+//         // var token = sessionStorage.getItem('token');
+//         var token = Storage.get('TOKEN');
+//         // var refreshToken = sessionStorage.getItem('refreshToken');
+//         var refreshToken = Storage.get('refreshToken');
+//         if (!token && !refreshToken) {
+//             return null;
+//         }
 
-        var isExpired = true;
-        try {
-            // isExpired = jwtHelper.isTokenExpired(token);
-            var temp = jwtHelper.decodeToken(token);
-            if (temp.exp === "undefined")
-            {
-              isExpired = false;
-            }
-            else
-            {
-              // var d = new Date(0); // The 0 here is the key, which sets the date to the epoch
-              // d.setUTCSeconds(temp.expireAfter);
-              isExpired = !(temp.exp > new Date().valueOf());//(new Date().valueOf() - 8*3600*1000));
-              // console.log(temp)
-            }
+//         var isExpired = true;
+//         try {
+//             // isExpired = jwtHelper.isTokenExpired(token);
+//             var temp = jwtHelper.decodeToken(token);
+//             if (temp.exp === "undefined")
+//             {
+//               isExpired = false;
+//             }
+//             else
+//             {
+//               // var d = new Date(0); // The 0 here is the key, which sets the date to the epoch
+//               // d.setUTCSeconds(temp.expireAfter);
+//               isExpired = !(temp.exp > new Date().valueOf());//(new Date().valueOf() - 8*3600*1000));
+//               // console.log(temp)
+//             }
            
-             // console.log(isExpired);
-        }
-        catch (e) {
-             console.log(e);
-            isExpired = true;
-        }
-        // 这里如果同时http.get两个模板, 会产生两个$http请求, 插入两次jwtInterceptor, 执行两次getrefreshtoken的刷新token操作, 会导致同时查询redis的操作, ×××估计由于数据库锁的关系×××(由于token_manager.js中的exports.refreshToken中直接删除了redis数据库里前一个refreshToken, 导致同时发起的附带有这个refreshToken的getrefreshtoken请求查询返回reply为null, 导致返回"凭证不存在!"错误), 其中一次会查询失败, 导致返回"凭证不存在!"错误, 使程序流程出现异常(但是为什么会出现模板不能加载的情况? 是什么地方阻止了模板的下载?)
-        if (options.url.substr(options.url.length - 5) === '.html' || options.url.substr(options.url.length - 3) === '.js' || options.url.substr(options.url.length - 4) === '.css' || options.url.substr(options.url.length - 4) === '.jpg' || options.url.substr(options.url.length - 4) === '.png' || options.url.substr(options.url.length - 4) === '.ico' || options.url.substr(options.url.length - 5) === '.woff') {  // 应该把这个放到最前面, 否则.html模板载入前会要求refreshToken, 如果封装成APP后, 这个就没用了, 因为都在本地, 不需要从服务器上获取, 也就不存在http get请求, 也就不会interceptors
-             // console.log(config.url);
-            return null;
-        }
-        else if (isExpired) {    // 需要加上refreshToken条件, 否则会出现网页循环跳转
-            // This is a promise of a JWT token
-             // console.log(token);
-            if (refreshToken && refreshToken.length >= 16) {  // refreshToken字符串长度应该大于16, 小于即为非法
-                return $http({
-                    url: CONFIG.baseUrl + 'token/refresh?refresh_token=' + refreshToken,
-                    // This makes it so that this request doesn't send the JWT
-                    skipAuthorization: true,
-                    method: 'GET',
-                    timeout: 5000
-                }).then(function (res) { // $http返回的值不同于$resource, 包含config等对象, 其中数据在res.data中
-                     // console.log(res);
-                    // sessionStorage.setItem('token', res.data.token);
-                    // sessionStorage.setItem('refreshToken', res.data.refreshToken);
-                      Storage.set('TOKEN', res.data.results.token);
-                      Storage.set('refreshToken', res.data.results.refreshToken);
-                      return res.data.results.token;
-                }, function (err) {
-                    console.log(err);
-                    if (refreshToken == Storage.get('refreshToken'))
-                    {
-                      // console.log("凭证不存在!")
-                      console.log(options)
-                      $ionicPopup.show({   
-                           title: '您离开太久了，请重新登录',
-                           buttons: [
-                             { 
-                                  text: '取消',
-                                  type: 'button'
-                              },
-                             {
-                                  text: '確定',
-                                  type: 'button-positive',
-                                  onTap: function(e) {
-                                      $state.go('signin')
-                                  }
-                             },
-                             ]
-                      })
-                    }
-                    // sessionStorage.removeItem('token');
-                    // sessionStorage.removeItem('refreshToken');
-                    // Storage.rm('token');
-                    // Storage.rm('refreshToken');
-                    return null;
-                });
-            }
-            else {
-                Storage.rm('refreshToken');  // 如果是非法refreshToken, 删除之
-                return null;
-            }  
-        } 
-        else {
-            // console.log(token);
-            return token;
-        }
-      }]
-    })
+//              // console.log(isExpired);
+//         }
+//         catch (e) {
+//              console.log(e);
+//             isExpired = true;
+//         }
+//         // 这里如果同时http.get两个模板, 会产生两个$http请求, 插入两次jwtInterceptor, 执行两次getrefreshtoken的刷新token操作, 会导致同时查询redis的操作, ×××估计由于数据库锁的关系×××(由于token_manager.js中的exports.refreshToken中直接删除了redis数据库里前一个refreshToken, 导致同时发起的附带有这个refreshToken的getrefreshtoken请求查询返回reply为null, 导致返回"凭证不存在!"错误), 其中一次会查询失败, 导致返回"凭证不存在!"错误, 使程序流程出现异常(但是为什么会出现模板不能加载的情况? 是什么地方阻止了模板的下载?)
+//         if (options.url.substr(options.url.length - 5) === '.html' || options.url.substr(options.url.length - 3) === '.js' || options.url.substr(options.url.length - 4) === '.css' || options.url.substr(options.url.length - 4) === '.jpg' || options.url.substr(options.url.length - 4) === '.png' || options.url.substr(options.url.length - 4) === '.ico' || options.url.substr(options.url.length - 5) === '.woff') {  // 应该把这个放到最前面, 否则.html模板载入前会要求refreshToken, 如果封装成APP后, 这个就没用了, 因为都在本地, 不需要从服务器上获取, 也就不存在http get请求, 也就不会interceptors
+//              // console.log(config.url);
+//             return null;
+//         }
+//         else if (isExpired) {    // 需要加上refreshToken条件, 否则会出现网页循环跳转
+//             // This is a promise of a JWT token
+//              // console.log(token);
+//             if (refreshToken && refreshToken.length >= 16) {  // refreshToken字符串长度应该大于16, 小于即为非法
+//                 return $http({
+//                     url: CONFIG.baseUrl + 'token/refresh?refresh_token=' + refreshToken,
+//                     // This makes it so that this request doesn't send the JWT
+//                     skipAuthorization: true,
+//                     method: 'GET',
+//                     timeout: 5000
+//                 }).then(function (res) { // $http返回的值不同于$resource, 包含config等对象, 其中数据在res.data中
+//                      // console.log(res);
+//                     // sessionStorage.setItem('token', res.data.token);
+//                     // sessionStorage.setItem('refreshToken', res.data.refreshToken);
+//                       Storage.set('TOKEN', res.data.results.token);
+//                       Storage.set('refreshToken', res.data.results.refreshToken);
+//                       return res.data.results.token;
+//                 }, function (err) {
+//                     console.log(err);
+//                     if (refreshToken == Storage.get('refreshToken'))
+//                     {
+//                       // console.log("凭证不存在!")
+//                       console.log(options)
+//                       $ionicPopup.show({   
+//                            title: '您离开太久了，请重新登录',
+//                            buttons: [
+//                              { 
+//                                   text: '取消',
+//                                   type: 'button'
+//                               },
+//                              {
+//                                   text: '確定',
+//                                   type: 'button-positive',
+//                                   onTap: function(e) {
+//                                       $state.go('signin')
+//                                   }
+//                              },
+//                              ]
+//                       })
+//                     }
+//                     // sessionStorage.removeItem('token');
+//                     // sessionStorage.removeItem('refreshToken');
+//                     // Storage.rm('token');
+//                     // Storage.rm('refreshToken');
+//                     return null;
+//                 });
+//             }
+//             else {
+//                 Storage.rm('refreshToken');  // 如果是非法refreshToken, 删除之
+//                 return null;
+//             }  
+//         } 
+//         else {
+//             // console.log(token);
+//             return token;
+//         }
+//       }]
+//     })
 
-  $httpProvider.interceptors.push('jwtInterceptor');
-}])
+//   $httpProvider.interceptors.push('jwtInterceptor');
+// }])
  
