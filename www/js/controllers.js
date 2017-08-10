@@ -57,7 +57,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
   $scope.signIn = function(logOn) {  
     $scope.logStatus='';
     if((logOn.username!="") && (logOn.password!="")){
-      var phoneReg=/^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
+      var phoneReg=/^(13[0-9]|15[012356789]|17[5678]|18[0-9]|14[57])[0-9]{8}$/;
       //手机正则表达式验证
       if(!phoneReg.test(logOn.username)){
             $scope.logStatus="手机号验证失败！";
@@ -311,7 +311,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
             $scope.logStatus="手机号码不能为空！";
             return;
         }
-        var phoneReg=/^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
+        var phoneReg=/^(13[0-9]|15[012356789]|17[5678]|18[0-9]|14[57])[0-9]{8}$/;
         //手机正则表达式验证
         if(!phoneReg.test(Verify.Phone)){
             $scope.logStatus="手机号验证失败！";
@@ -376,7 +376,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         $scope.logStatus = '';
         if(Verify.Phone!="" && Verify.Code!=""){
         //结果分为三种：(手机号验证失败)1验证成功；2验证码错误；3连接超时，验证失败
-            var phoneReg=/^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
+            var phoneReg=/^(13[0-9]|15[012356789]|17[5678]|18[0-9]|14[57])[0-9]{8}$/;
             //手机正则表达式验证
             if(phoneReg.test(Verify.Phone)){ 
                 //测试用
