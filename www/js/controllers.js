@@ -6,23 +6,22 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
   // Storage.set("personalinfobackstate","logOn");
   // alert($location.absUrl())
   var temp = $location.absUrl().split('=')
-  // alert(temp)
-  // var code = temp[1].split('#')[0]
-  // alert(code)
-  // if (code != null )
-  // {
-  //   // alert(0)
-  //   wechat.getUserInfo({code:code}).then(function(data){ 
-  //     // alert(1)
-  //     wechatData = data.results
-  //     console.log(wechatData)
-  //     alert(wechatData.openid)
-  //     alert(wechatData.nickname)
-  //   },function(err){
-  //     console.log(err)
-  //     // alert(2);
-  //   })
-  // }
+    // alert(temp)
+    if (angular.isDefined(temp[1]) == true)
+    {
+        if (angular.isDefined(temp[2]) == true)
+        {
+            var code = temp[1].split('&')[0]
+            var state = temp[2].split('#')[0]
+            var params = state.split('_');
+            Storage.set('code',code)
+        }
+        else
+        {
+            var code = temp[1].split('#')[0]
+            Storage.set('code',code)
+        }
+    }
 
   //-------------test测试-------------
     // $scope.test = function(){
@@ -94,36 +93,46 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     $scope.logStatus = "登录成功！";
                     $ionicHistory.clearCache();
                     $ionicHistory.clearHistory();
+                    $ionicHistory.nextViewOptions({
+                      disableBack: true,
+                      disableAnimate: true
+                    })
                     Storage.set('TOKEN',data.results.token);//token作用目前还不明确
                     Storage.set('refreshToken',data.results.refreshToken);
                     Storage.set('isSignIn',"Yes");
                     Storage.set('UID',data.results.userId);
                     // socket = io.connect(CONFIG.socketUrl);
-                    User.getAgree({userId:data.results.userId}).then(function(res){
-                        User.setMessageOpenId({type:2,userId:data.results.userId,openId:Storage.get('messageopenid')}).then(function(res){
-                        },function(err){
-                        })
-                        if(res.results.agreement=="0"){
-                            // Patient.getPatientDetail({userId:Storage.get('UID')}).then(function(data){
-                            //   if (data.results != null)
-                            //   {
-                              
-                              $timeout(function(){$state.go('tab.tasklist');},500);
-                            //   }
-                            //   else
-                            //   {
-                            //     $state.go('userdetail',{last:'implement'});
-                            //   }
-                            // },function(err){
-                            //     console.log(err);
-                            // })
-                        }else{
-                            $timeout(function(){$state.go('agreement',{last:'signin'});},500);
-                        }
-                    },function(err){
-                        console.log(err);
-                    })
-                    
+                    if (state.indexOf('insurance') !== -1)
+                    {
+                        $state.go('insurance')
+                    }
+                    else
+                    {
+                      User.getAgree({userId:data.results.userId}).then(function(res){
+                          User.setMessageOpenId({type:2,userId:data.results.userId,openId:Storage.get('messageopenid')}).then(function(res){
+                          },function(err){
+                          })
+                          if(res.results.agreement=="0"){
+                              // Patient.getPatientDetail({userId:Storage.get('UID')}).then(function(data){
+                              //   if (data.results != null)
+                              //   {
+                                
+                                $timeout(function(){$state.go('tab.tasklist');},500);
+                              //   }
+                              //   else
+                              //   {
+                              //     $state.go('userdetail',{last:'implement'});
+                              //   }
+                              // },function(err){
+                              //     console.log(err);
+                              // })
+                          }else{
+                              $timeout(function(){$state.go('agreement',{last:'signin'});},500);
+                          }
+                      },function(err){
+                          console.log(err);
+                      })
+                    }
 
                 }
 

@@ -80,7 +80,10 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                           // $scope.logStatus = "登录成功！";
                           $ionicHistory.clearCache();
                           $ionicHistory.clearHistory();
-
+                          $ionicHistory.nextViewOptions({
+                            disableBack: true,
+                            disableAnimate: true
+                          })
                           Storage.set('TOKEN',data.results.token);//token作用目前还不明确
                           Storage.set('refreshToken',data.results.refreshToken);
                           Storage.set('isSignIn',"Yes");
