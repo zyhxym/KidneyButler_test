@@ -85,20 +85,9 @@
     var splash = getsplash(width, height);
     
     // console.log(fromUrl)
-        document.getElementById('splashimg').src = "patient/" + splash;
+        document.getElementById('splashimg').src = "img/patient/" + splash;
         document.getElementById('splashimg').style.height = height + "px";
         document.getElementById('splashimg').style.width = width + "px";
-
-    function GetQueryString(name)
-    {
-        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-        var r = window.location.search.substr(1).match(reg);
-        if(r!=null)return  unescape(r[2]); return null;
-    }
-    if (fromUrl != "")
-    {
-        // window.location.href= fromUrl
-    }
 
 
     function search(No, array)
