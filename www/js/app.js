@@ -76,7 +76,6 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
                   User.logIn({username:Storage.get('openid'),password:Storage.get('openid'),role:"patient"}).then(function(data){
                     // console.log(data)
                       if(data.results.mesg=="login success!"){
-
                           // $scope.logStatus = "登录成功！";
                           console.log($ionicHistory.viewHistory())
                           $ionicHistory.nextViewOptions({
@@ -657,7 +656,7 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
       controller: 'insurancestaffCtrl'
     });
 
-  $urlRouterProvider.otherwise('/welcome');
+  // $urlRouterProvider.otherwise('/welcome');
 
 
 
