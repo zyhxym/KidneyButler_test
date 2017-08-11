@@ -307,12 +307,12 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
   $ionicConfigProvider.views.swipeBackEnabled(false);
   //注册与登录
   $stateProvider
-    .state('welcome', {
-      cache: false,
-      url: '/welcome',
-      templateUrl: 'partials/login/welcome.html',
-      controller: 'welcomeCtrl'
-    })
+    // .state('welcome', {
+    //   cache: false,
+    //   url: '/welcome',
+    //   templateUrl: 'partials/login/welcome.html',
+    //   controller: 'welcomeCtrl'
+    // })
     .state('signin', {
       cache: false,
       url: '/signin',
