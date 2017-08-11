@@ -1203,7 +1203,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
   //   })
   // }
-
+  documnent.getElementById('splashimg').style.display = 'none'
   $scope.HasUnreadMessages  = false;
     $scope.GoToMessage = function(){
         Storage.set('messageBackState',$ionicHistory.currentView().stateId);
@@ -8585,7 +8585,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
   $ionicHistory.nextViewOptions({
     disableBack: true,
     disableAnimate: true,
-                historyRoot: true
+    historyRoot: true
   })
   $ionicHistory.clearCache()
   $ionicHistory.clearHistory()
