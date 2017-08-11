@@ -8581,6 +8581,11 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 }])
 
 .controller('welcomeCtrl', ['$scope','$state', function ($scope,$state) {
+  $ionicHistory.clearHistory()
+  $ionicHistory.nextViewOptions({
+    disableBack: true,
+    disableAnimate: true
+  })
   var width = window.screen.width;
   var height = window.screen.height;
 
