@@ -79,12 +79,13 @@ angular.module('kidney',['ionic','kidney.services','kidney.controllers','kidney.
 
                           // $scope.logStatus = "登录成功！";
                           console.log($ionicHistory.viewHistory())
-                          $ionicHistory.clearCache();
-                          $ionicHistory.clearHistory();
                           $ionicHistory.nextViewOptions({
                             disableBack: true,
-                            disableAnimate: true
+                            disableAnimate: true,
+                            historyRoot: true
                           })
+                          $ionicHistory.clearCache();
+                          $ionicHistory.clearHistory();
                           console.log($ionicHistory.viewHistory())
                           Storage.set('TOKEN',data.results.token);//token作用目前还不明确
                           Storage.set('refreshToken',data.results.refreshToken);

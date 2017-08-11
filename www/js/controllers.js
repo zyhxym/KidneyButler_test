@@ -8582,12 +8582,13 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
 .controller('welcomeCtrl', ['$scope','$state', '$ionicHistory', function ($scope,$state,$ionicHistory) {
   console.log($ionicHistory.viewHistory())
-  $ionicHistory.clearCache()
-  $ionicHistory.clearHistory()
   $ionicHistory.nextViewOptions({
     disableBack: true,
-    disableAnimate: true
+    disableAnimate: true,
+                historyRoot: true
   })
+  $ionicHistory.clearCache()
+  $ionicHistory.clearHistory()
   console.log($ionicHistory.viewHistory())
   var width = window.screen.width;
   var height = window.screen.height;
