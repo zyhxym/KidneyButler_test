@@ -2780,8 +2780,8 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
 
 .factory('$exceptionHandler', ['$injector', 'Storage', function ($injector, Storage) {
   return function myExceptionHandler (exception, cause) {
-    // console.log(exception)
-    // console.log(cause)
+    console.log(exception)
+    console.log(cause)
     // console.log($log)
     var $http = $injector.get('$http')
     $http({
