@@ -8582,6 +8582,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
 .controller('welcomeCtrl', ['$scope','$state', '$ionicHistory', function ($scope,$state,$ionicHistory) {
   console.log($ionicHistory.viewHistory())
+  $ionicHistory.clearCache()
   $ionicHistory.clearHistory()
   $ionicHistory.nextViewOptions({
     disableBack: true,
