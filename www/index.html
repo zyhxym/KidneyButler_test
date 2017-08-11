@@ -84,10 +84,15 @@
     var splash = getsplash(width, height);
     
     // console.log(fromUrl)
-        document.getElementById('splashimg').src = "img/patient/" + splash;
-        document.getElementById('splashimg').style.height = height + "px";
-        document.getElementById('splashimg').style.width = width + "px";
+    document.getElementById('splashimg').src = "img/patient/" + splash;
+    document.getElementById('splashimg').style.height = height + "px";
+    document.getElementById('splashimg').style.width = width + "px";
+    setTimeout(hideimg(),5000)
 
+    function hideimg() 
+    {
+        document.getElementById('splashimg').style.display = "none"
+    }
 
     function search(No, array)
     {
