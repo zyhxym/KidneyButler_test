@@ -2720,7 +2720,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
           $scope.modal.show();
         }else{
           $ionicLoading.show({
-            template: '您尚未banding主管医生，请绑定主管医生后查看！',
+            template: '您尚未绑定主管医生，请绑定主管医生后查看！',
             duration: 2000
           })
         }
