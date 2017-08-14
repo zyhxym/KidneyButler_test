@@ -586,7 +586,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                 }
                
             }else{
-            $scope.logStatus="两次输入的密码不一致";
+              $scope.logStatus="两次输入的密码不一致";
             }
         }else{
             $scope.logStatus="请输入两遍新密码";
@@ -6144,7 +6144,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 }])
 
 
-.controller('DoctorDetailCtrl', ['$ionicPopup','$scope','$state','$ionicHistory','$stateParams','Doctor','Counsels','Storage','Account','payment','$filter','$ionicLoading','CONFIG','Expense','$q',function($ionicPopup,$scope, $state,$ionicHistory,$stateParams,Doctor,Counsels,Storage,Account,payment,$filter,$ionicLoading,CONFIG,Expense,$q) {
+.controller('DoctorDetailCtrl', ['$ionicPopup','$scope','$state','$ionicHistory','$stateParams','Doctor','Counsels','Storage','Account','payment','$filter','$ionicLoading','CONFIG','Expense','$q', 'Patient', function($ionicPopup,$scope, $state,$ionicHistory,$stateParams,Doctor,Counsels,Storage,Account,payment,$filter,$ionicLoading,CONFIG,Expense,$q,Patient) {
   $scope.Goback = function(){
     $ionicHistory.goBack();
   }
