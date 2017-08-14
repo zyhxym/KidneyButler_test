@@ -2609,11 +2609,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         $scope.modal = modal;
       });
        $scope.openModal = function() {
-       var tempflag = GetMyDoctors();
-       if (tempflag)
-       {
-         $scope.modal.show();
-       }
+       GetMyDoctors();
      };
      $scope.closeModal = function() {
        $scope.modal.hide();
@@ -2721,16 +2717,14 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
               $scope.hasstop=false
             }
           }
-          return true
+          $scope.modal.show();
         }else{
           $ionicLoading.show({
             template: '您尚未绑定主管医生，请绑定主管医生后查看！',
             duration: 2000
           })
-          return false
         }
        },function(){
-          return false
        })
     }
 
