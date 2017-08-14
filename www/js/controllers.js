@@ -7923,7 +7923,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     // var msgdata = $state.params.msg;
 
                     var d = {
-                        teamId: '23071913',
+                        teamId: '091760021',
                         counselId: data.results.counselId,
                         sponsorId: DoctorId,
                         patientId: patientId,
@@ -7940,8 +7940,8 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                         fromUser:{
                             avatarPath:CONFIG.mediaUrl+'uploads/photos/resized'+DoctorId+'_myAvatar.jpg'
                         },
-                        targetID:'23071913',
-                        teamId:'23071913',
+                        targetID:'091760021',
+                        teamId:'091760021',
                         targetName:'bme319',
                         targetType:'group',
                         status:'send_going',
@@ -7953,7 +7953,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     .then(function(con){
                         console.log(con);
                         // socket.emit('newUser',{user_name:'陈江华'.name,user_id:DoctorId});
-                        socket.emit('message',{msg:msgTeam,to:'23071913',role:'patient'});
+                        socket.emit('message',{msg:msgTeam,to:'091760021',role:'patient'});
                         // socket.on('messageRes',function(messageRes){
                             // socket.off('messageRes');
                             // socket.emit('disconnect');
