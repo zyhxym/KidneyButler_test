@@ -1246,7 +1246,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
 
 //任务列表--GL
-.controller('tasklistCtrl', ['$interval', 'News', 'otherTask','$scope','$timeout','$state','Storage','$ionicHistory', '$ionicPopup', '$ionicModal', 'Compliance', '$window', 'Task', 'Patient', 'VitalSign', function($interval, News,otherTask, $scope, $timeout,$state,Storage,$ionicHistory,$ionicPopup,$ionicModal,Compliance, $window, Task, Patient, VitalSign) {
+.controller('tasklistCtrl', ['$interval', 'News', 'otherTask','$scope','$timeout','$state','Storage','$ionicHistory', '$ionicPopup', '$ionicModal', 'Compliance', '$window', 'Task', 'Patient', 'VitalSign', '$ionicLoading', function($interval, News,otherTask, $scope, $timeout,$state,Storage,$ionicHistory,$ionicPopup,$ionicModal,Compliance, $window, Task, Patient, VitalSign, $ionicLoading) {
 
 
     $scope.goinsurance=function(){
@@ -2671,7 +2671,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
        promise.then(function(data){
          if(data.results.doctorId)
          {
-          console.log(data)
+            console.log(data)
             var schedules = data.results.doctorId.schedules;
             //console.log(schedules);
             if(schedules)
@@ -2687,7 +2687,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                    $scope.HemoTbl[num]['background-color'] = 'red';
                 }
             }
-          }
+          
           if(data.results.doctorId.suspendTime.length==0){
             $scope.hasstop=false
           }else{
@@ -2719,6 +2719,12 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
               $scope.hasstop=false
             }
           }
+        }else{
+          $ionicLoading.show({
+            template:"您尚未绑定主管医生，请绑定主管医生后查看！",
+            duration:2000
+          })
+        }
        },function(){
 
        })
