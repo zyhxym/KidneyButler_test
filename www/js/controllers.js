@@ -7917,7 +7917,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
             // socket.on('messageRes',function(messageRes){
                 // socket.off('messageRes');
                 // socket.emit('disconnect');
-                if(DoctorId=='U201705110001'){
+                if(DoctorId=='U201708110006'){
                     var time = new Date();
                     var gid='G'+$filter('date')(time, 'MMddHmsss');
                     // var msgdata = $state.params.msg;
