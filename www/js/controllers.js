@@ -7917,13 +7917,13 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
             // socket.on('messageRes',function(messageRes){
                 // socket.off('messageRes');
                 // socket.emit('disconnect');
-                if(DoctorId=='U201612291283'){
+                if(DoctorId=='U201705110001'){
                     var time = new Date();
                     var gid='G'+$filter('date')(time, 'MMddHmsss');
                     // var msgdata = $state.params.msg;
 
                     var d = {
-                        teamId: '10050278',
+                        teamId: '23071913',
                         counselId: data.results.counselId,
                         sponsorId: DoctorId,
                         patientId: patientId,
@@ -7936,13 +7936,13 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                         targetRole:'doctor',
                         contentType:'custom',
                         fromID:DoctorId,
-                        fromName:'陈江华',
+                        fromName:'王昱',
                         fromUser:{
                             avatarPath:CONFIG.mediaUrl+'uploads/photos/resized'+DoctorId+'_myAvatar.jpg'
                         },
-                        targetID:'10050278',
-                        teamId:'10050278',
-                        targetName:'陈江华主任医师团队',
+                        targetID:'23071913',
+                        teamId:'23071913',
+                        targetName:'bme319',
                         targetType:'group',
                         status:'send_going',
                         newsType:'13',
@@ -7953,7 +7953,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     .then(function(con){
                         console.log(con);
                         // socket.emit('newUser',{user_name:'陈江华'.name,user_id:DoctorId});
-                        socket.emit('message',{msg:msgTeam,to:'10050278',role:'patient'});
+                        socket.emit('message',{msg:msgTeam,to:'23071913',role:'patient'});
                         // socket.on('messageRes',function(messageRes){
                             // socket.off('messageRes');
                             // socket.emit('disconnect');
