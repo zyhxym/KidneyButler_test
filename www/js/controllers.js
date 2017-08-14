@@ -280,13 +280,14 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         var SMS = User.sendSMS({mobile:phone,smsType:1});
             SMS.then(function(data){
                 unablebutton();
-                if(data.mesg.substr(0,8)=="您的邀请码已发送"){
-                    $scope.logStatus = "您的验证码已发送，重新获取请稍后";
-                }else if (data.results == 1){
-                    $scope.logStatus = "验证码发送失败，请稍后再试";
-                }
-                else{
-                    $scope.logStatus ="验证码发送成功！";
+                if (data.results == 1) {
+                  $scope.logStatus = '验证码发送失败，请稍后再试'
+                } else {
+                  if (data.mesg.substr(0, 8) == '您的邀请码已发送') {
+                    $scope.logStatus = '您的验证码已发送，重新获取请稍后'
+                  } else {
+                    $scope.logStatus = '验证码发送成功！'
+                  }
                 }
             },function(err){
                 if(err.results==null && err.status==0){
