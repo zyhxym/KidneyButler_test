@@ -2609,8 +2609,11 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         $scope.modal = modal;
       });
        $scope.openModal = function() {
-       GetMyDoctors();
-       $scope.modal.show();
+       var tempflag = GetMyDoctors();
+       if (tempflag)
+       {
+         $scope.modal.show();
+       }
      };
      $scope.closeModal = function() {
        $scope.modal.hide();
@@ -2671,7 +2674,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
        promise.then(function(data){
          if(data.results.doctorId)
          {
-            console.log(data)
+          console.log(data)
             var schedules = data.results.doctorId.schedules;
             //console.log(schedules);
             if(schedules)
@@ -2687,7 +2690,6 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                    $scope.HemoTbl[num]['background-color'] = 'red';
                 }
             }
-          
           if(data.results.doctorId.suspendTime.length==0){
             $scope.hasstop=false
           }else{
@@ -2719,14 +2721,16 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
               $scope.hasstop=false
             }
           }
+          return true
         }else{
           $ionicLoading.show({
-            template:"您尚未绑定主管医生，请绑定主管医生后查看！",
-            duration:2000
+            template: '您尚未banding主管医生，请绑定主管医生后查看！',
+            duration: 2000
           })
+          return false
         }
        },function(){
-
+          return false
        })
     }
 
