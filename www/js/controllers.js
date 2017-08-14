@@ -1252,7 +1252,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     $scope.goinsurance=function(){
         $state.go("insurance");
     }
-  //初始化
+    //初始化
     var UserId = Storage.get('UID');
     //UserId = "Test13"; //
 
@@ -1292,7 +1292,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
       
       
     });
-  //判断是否需要修改任务时间
+    //判断是否需要修改任务时间
    function IfTaskOverTime(startTime, frequencyTimes, unit, times)
    {
         var res = "";
@@ -1318,7 +1318,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
    }
    //IfTaskOverTime("2017-04-05", 1, "周",1 );
 
-  //当前日期与默认日期比较，自动修改填写状态
+    //当前日期与默认日期比较，自动修改填写状态
    function CompDateToDefault(task)
    {
       var res = false;
@@ -1362,7 +1362,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
    }
    //CompDateToDefault({});
 
-  //获取对应任务模板
+    //获取对应任务模板
    function GetTasks(TaskCode)
    {
     var promise =  Task.getUserTask({userId:UserId});
@@ -1382,7 +1382,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
      })
    }
 
-  //获取模板后进行处理
+    //获取模板后进行处理
     function HandleTasks()
     {
         $scope.Tasks.Other = [];
@@ -1416,7 +1416,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
      //console.log($scope.Tasks);
     }
 
-  //初始化每日任务
+    //初始化每日任务
     function InitialEveTask(task)
     {
         $scope.Tasks.Measure = task.details;
@@ -1449,7 +1449,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         }
     }
 
-  //初始化血透任务
+    //初始化血透任务
     function InitialHemoTask(task)
     {
         task.type = 'ReturnVisit';
@@ -1516,7 +1516,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         }
     }
 
-  //初始化其他任务
+    //初始化其他任务
     function InitialOtherTask(task)
     {
         for (var i=0;i<task.details.length;i++)
