@@ -1265,7 +1265,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     var RefreshUnread;
     var GetUnread = function(){
         // console.log(new Date());
-        News.getNewsByReadOrNot({userId:Storage.get('UID'),readOrNot:0}).then(//
+        News.getNewsByReadOrNot({userId:Storage.get('UID'),readOrNot:0, userRole: 'patient'}).then(//
             function(data){
                 // console.log(data);
                 if(data.results.length){
@@ -3184,7 +3184,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
   var RefreshUnread;
   var GetUnread = function(){
       // console.log(new Date());
-      News.getNewsByReadOrNot({userId:Storage.get('UID'),readOrNot:0}).then(//
+      News.getNewsByReadOrNot({userId:Storage.get('UID'),readOrNot:0, userRole: 'patient'}).then(//
           function(data){
               // console.log(data);
               if(data.results.length){
@@ -5000,7 +5000,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         );
 
 
-        News.getNewsByReadOrNot({userId:receiver,type:11,readOrNot:0}).then(
+        News.getNewsByReadOrNot({userId:receiver,type:11,readOrNot:0, userRole: 'patient'}).then(
             function(data){
                 console.log(data);
                 if(data.results.length){
@@ -5204,7 +5204,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
     $scope.do_refresher = function(){
         varyMessage();
-        News.getNewsByReadOrNot({userId:Storage.get('UID'),type:Storage.get('MessageType'),readOrNot:0}).then(
+        News.getNewsByReadOrNot({userId:Storage.get('UID'),type:Storage.get('MessageType'),readOrNot:0, userRole: 'patient'}).then(
             function(data){
                 if(data.results){
                     console.log(data.results);
@@ -5267,7 +5267,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
   var RefreshUnread;
   var GetUnread = function(){
       // console.log(new Date());
-      News.getNewsByReadOrNot({userId:Storage.get('UID'),readOrNot:0}).then(//
+      News.getNewsByReadOrNot({userId:Storage.get('UID'),readOrNot:0, userRole: 'patient'}).then(//
           function(data){
               // console.log(data);
               if(data.results.length){
@@ -8176,7 +8176,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     var RefreshUnread;
     var GetUnread = function(){
         // console.log(new Date());
-        News.getNewsByReadOrNot({userId:Storage.get('UID'),readOrNot:0}).then(//
+        News.getNewsByReadOrNot({userId:Storage.get('UID'),readOrNot:0, userRole: 'patient'}).then(//
             function(data){
                 // console.log(data);
                 if(data.results.length){
