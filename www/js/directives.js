@@ -57,12 +57,11 @@ angular.module('kidney.directives', ['kidney.services'])
     return {
       restrict: 'A',
       link: function (scope, elem) {
-        // elem.bind('keyup', function() {
-        //     this.style.height = "1px";
-        //     var h = 4 + this.scrollHeight;
-        //     this.style.height = (h < 70 ? h : 70) + 'px';
-
-        // });
+        elem.bind('keyup', function () {
+          this.style.height = '1px'
+          var h = 4 + this.scrollHeight
+          this.style.height = (h < 70 ? h : 70) + 'px'
+        })
         elem.bind('focus', function () {
           this.style.borderBottomColor = '#64DD17'
           this.interval = setInterval(function () {
@@ -70,6 +69,9 @@ angular.module('kidney.directives', ['kidney.services'])
           }, 200)
         })
         elem.bind('blur', function () {
+          this.style.height = '1px'
+          var h = 4 + this.scrollHeight
+          this.style.height = (h < 70 ? h : 70) + 'px'
           this.style.borderBottomColor = '#AAA'
           // this.setAttribute("style", "border-color: #AAA");
           clearInterval(this.interval)
