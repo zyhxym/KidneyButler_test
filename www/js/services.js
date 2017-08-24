@@ -739,7 +739,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
   var Communication = function () {
     return $resource(CONFIG.baseUrl + ':path/:route', {path: 'communication'}, {
       getCommunication: {method: 'GET', params: {route: 'communication'}, timeout: 100000},
-      getCounselReport: {method: 'GET', params: {route: 'counselReport'}, timeout: 100000}
+      getCounselReport: {method: 'GET', params: {route: 'counselReport'}, timeout: 100000},
             // getTeam:{method:'GET', params:{route: 'getTeam'}, timeout: 100000},
             // insertMember:{method:'POST', params:{route: 'insertMember'}, timeout: 100000},
       newConsultation:{method:'POST', params:{route: 'consultation'}, timeout: 100000},
