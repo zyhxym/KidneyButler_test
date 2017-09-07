@@ -280,14 +280,14 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         var SMS = User.sendSMS({mobile:phone,smsType:1});
             SMS.then(function(data){
                 unablebutton();
-                if (data.results == 1) {
-                  $scope.logStatus = '验证码发送失败，请稍后再试'
-                } else {
+                if (data.results == 0) {
                   if (data.mesg.substr(0, 8) == '您的邀请码已发送') {
                     $scope.logStatus = '您的验证码已发送，重新获取请稍后'
                   } else {
                     $scope.logStatus = '验证码发送成功！'
                   }
+                } else {
+                  $scope.logStatus = '验证码发送失败，请稍后再试'
                 }
             },function(err){
                 if(err.results==null && err.status==0){
@@ -586,7 +586,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                 }
                
             }else{
-            $scope.logStatus="两次输入的密码不一致";
+              $scope.logStatus="两次输入的密码不一致";
             }
         }else{
             $scope.logStatus="请输入两遍新密码";
@@ -1265,7 +1265,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     var RefreshUnread;
     var GetUnread = function(){
         // console.log(new Date());
-        News.getNewsByReadOrNot({userId:Storage.get('UID'),readOrNot:0}).then(//
+        News.getNewsByReadOrNot({userId:Storage.get('UID'),readOrNot:0, userRole: 'patient'}).then(//
             function(data){
                 // console.log(data);
                 if(data.results.length){
@@ -3184,7 +3184,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
   var RefreshUnread;
   var GetUnread = function(){
       // console.log(new Date());
-      News.getNewsByReadOrNot({userId:Storage.get('UID'),readOrNot:0}).then(//
+      News.getNewsByReadOrNot({userId:Storage.get('UID'),readOrNot:0, userRole: 'patient'}).then(//
           function(data){
               // console.log(data);
               if(data.results.length){
@@ -4123,7 +4123,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     }
     $scope.submitMsg = function() {
         if($scope.counselstatus!=1) return nomoney();
-        var actionUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxab9c316b3076535d&redirect_uri=http://proxy.haihonghospitalmanagement.com/go&response_type=code&scope=snsapi_userinfo&state=doctor_11_'+ $scope.params.counselstatus+'_'+$scope.params.UID+'_'+$scope.params.counsel.counselId+ '&#wechat_redirect';
+        var actionUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxab9c316b3076535d&redirect_uri=http://proxy.haihonghospitalmanagement.com/go&response_type=code&scope=snsapi_userinfo&state=testdoctor_11_'+ $scope.params.counselstatus+'_'+$scope.params.UID+'_'+$scope.params.counsel.counselId+ '&#wechat_redirect';
         var template = {
             "userId": $scope.params.chatId, //医生的UID
             "role": "doctor",
@@ -5000,7 +5000,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
         );
 
 
-        News.getNewsByReadOrNot({userId:receiver,type:11,readOrNot:0}).then(
+        News.getNewsByReadOrNot({userId:receiver,type:11,readOrNot:0, userRole: 'patient'}).then(
             function(data){
                 console.log(data);
                 if(data.results.length){
@@ -5204,7 +5204,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
 
     $scope.do_refresher = function(){
         varyMessage();
-        News.getNewsByReadOrNot({userId:Storage.get('UID'),type:Storage.get('MessageType'),readOrNot:0}).then(
+        News.getNewsByReadOrNot({userId:Storage.get('UID'),type:Storage.get('MessageType'),readOrNot:0, userRole: 'patient'}).then(
             function(data){
                 if(data.results){
                     console.log(data.results);
@@ -5267,7 +5267,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
   var RefreshUnread;
   var GetUnread = function(){
       // console.log(new Date());
-      News.getNewsByReadOrNot({userId:Storage.get('UID'),readOrNot:0}).then(//
+      News.getNewsByReadOrNot({userId:Storage.get('UID'),readOrNot:0, userRole: 'patient'}).then(//
           function(data){
               // console.log(data);
               if(data.results.length){
@@ -7851,7 +7851,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
           if (data.result == "新建成功")
           {
               $scope.submitable=true;
-              var actionUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxab9c316b3076535d&redirect_uri=http://proxy.haihonghospitalmanagement.com/go&response_type=code&scope=snsapi_userinfo&state=doctor_11_'+ data.results.status+'_'+patientId+'_'+data.results.counselId+ '&#wechat_redirect';
+              var actionUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxab9c316b3076535d&redirect_uri=http://proxy.haihonghospitalmanagement.com/go&response_type=code&scope=snsapi_userinfo&state=testdoctor_11_'+ data.results.status+'_'+patientId+'_'+data.results.counselId+ '&#wechat_redirect';
               var template = {
                   "userId": $stateParams.DoctorId, //医生的UID
                   "role": "doctor",
@@ -7923,13 +7923,13 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
             // socket.on('messageRes',function(messageRes){
                 // socket.off('messageRes');
                 // socket.emit('disconnect');
-                if(DoctorId=='U201612291283'){
+                if(DoctorId=='U201708110006'){
                     var time = new Date();
                     var gid='G'+$filter('date')(time, 'MMddHmsss');
                     // var msgdata = $state.params.msg;
 
                     var d = {
-                        teamId: '10050278',
+                        teamId: '091760021',
                         counselId: data.results.counselId,
                         sponsorId: DoctorId,
                         patientId: patientId,
@@ -7942,13 +7942,13 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                         targetRole:'doctor',
                         contentType:'custom',
                         fromID:DoctorId,
-                        fromName:'陈江华',
+                        fromName:'王昱',
                         fromUser:{
                             avatarPath:CONFIG.mediaUrl+'uploads/photos/resized'+DoctorId+'_myAvatar.jpg'
                         },
-                        targetID:'10050278',
-                        teamId:'10050278',
-                        targetName:'陈江华主任医师团队',
+                        targetID:'091760021',
+                        teamId:'091760021',
+                        targetName:'bme319',
                         targetType:'group',
                         status:'send_going',
                         newsType:'13',
@@ -7959,7 +7959,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
                     .then(function(con){
                         console.log(con);
                         // socket.emit('newUser',{user_name:'陈江华'.name,user_id:DoctorId});
-                        socket.emit('message',{msg:msgTeam,to:'10050278',role:'patient'});
+                        socket.emit('message',{msg:msgTeam,to:'091760021',role:'patient'});
                         // socket.on('messageRes',function(messageRes){
                             // socket.off('messageRes');
                             // socket.emit('disconnect');
@@ -8176,7 +8176,7 @@ angular.module('kidney.controllers', ['ionic','kidney.services','ngResource','io
     var RefreshUnread;
     var GetUnread = function(){
         // console.log(new Date());
-        News.getNewsByReadOrNot({userId:Storage.get('UID'),readOrNot:0}).then(//
+        News.getNewsByReadOrNot({userId:Storage.get('UID'),readOrNot:0, userRole: 'patient'}).then(//
             function(data){
                 // console.log(data);
                 if(data.results.length){

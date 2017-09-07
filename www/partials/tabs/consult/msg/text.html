@@ -6,7 +6,7 @@
 	<!-- chat bubble -->
 	<div class="msg-body"  on-hold="emitEvent('holdmsg',msg.createTimeInMillis,$event,'text')">
 		<!-- text content -->
-		<div class="media-text">{{msg.content.text}}</div>
+		<div multiline-text class="media-text" info="msg.content.text"></div>
 	</div>
 	<div my-small-spin="msg.status" class="status"></div>
   <div ng-if="msg.status=='send_fail'"  class="msg-fail"><span><i class="icon ion-android-warning"></i>发送失败</span></div>

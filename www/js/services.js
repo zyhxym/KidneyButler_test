@@ -742,7 +742,7 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
       getCounselReport: {method: 'GET', params: {route: 'counselReport'}, timeout: 100000},
             // getTeam:{method:'GET', params:{route: 'getTeam'}, timeout: 100000},
             // insertMember:{method:'POST', params:{route: 'insertMember'}, timeout: 100000},
-      newConsultation:{method:'POST', params:{route: 'consultation'}, timeout: 100000},
+      newConsultation: {method: 'POST', params: {route: 'consultation'}, timeout: 100000}
             // removeMember:{method:'POST', params:{route: 'removeMember'}, timeout: 100000}
 
     })
@@ -2062,20 +2062,19 @@ angular.module('kidney.services', ['ionic', 'ngResource'])
     //     consultationId,
     //     status:'1'-进行中,'0'-已结束
     // }
-    self.newConsultation = function(params){
-        var deferred = $q.defer();
-        Data.Communication.newConsultation(
+  self.newConsultation = function (params) {
+    var deferred = $q.defer()
+    Data.Communication.newConsultation(
             params,
-            function(data, headers){
-                deferred.resolve(data);
+            function (data, headers) {
+              deferred.resolve(data)
             },
-            function(err){
-                //checknetwork.checknetwork(err);
-                deferred.reject(err);
-        });
-        return deferred.promise;
-    };
-
+            function (err) {
+                // checknetwork.checknetwork(err);
+              deferred.reject(err)
+            })
+    return deferred.promise
+  }
     // params->0:{
             //      teamId:'teampost2',
             //      membersuserId:'id2'
